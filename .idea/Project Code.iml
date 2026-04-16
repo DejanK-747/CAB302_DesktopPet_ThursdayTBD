@@ -8,5 +8,15 @@
     </content>
     <orderEntry type="jdk" jdkName="corretto-21" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="apiguardian.api" level="project" />
+    <orderEntry type="library" name="junit.jupiter.api" level="project" />
+    <orderEntry type="library" name="junit.jupiter.engine" level="project" />
+    <orderEntry type="library" name="junit.platform.commons" level="project" />
+    <orderEntry type="library" name="junit.platform.engine" level="project" />
+    <orderEntry type="library" name="openjfx.javafx.base" level="project" />
+    <orderEntry type="library" name="openjfx.javafx.controls" level="project" />
+    <orderEntry type="library" name="openjfx.javafx.fxml" level="project" />
+    <orderEntry type="library" name="openjfx.javafx.graphics" level="project" />
+    <orderEntry type="library" name="opentest4j" level="project" />
   </component>
 </module>
