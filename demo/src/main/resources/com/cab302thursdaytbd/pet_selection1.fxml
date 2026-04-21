@@ -32,6 +32,7 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -48,7 +49,16 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="100.0" prefWidth="139.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="frogView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/frog1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="147.0" pickOnBounds="true" preserveRatio="true" />
+               </children></HBox>
          </children>
       </VBox>
    </children>
