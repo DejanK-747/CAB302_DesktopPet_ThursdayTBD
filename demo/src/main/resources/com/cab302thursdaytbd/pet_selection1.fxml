@@ -46,6 +46,10 @@
             </Text>
          </children>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+      <VBox alignment="CENTER" prefHeight="100.0" prefWidth="139.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+         </children>
+      </VBox>
    </children>
 </VBox>
