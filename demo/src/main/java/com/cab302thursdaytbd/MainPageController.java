@@ -27,20 +27,48 @@ public class MainPageController {
     @FXML
     private AnchorPane popUp1;
 
+    @FXML
+    private AnchorPane popUp2;
+
+    @FXML
+    private AnchorPane popUp3;
+
+    private AnchorPane[] popUps = {popUp1, popUp2, popUp3};
+
+
 
     @FXML
     public void showPopUp1() {
+        hidePopUp(popUp2);
+        hidePopUp(popUp3);
+        showPopUp(popUp1);
+    }
 
-        if (popUp1.getScaleX() == 0) {
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp1);
+    @FXML
+    public void showPopUp2() {
+        hidePopUp(popUp1);
+        hidePopUp(popUp3);
+        showPopUp(popUp2);
+    }
+
+    @FXML
+    public void showPopUp3() {
+        hidePopUp(popUp1);
+        hidePopUp(popUp2);
+        showPopUp(popUp3);
+    }
+
+    private void showPopUp(AnchorPane popUp) {
+        if (popUp.getScaleX() == 0) {
+            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
             transition.setToX(1);
             transition.setToY(1);
             transition.setInterpolator(Interpolator.LINEAR);
 
             transition.play();
 
-        } else if (popUp1.getScaleX() == 1){
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp1);
+        } else if (popUp.getScaleX() == 1){
+            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
             transition.setToX(0);
             transition.setToY(0);
             transition.setInterpolator(Interpolator.LINEAR);
@@ -49,4 +77,14 @@ public class MainPageController {
         }
     }
 
+    private void hidePopUp(AnchorPane popUp) {
+        if (popUp.getScaleX() == 1) {
+            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
+            transition.setToX(0);
+            transition.setToY(0);
+            transition.setInterpolator(Interpolator.LINEAR);
+
+            transition.play();
+        }
+    }
 }
