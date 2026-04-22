@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class PetDAO {
     public void adoptPet(int userId, String petType, String petName) {
-        String sql = "INSERT INTO pets(user_id, pet_type, pet_name) VALUES(?, ?, ?)";
+        String sql = "INSERT OR REPLACE INTO pets(user_id, pet_type, pet_name) VALUES(?, ?, ?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
