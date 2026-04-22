@@ -204,7 +204,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="1">
+                        <Button fx:id="interactButton2" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#showPopUp2" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -213,7 +213,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="2">
+                        <Button fx:id="interactButton3" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#showPopUp3" GridPane.columnIndex="2">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -233,19 +233,57 @@
                         </Button>
                      </children>
                   </GridPane>
-                  <AnchorPane fx:id="popUp1" disable="true" layoutX="60.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: aliceblue;">
+                  <AnchorPane fx:id="popUp1" disable="true" layoutX="60.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
                      <children>
                         <ImageView fx:id="image1" fitHeight="26.0" fitWidth="30.0" layoutX="22.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/icons/cross.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="image11" fitHeight="26.0" fitWidth="30.0" layoutX="64.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="image2" fitHeight="26.0" fitWidth="30.0" layoutX="64.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/icons/cross.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="image111" fitHeight="26.0" fitWidth="30.0" layoutX="107.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="image3" fitHeight="26.0" fitWidth="30.0" layoutX="107.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="popUp2" disable="true" layoutX="60.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: #b086cf;">
+                     <children>
+                        <ImageView fx:id="image11" fitHeight="26.0" fitWidth="30.0" layoutX="22.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="image21" fitHeight="26.0" fitWidth="30.0" layoutX="64.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="image31" fitHeight="26.0" fitWidth="30.0" layoutX="107.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="popUp3" disable="true" layoutX="60.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: #86cfac;">
+                     <children>
+                        <ImageView fx:id="image111" fitHeight="26.0" fitWidth="30.0" layoutX="22.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="image211" fitHeight="26.0" fitWidth="30.0" layoutX="64.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="image311" fitHeight="26.0" fitWidth="30.0" layoutX="107.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/icons/cross.png" />
                            </image>
