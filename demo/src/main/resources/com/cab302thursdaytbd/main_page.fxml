@@ -71,7 +71,7 @@
             </GridPane>
             <AnchorPane prefHeight="418.0" prefWidth="420.0">
                <children>
-                  <Pane prefHeight="418.0" prefWidth="420.0">
+                  <Pane fx:id="pane" prefHeight="418.0" prefWidth="420.0">
                      <children>
                         <ImageView fitHeight="453.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -222,9 +222,9 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="3">
+                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#interactWithPet" GridPane.columnIndex="3">
                            <graphic>
-                              <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="button4" fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/icons/cross.png" />
                                  </image>
@@ -290,6 +290,11 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
+                  <Label fx:id="statusChangeLabel" layoutX="275.0" layoutY="160.0" opacity="0.0" style="-fx-background-color: #ffcd29;" text="STAUS CHANGE">
+                     <font>
+                        <Font name="Leelawadee UI Semilight" size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
