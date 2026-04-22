@@ -38,7 +38,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.PetSelectionController">
+<VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.MainPageController">
    <children>
       <GridPane alignment="CENTER" prefHeight="61.0" prefWidth="420.0" style="-fx-background-color: #ebe1c5;">
         <columnConstraints>
@@ -193,7 +193,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#showPopUp1">
                      <graphic>
                         <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -231,7 +231,7 @@
                   </Button>
                </children>
             </GridPane>
-            <HBox alignment="CENTER" layoutX="60.0" layoutY="305.0" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: lightblue;">
+            <HBox fx:id="popUp1" alignment="CENTER" layoutX="60.0" layoutY="305.0" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: lightblue;" visible="false">
                <children>
                   <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
