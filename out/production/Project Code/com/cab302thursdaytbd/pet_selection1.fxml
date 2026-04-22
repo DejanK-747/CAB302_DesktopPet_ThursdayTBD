@@ -33,67 +33,99 @@
 -->
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.PetSelectionController">
+<StackPane style="-fx-background-color: #6e625a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.PetSelectionController">
    <children>
-      <VBox alignment="CENTER" prefHeight="99.0" prefWidth="420.0" style="-fx-padding: 30;">
+      <ImageView fitHeight="198.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true" translateY="-30.0" />
+      <VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 10;" text="CHOOSE YOUR PET" textAlignment="CENTER">
-               <font>
-                  <Font name="Leelawadee UI Bold" size="16.0" />
-               </font>
-            </Text>
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="100.0" prefWidth="139.0">
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <VBox alignment="CENTER" prefHeight="99.0" prefWidth="420.0" style="-fx-padding: 30;">
                <children>
-                  <VBox alignment="CENTER" style="-fx-padding: 10;">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 10;" text="CHOOSE YOUR PET" textAlignment="CENTER">
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="16.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="26.86" radius="11.465">
+                           <color>
+                              <Color red="0.5600000023841858" green="0.4736666679382324" blue="0.41999998688697815" opacity="0.7532467246055603" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="139.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="32.0" fitWidth="33.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#onLeftArrowClick" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 80%;">
-                           <image>
-                              <Image url="@images/selectionArrow.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </VBox>
-                  <VBox style="-fx-padding: 40;">
-                     <children>
-                        <Pane maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
+                        <VBox alignment="CENTER" style="-fx-padding: 10;">
                            <children>
-                              <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="32.0" fitWidth="33.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#onLeftArrowClick" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 80%;">
                                  <image>
-                                    <Image url="@images/frog1.png" />
+                                    <Image url="@images/selectionArrow.png" />
                                  </image>
                               </ImageView>
                            </children>
-                        </Pane>
+                        </VBox>
+                        <VBox id="petBox" style="-fx-padding: 40; -fx-background-position: top-left;">
+                           <children>
+                              <Pane maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
+                                 <children>
+                                    <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/frog1.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" style="-fx-padding: 10;">
+                           <children>
+                              <ImageView fitHeight="33.0" fitWidth="33.0" onMouseClicked="#onRightArrowClick" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 80%;">
+                                 <image>
+                                    <Image url="@images/selectionArrow.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-                  <VBox alignment="CENTER" style="-fx-padding: 10;">
-                     <children>
-                        <ImageView fitHeight="33.0" fitWidth="33.0" onMouseClicked="#onRightArrowClick" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 80%;">
-                           <image>
-                              <Image url="@images/selectionArrow.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
-         </children></VBox>
-      <StackPane prefHeight="150.0" prefWidth="200.0">
-         <children>
-            <Button mnemonicParsing="false" style="-fx-padding: 10 30; -fx-background-color: #313131; -fx-text-fill: white;" text="Adopt Pet">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name your pet:">
+                     <font>
+                        <Font name="Inter Semi Bold Italic" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="ONE_PASS_BOX" height="53.24" radius="22.457500000000003" width="38.59">
+                           <color>
+                              <Color red="0.41999998688697815" green="0.3822000026702881" blue="0.3569999933242798" opacity="0.8831169009208679" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Text>
+                  <TextField fx:id="petNameField" maxHeight="35.0" maxWidth="-Infinity" minHeight="35.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="300.0" />
+               </children>
+            </VBox>
+            <StackPane prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="adoptButton" mnemonicParsing="false" onMouseClicked="#handleAdopt" style="-fx-padding: 10 30; -fx-background-color: #313131; -fx-text-fill: white;" text="Adopt Pet">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </StackPane>
          </children>
-      </StackPane>
+      </VBox>
    </children>
-</VBox>
+</StackPane>

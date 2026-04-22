@@ -20,6 +20,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("pet_selection1"), 420, 480);
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
 
     static void setRoot(String fxml) throws IOException {
