@@ -18,5 +18,6 @@
     <orderEntry type="library" name="openjfx.javafx.graphics" level="project" />
     <orderEntry type="library" name="opentest4j" level="project" />
     <orderEntry type="library" name="apiguardian.api" level="project" />
+    <orderEntry type="library" name="xerial.sqlite.jdbc" level="project" />
   </component>
 </module>
