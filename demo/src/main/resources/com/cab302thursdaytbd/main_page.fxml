@@ -38,209 +38,223 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.MainPageController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.MainPageController">
    <children>
-      <GridPane alignment="CENTER" prefHeight="61.0" prefWidth="420.0" style="-fx-background-color: #ebe1c5;">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PET NAME" textAlignment="CENTER">
-               <font>
-                  <Font name="Leelawadee UI Bold" size="16.0" />
-               </font>
-            </Text>
-            <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="90.0" style="-fx-background-color: #313131; -fx-text-fill: white;" text="MENU" GridPane.columnIndex="1">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Text layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGE:" textAlignment="CENTER" GridPane.columnIndex="2">
-               <font>
-                  <Font name="Leelawadee UI Bold" size="16.0" />
-               </font>
-            </Text>
-         </children>
-      </GridPane>
-      <AnchorPane prefHeight="418.0" prefWidth="420.0">
-         <children>
-            <Pane prefHeight="418.0" prefWidth="420.0">
-               <children>
-                  <ImageView fitHeight="453.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/background/pixel-night-sky-square.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <GridPane layoutX="19.0" layoutY="10.0" prefHeight="68.0" prefWidth="372.0" style="-fx-background-color: #94918a; -fx-opacity: 90%;">
+            <GridPane alignment="CENTER" prefHeight="61.0" prefWidth="420.0" style="-fx-background-color: #ebe1c5;">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ProgressBar>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                     <children>
-                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ProgressBar>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-                     <children>
-                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ProgressBar>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="40.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="MOOD" textAlignment="CENTER">
-                           <font>
-                              <Font name="Leelawadee UI Bold" size="16.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                        </Text>
-                     </children>
-                  </HBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PET NAME" textAlignment="CENTER">
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="90.0" style="-fx-background-color: #313131; -fx-text-fill: white;" text="MENU" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Text layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGE:" textAlignment="CENTER" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="16.0" />
+                     </font>
+                  </Text>
                </children>
             </GridPane>
-            <VBox alignment="CENTER" layoutX="101.0" layoutY="125.0" prefHeight="100.0" prefWidth="139.0">
+            <AnchorPane prefHeight="418.0" prefWidth="420.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <Pane prefHeight="418.0" prefWidth="420.0">
                      <children>
-                        <VBox style="-fx-padding: 40;">
+                        <ImageView fitHeight="453.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/background/pixel-night-sky-square.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <GridPane layoutX="19.0" layoutY="10.0" prefHeight="68.0" prefWidth="372.0" style="-fx-background-color: #94918a; -fx-opacity: 90%;">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Pane maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
-                                 <children>
-                                    <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@images/frog1.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
                            </children>
-                        </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ProgressBar>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="40.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="MOOD" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Leelawadee UI Bold" size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </GridPane>
+                  <VBox alignment="CENTER" layoutX="101.0" layoutY="125.0" prefHeight="100.0" prefWidth="139.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox style="-fx-padding: 40;">
+                                 <children>
+                                    <Pane maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
+                                       <children>
+                                          <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@images/frog1.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <GridPane layoutX="10.0" layoutY="370.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#showPopUp1">
+                           <graphic>
+                              <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="1">
+                           <graphic>
+                              <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="2">
+                           <graphic>
+                              <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="3">
+                           <graphic>
+                              <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons/cross.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </GridPane>
+                  <AnchorPane fx:id="popUp1" disable="true" layoutX="60.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: aliceblue;">
+                     <children>
+                        <ImageView fx:id="image1" fitHeight="26.0" fitWidth="30.0" layoutX="22.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="image11" fitHeight="26.0" fitWidth="30.0" layoutX="64.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="image111" fitHeight="26.0" fitWidth="30.0" layoutX="107.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/icons/cross.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
-            </VBox>
-            <GridPane layoutX="10.0" layoutY="370.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#showPopUp1">
-                     <graphic>
-                        <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="1">
-                     <graphic>
-                        <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="2">
-                     <graphic>
-                        <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" GridPane.columnIndex="3">
-                     <graphic>
-                        <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </GridPane>
-            <HBox fx:id="popUp1" alignment="CENTER" layoutX="60.0" layoutY="305.0" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: lightblue;" visible="false">
-               <children>
-                  <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/icons/cross.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
+            </AnchorPane>
          </children>
-      </AnchorPane>
+      </VBox>
    </children>
-</VBox>
+</AnchorPane>
