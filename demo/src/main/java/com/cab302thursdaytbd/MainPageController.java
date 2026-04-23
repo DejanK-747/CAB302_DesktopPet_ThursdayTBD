@@ -3,14 +3,10 @@ package com.cab302thursdaytbd;
 
 import javafx.animation.*;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -40,10 +36,18 @@ public class MainPageController {
     @FXML
     private Label statusChangeLabel;
 
-    private AnchorPane[] popUps = {popUp1, popUp2, popUp3};
+    @FXML
+    private Pane speechPane;
+
+    private ParallelTransition statusChangePopUp = new ParallelTransition();
 
 
 
+    //----------------------------------
+    // Functions if there are more things that can be done with interactions
+    // I was thinking of implementing multiple foods options or different ways to clean the pet
+    // Obviously, kind of difficult to implement.
+    // Thinking I should limit goals first. Just have these buttons raise stats first.
     @FXML
     public void showPopUp1() {
         hidePopUp(popUp2);
@@ -56,13 +60,6 @@ public class MainPageController {
         hidePopUp(popUp1);
         hidePopUp(popUp3);
         showPopUp(popUp2);
-    }
-
-    @FXML
-    public void showPopUp3() {
-        hidePopUp(popUp1);
-        hidePopUp(popUp2);
-        showPopUp(popUp3);
     }
 
     private void showPopUp(AnchorPane popUp) {
@@ -94,26 +91,43 @@ public class MainPageController {
             transition.play();
         }
     }
+    //-----------------------------------------
 
     @FXML
     private void interactWithPet(){
-        ParallelTransition pt = new ParallelTransition();
 
+        if (statusChangePopUp.getCurrentRate() == 0.0d) {
         TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(0.5), statusChangeLabel);
         translateAnimation.setToY(-50);
 
-        pt.getChildren().add(translateAnimation);
+        statusChangePopUp.getChildren().add(translateAnimation);
 
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), statusChangeLabel);
         fadeTransition.setFromValue(1.0);
         fadeTransition.setToValue(0);
         fadeTransition.setInterpolator(Interpolator.LINEAR);
 
-        pt.getChildren().add(fadeTransition);
+        statusChangePopUp.getChildren().add(fadeTransition);
 
-        pt.play();
+        statusChangePopUp.play();
 
         statusChangeLabel.setTranslateY(0);
-
+        }
     }
+
+
+    //
+    @FXML
+    private void petSpeech( /* String text*/){
+        System.out.println("I was pressed");
+
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), speechPane);
+        fadeTransition.setCycleCount(2);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(1);
+        fadeTransition.setInterpolator(Interpolator.EASE_IN);
+        fadeTransition.setAutoReverse(true);
+        fadeTransition.play();
+    }
+
 }
