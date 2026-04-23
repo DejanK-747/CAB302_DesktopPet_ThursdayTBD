@@ -57,7 +57,7 @@
                         <Font name="Leelawadee UI Bold" size="16.0" />
                      </font>
                   </Text>
-                  <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="90.0" style="-fx-background-color: #313131; -fx-text-fill: white;" text="MENU" GridPane.columnIndex="1">
+                  <Button fx:id="menuButton" mnemonicParsing="false" onMouseClicked="#onMenuClick" prefHeight="33.0" prefWidth="90.0" style="-fx-background-color: #313131; -fx-text-fill: white;" text="MENU" GridPane.columnIndex="1">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
