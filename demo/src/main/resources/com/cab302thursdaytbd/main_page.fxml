@@ -213,7 +213,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="interactButton3" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#showPopUp3" GridPane.columnIndex="2">
+                        <Button fx:id="interactButton3" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#petSpeech" GridPane.columnIndex="2">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -299,5 +299,19 @@
             </AnchorPane>
          </children>
       </VBox>
+      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0" opacity="0.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/speech_bubble.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="46.0" layoutY="24.0" text="Text goes here!">
+               <font>
+                  <Font name="Leelawadee UI Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
