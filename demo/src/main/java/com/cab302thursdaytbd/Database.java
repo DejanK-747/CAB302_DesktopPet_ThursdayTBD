@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class Database {
     private static final String DB_URL =
-            "jdbc:sqlite:" + System.getProperty("user.dir") + "\\demo\\src\\main\\resources\\com\\cab302thursdaytbd\\database\\petapp.sqlite";
+            "jdbc:sqlite:" + System.getProperty("user.dir")
+                    + "/src/main/resources/com/cab302thursdaytbd/database/petapp.sqlite";
 
     public static Connection connect() throws SQLException {
         try {
