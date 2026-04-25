@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class PetSelectionController {
 
-    private PetDAO petDAO = new PetDAO();
+    private final PetDAO petDAO = new PetDAO();
 
     @FXML
     private TextField petNameField;
@@ -56,6 +56,7 @@ public class PetSelectionController {
           )
         );
 
+        System.out.println("WORKING DIRECTORY = " + System.getProperty("user.dir"));
     }
 
     @FXML
