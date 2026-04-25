@@ -27,7 +27,7 @@ public class PetSelectionController {
     private Image[] frames;
 
     private int currentPetIndex = 0;
-    private final String[] petType = {"frog", "cat"};
+    private final String[] petType = {"frog", "monkey"};
 
     private int userId;
 
@@ -99,9 +99,10 @@ public class PetSelectionController {
             };
         }
 
-        if (pet.equals("cat")) {
+        if (pet.equals("monkey")) {
             frames = new Image[] {
-                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Cat-happy.png").toExternalForm())
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
             };
         }
         currentFrame = 0;
