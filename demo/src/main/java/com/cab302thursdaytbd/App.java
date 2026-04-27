@@ -33,7 +33,10 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        Database.initDatabase();
+        System.out.println("database init");
         launch();
+        throw new RuntimeException("main is running");
     }
 
 }
