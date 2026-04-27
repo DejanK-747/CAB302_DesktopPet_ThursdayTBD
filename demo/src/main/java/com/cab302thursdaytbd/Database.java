@@ -7,13 +7,11 @@ import java.sql.ResultSet;
 
 public class Database {
 
-
     private static final String DB_FOLDER =
             System.getProperty("user.dir") + File.separator + "database";
 
     private static final String DB_URL =
             "jdbc:sqlite:" + DB_FOLDER + File.separator + "petapp.sqlite";
-
 
     public static Connection connect() throws SQLException {
         new File(DB_FOLDER).mkdirs();
@@ -35,33 +33,34 @@ public class Database {
             stmt.execute("PRAGMA foreign_keys = ON");
 
             stmt.execute(
-            "CREATE TABLE IF NOT EXISTS users ("
-                + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "username TEXT UNIQUE NOT NULL,"
-                + "password_hash TEXT NOT NULL,"
-                + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP"
-            + ");"
-    );
-            stmt.execute(
-            "CREATE TABLE IF NOT EXISTS pets ("
-                + "user_id INTEGER PRIMARY KEY,"
-                + "pet_name TEXT NOT NULL,"
-                + "pet_type TEXT NOT NULL,"
-                + "hunger INTEGER DEFAULT 50 CHECK (hunger BETWEEN 0 AND 100),"
-                + "affection INTEGER DEFAULT 50 CHECK (affection BETWEEN 0 AND 100),"
-                + "cleanliness INTEGER DEFAULT 50 CHECK (cleanliness BETWEEN 0 AND 100),"
-                + "last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
-                + "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE"
-                + ");"
+                    "CREATE TABLE IF NOT EXISTS users ("
+                            + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            + "username TEXT UNIQUE NOT NULL,"
+                            + "password_hash TEXT NOT NULL,"
+                            + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP"
+                            + ");"
+            );
 
-    );
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS pets ("
+                            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            + "user_id INTEGER NOT NULL,"
+                            + "pet_name TEXT NOT NULL,"
+                            + "pet_type TEXT NOT NULL,"
+                            + "hunger INTEGER DEFAULT 10 CHECK (hunger BETWEEN 0 AND 10),"
+                            + "energy INTEGER DEFAULT 10 CHECK (energy BETWEEN 0 AND 10),"
+                            + "is_dead INTEGER DEFAULT 0,"
+                            + "last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                            + "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE"
+                            + ");"
+            );
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
-    // TEST USER - delete
+    // TEST USER - delete when login system exists
     public static int ensureTestUser() {
 
         String selectSql = "SELECT user_id FROM users WHERE username = ?";
@@ -98,6 +97,4 @@ public class Database {
 
         return -1;
     }
-
-
 }
