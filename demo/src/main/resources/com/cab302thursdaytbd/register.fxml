@@ -7,12 +7,19 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.cab302thursdaytbd.RegisterController">
 
-    <Label text="Register"/>
+    <Label text="Sign-up"/>
 
-    <TextField fx:id="usernameField" promptText="Username"/>
-    <PasswordField fx:id="passwordField" promptText="Password"/>
+    <TextField fx:id="usernameField"
+               promptText="Username"
+               maxWidth="200"/>
+    <PasswordField fx:id="passwordField"
+                   promptText="Password"
+                   maxWidth="200"/>
+    <PasswordField fx:id="confirmPasswordField"
+                   promptText="Confirm Password"
+                   maxWidth="200"/>
 
-    <Button text="Register" onAction="#handleRegister"/>
+    <Button text="Create Account" onAction="#handleRegister"/>
 
     <Label fx:id="statusLabel"/>
 
