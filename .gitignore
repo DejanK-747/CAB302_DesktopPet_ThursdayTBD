@@ -1,0 +1,11 @@
+# Build output
+out/
+
+# IntelliJ
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
