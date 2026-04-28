@@ -2,6 +2,9 @@ package com.cab302thursdaytbd;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class RegisterController {
 
@@ -16,6 +19,23 @@ public class RegisterController {
 
     @FXML
     private Label statusLabel;
+
+    @FXML
+    private void goToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("login.fxml")
+            );
+
+            Scene scene = new Scene(loader.load(), 420, 480);
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handleRegister() {
