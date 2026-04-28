@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/demo/src/main/resources/com/cab302thursdaytbd/database/petapp.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="petapp [2]" uuid="d20bac06-806d-4b08-9047-614447a31b94">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/database/petapp.sqlite</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
