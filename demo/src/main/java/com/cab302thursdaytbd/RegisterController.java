@@ -23,15 +23,7 @@ public class RegisterController {
     @FXML
     private void goToLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("login.fxml")
-            );
-
-            Scene scene = new Scene(loader.load(), 420, 480);
-
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(scene);
-
+            App.setRoot("login");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,9 +44,10 @@ public class RegisterController {
             return;
         }
 
-        boolean success = UserDAO.registerUser(username, password);
+        int userId = UserDAO.registerUser(username, password);
 
-        if (success) {
+        if (userId > 0) {
+            Session.setUser(userId, username);
             statusLabel.setText("Registered successfully!");
         } else {
             statusLabel.setText("Registration failed");

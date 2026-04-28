@@ -31,7 +31,10 @@ public class LoginController {
             return;
         }
 
-        if (authenticate(username, password)) {
+        int userId = UserDAO.loginUser(username, password);
+
+        if (userId > 0) {
+            Session.setUser(userId, username);
             statusLabel.setText("Login successful!");
             // switch to main screen.
         } else {
@@ -42,37 +45,9 @@ public class LoginController {
     @FXML
     private void goToRegister() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("register.fxml")
-            );
-
-            Scene scene = new Scene(loader.load(), 420, 480);
-
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(scene);
-
+            App.setRoot("register");
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private boolean authenticate(String username, String password) {
-
-        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-
-        try (Connection conn = Database.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-
-            ResultSet rs = stmt.executeQuery();
-
-            return rs.next();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 }
