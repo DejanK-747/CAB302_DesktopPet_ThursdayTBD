@@ -5,24 +5,56 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UserDAO {
-    public static boolean registerUser(String username, String password) {
+    public static int registerUser(String username, String password) {
         String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
 
         try (Connection conn = Database.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            System.out.println(conn.getMetaData().getURL());
+             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, username);
             pstmt.setString(2, password);
 
-            pstmt.executeUpdate();
-            return true;
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                return -1; // insert failed
+            }
+
+            // get generated user ID
+            var rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
+    }
+
+    public static int loginUser(String username, String password) {
+
+        String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
+
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            var rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 }
 
