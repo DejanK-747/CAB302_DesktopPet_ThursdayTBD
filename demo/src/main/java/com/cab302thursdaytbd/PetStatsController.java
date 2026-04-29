@@ -296,7 +296,7 @@ public class PetStatsController {
     private void handleBack() {
         stop();
         try {
-            App.setRoot("pet_selection1"); // temporary until main_pet exists
+            App.setRoot("main_page"); // temporary until main_pet exists
         } catch (Exception e) {
             e.printStackTrace();
         }
