@@ -6,7 +6,10 @@ import com.cab302thursdaytbd.Model.PetDAO;
 import com.cab302thursdaytbd.Model.Session;
 import com.cab302thursdaytbd.Service.PetService;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -54,11 +57,10 @@ public class MainPageController {
     @FXML
     private ImageView foodItem1;
 
-
-
     @FXML private AnchorPane popUp1;
 
-    @FXML private Button menuButton;
+    private Timeline refreshLoop;
+    private Timeline decayLoop;
 
 
 
@@ -82,6 +84,28 @@ public class MainPageController {
 
         loadPet();
         petName.setText(sessionPet.getPetName());
+
+        petService.startDecay(() -> {
+            Platform.runLater(() -> {
+                try {
+                    Pet deadPet = petDao.getPet(sessionUser);
+                    String reason = "testing";
+
+                    // delete from database immediately
+                    petDao.deletePet(sessionUser);
+
+                    FXMLLoader loader = new FXMLLoader(App.class.getResource("pet_death.fxml"));
+                    Parent root = loader.load();
+                    PetDeathController deathController = loader.getController();
+                    deathController.initDeathScreen(deadPet, reason);
+                    App.getScene().setRoot(root);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+
+        startAutoRefresh();
     }
 
 
@@ -167,20 +191,25 @@ public class MainPageController {
 
     protected void loadPet(){
         Pet sessionPet = petDao.getPet(sessionUser);
-        setAllBars(sessionPet);
+
+        updateBar(hungerBar, sessionPet.getHunger());
+        System.out.println("Hunger is " + sessionPet.getHunger());
+        updateBar(energyBar, sessionPet.getEnergy());
     }
 
-    protected void setAllBars(Pet sessionPet){
-        int initHunger = sessionPet.getHunger();
-        int initEnergy = sessionPet.getEnergy();
-
-        updateBar(hungerBar, initHunger);
-        updateBar(energyBar, initEnergy);
-    }
-
-    protected void updateBar(ProgressBar bar, double value){
-        double clamped = Math.max(0.0, Math.min(1.0, value));
+    @FXML protected void updateBar(ProgressBar bar, double value){
+        double clamped = Math.max(0.0, Math.min(1.0, value / 10));
+        System.out.println("Value is " + clamped);
         bar.setProgress(clamped);
+    }
+
+    // duplicate code from Pet Stats controller
+    private void startAutoRefresh() {
+        refreshLoop = new Timeline(
+                new KeyFrame(Duration.seconds(2), e -> loadPet())
+        );
+        refreshLoop.setCycleCount(Timeline.INDEFINITE);
+        refreshLoop.play();
     }
 
 }

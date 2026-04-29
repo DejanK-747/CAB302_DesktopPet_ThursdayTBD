@@ -100,7 +100,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ProgressBar fx:id="hungerBar" prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                              <ProgressBar fx:id="hungerBar" prefHeight="18.0" prefWidth="107.0" progress="0.35">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
