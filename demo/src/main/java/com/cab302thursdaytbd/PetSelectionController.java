@@ -131,6 +131,7 @@ public class PetSelectionController {
         if (userId < 0) {
             System.out.println("No logged-in user found. Cannot adopt pet.");
             return;
+
         }
 
         petDAO.adoptPet(userId, selectedPet, petName);
