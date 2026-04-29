@@ -69,6 +69,9 @@ public class PetStatsController {
                         Pet deadPet = petDAO.getPet(userId);
                         String reason = determineDeathReason(deadPet);
 
+                        // delete from database immediately
+                        petDAO.deletePet(userId);
+
                         FXMLLoader loader = new FXMLLoader(App.class.getResource("pet_death.fxml"));
                         Parent root = loader.load();
                         PetDeathController deathController = loader.getController();

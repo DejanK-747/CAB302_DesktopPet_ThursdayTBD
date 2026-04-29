@@ -134,6 +134,7 @@ public class PetSelectionController {
         }
 
         String selectedPet = petType[currentPetIndex];
+        petDAO.deletePet(userId); // added so that users can only have one pet at a time until unique login system is set up
         petDAO.adoptPet(userId, selectedPet, petName);
         System.out.println("Pet: " + selectedPet + ", Name: " + petName);
 

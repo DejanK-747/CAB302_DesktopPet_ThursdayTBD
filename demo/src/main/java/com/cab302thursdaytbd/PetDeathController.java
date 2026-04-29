@@ -64,8 +64,7 @@ public class PetDeathController {
 
     @FXML
     private void handleAdoptNew() {
-        PetDAO petDAO = new PetDAO();
-        petDAO.deletePet(userId);
+
         try {
             App.setRoot("pet_selection1");
         } catch (Exception e) {
