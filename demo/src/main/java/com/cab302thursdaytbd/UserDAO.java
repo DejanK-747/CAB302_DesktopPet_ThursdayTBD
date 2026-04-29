@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class UserDAO {
     public static int registerUser(String username, String password) {
-        String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+        String sql = "INSERT INTO users(username, password_hash) VALUES(?, ?)";
         String hashedPassword = PasswordUtil.hashPassword(password);
 
         try (Connection conn = Database.connect();
@@ -19,7 +19,7 @@ public class UserDAO {
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
-                return -1; // insert failed
+                return -1;
             }
 
             // get generated user ID
@@ -38,7 +38,7 @@ public class UserDAO {
 
     public static int loginUser(String username, String password) {
 
-        String sql = "SELECT id, password FROM users WHERE username = ?";
+        String sql = "SELECT user_id, password_hash FROM users WHERE username = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -48,16 +48,16 @@ public class UserDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                String storedHash = rs.getString("password");
+                String storedHash = rs.getString("password_hash");
 
                 String inputHash = PasswordUtil.hashPassword(password);
 
                 if (storedHash.equals(inputHash)) {
-                    return rs.getInt("id"); // success
+                    return rs.getInt("user_id");
                 }
             }
 
-            return -1; // login failed
+            return -1;
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -19,6 +19,7 @@ public class Database {
         new File(DB_FOLDER).mkdirs();
 
         Connection conn = DriverManager.getConnection(DB_URL);
+        System.out.println("DB PATH: " + DB_URL);
 
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("PRAGMA foreign_keys = ON");
@@ -98,6 +99,17 @@ public class Database {
 
         return -1;
     }
+    public static void clearUsersTable() {
+        String sql = "DELETE FROM users";
 
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

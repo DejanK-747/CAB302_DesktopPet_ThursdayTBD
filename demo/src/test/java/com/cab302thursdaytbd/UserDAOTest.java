@@ -1,10 +1,22 @@
 package com.cab302thursdaytbd;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 public class UserDAOTest {
     String username = "test_" + System.currentTimeMillis();
+
+    @BeforeAll
+    static void setupDatabase() {
+        Database.initDatabase();
+    }
+
+    @BeforeEach
+    void setup() {
+        Database.clearUsersTable();
+    }
 
     @Test
     void testRegisterUser() {
