@@ -96,9 +96,18 @@ public class PetStatsController {
         // Set pet image based on type
         String type = pet.getPetType();
         try {
-            String imgPath = type.equals("cat")
-                    ? "/com/cab302thursdaytbd/images/Cat-happy.png"
-                    : "/com/cab302thursdaytbd/images/frog1.png";
+            String imgPath;
+            switch (type) {
+                case "cat":
+                    imgPath = "/com/cab302thursdaytbd/images/Cat-happy.png";
+                    break;
+                case "monkey":
+                    imgPath = "/com/cab302thursdaytbd/images/Monkey1.png";
+                    break;
+                default:
+                    imgPath = "/com/cab302thursdaytbd/images/frog1.png";
+                    break;
+            }
             petView.setImage(new Image(getClass().getResource(imgPath).toExternalForm()));
         } catch (Exception ignored) {}
 

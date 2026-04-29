@@ -103,7 +103,7 @@
                      <StackPane style="-fx-background-color: #e4ddd8; -fx-background-radius: 50;"
                                 minWidth="38" minHeight="38" maxWidth="38" maxHeight="38">
                         <children>
-                           <Label fx:id="moodEmojiLabel" style="-fx-font-size: 18;" text="😊" />
+                           <Label fx:id="commonMoodEmojiLabel" style="-fx-font-size: 18;" text="😊" />
                         </children>
                      </StackPane>
 

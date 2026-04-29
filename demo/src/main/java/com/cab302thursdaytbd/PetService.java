@@ -13,6 +13,12 @@ public class PetService {
         this.userId = userId;
     }
 
+    public void stop() {
+        if (decayLoop != null) {
+            decayLoop.stop();
+        }
+    }
+
     public void startDecay(Runnable onDeath) {
         decayLoop = new Timeline(
                 new KeyFrame(Duration.seconds(5), e -> {
