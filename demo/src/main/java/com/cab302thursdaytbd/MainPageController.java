@@ -71,6 +71,7 @@ public class MainPageController {
         petService = new PetService(sessionUserId);
 
         frames = petService.getFrames(sessionPet.getPetType());
+        petView.setImage(frames[currentFrame]);
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.millis(300), e -> {
