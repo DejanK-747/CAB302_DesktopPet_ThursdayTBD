@@ -8,6 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 
 public class PetSelectionController {
@@ -31,12 +33,11 @@ public class PetSelectionController {
 
     private int userId;
 
-
     @FXML
     public void initialize() {
-        //TEST USER - DELETE
+        // TEST USER - delete when login system exists
         userId = Database.ensureTestUser();
-        System.out.println("Test user ID" + userId);
+        System.out.println("Test user ID: " + userId);
 
         frames = new Image[] {
                 new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog1.png").toExternalForm()),
@@ -54,17 +55,13 @@ public class PetSelectionController {
         animation.play();
 
         adoptButton.disableProperty().bind(
-          javafx.beans.binding.Bindings.createBooleanBinding(
-                  () -> petNameField.getText().trim().isEmpty(),
-                  petNameField.textProperty()
-          )
+                javafx.beans.binding.Bindings.createBooleanBinding(
+                        () -> petNameField.getText().trim().isEmpty(),
+                        petNameField.textProperty()
+                )
         );
 
         System.out.println("WORKING DIRECTORY = " + System.getProperty("user.dir"));
-
-        userId = Database.ensureTestUser();
-        System.out.println("Test user ID" + userId);
-
     }
 
     @FXML
@@ -77,10 +74,7 @@ public class PetSelectionController {
         switchPet(1);
     }
 
-
-
     private void switchPet(int direction) {
-
         currentPetIndex = (currentPetIndex + direction + petType.length) % petType.length;
         String newPet = petType[currentPetIndex];
 
@@ -88,14 +82,14 @@ public class PetSelectionController {
                 new javafx.animation.TranslateTransition(Duration.millis(300), petView);
         slideOut.setByX(direction * -300);
 
-        slideOut.setOnFinished( e -> {
-                startAnimationFor(newPet);
+        slideOut.setOnFinished(e -> {
+            startAnimationFor(newPet);
 
-                petView.setTranslateX(direction * 300);
-                javafx.animation.TranslateTransition slideIn =
-                        new javafx.animation.TranslateTransition(Duration.millis(300), petView);
-                slideIn.setToX(0);
-                slideIn.play();
+            petView.setTranslateX(direction * 300);
+            javafx.animation.TranslateTransition slideIn =
+                    new javafx.animation.TranslateTransition(Duration.millis(300), petView);
+            slideIn.setToX(0);
+            slideIn.play();
         });
         slideOut.play();
     }
@@ -114,16 +108,14 @@ public class PetSelectionController {
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
             };
         }
+
         currentFrame = 0;
         petView.setImage(frames[0]);
-
-
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
 
     @FXML
     private void handleAdopt() {
@@ -136,19 +128,24 @@ public class PetSelectionController {
             return;
         }
 
-        String selectedPet = petType[currentPetIndex];
-
-        petDAO.adoptPet(userId, selectedPet, petName);
-
-        System.out.println("Pet: " + selectedPet + ", Name: " + petName);
-
-        // TEST USER - DELETE
         if (userId <= 0) {
-            System.out.println("No  valid user ID");
+            System.out.println("No valid user ID");
             return;
         }
+
+        String selectedPet = petType[currentPetIndex];
+        petDAO.deletePet(userId); // added so that users can only have one pet at a time until unique login system is set up
+        petDAO.adoptPet(userId, selectedPet, petName);
+        System.out.println("Pet: " + selectedPet + ", Name: " + petName);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            Parent root = loader.load();
+            PetStatsController statsController = loader.getController();
+            statsController.setUserId(userId);
+            App.getScene().setRoot(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-
 }
-

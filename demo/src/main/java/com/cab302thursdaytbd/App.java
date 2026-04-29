@@ -18,7 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Database.initDatabase();
-        scene = new Scene(loadFXML("login"), 420, 480);
+        scene = new Scene(loadFXML("pet_selection1"), 420, 480);
         stage.setScene(scene);
         stage.show();
         stage.setResizable(false);
@@ -33,8 +33,15 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
+    static Scene getScene() {
+        return scene;
+    }
+
     public static void main(String[] args) {
+        Database.initDatabase();
+        System.out.println("database init");
         launch();
+        throw new RuntimeException("main is running");
     }
 
 }
