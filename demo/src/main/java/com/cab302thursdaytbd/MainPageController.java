@@ -28,7 +28,7 @@ public class MainPageController {
     private PetService petService;
 
     private Pet sessionPet;
-    private int sessionUser;
+    private int sessionUserId;
 
 
     @FXML private ProgressBar hungerBar;
@@ -47,7 +47,7 @@ public class MainPageController {
     @FXML private Label statusChangeLabel;
     @FXML private Pane speechPane;
 
-    private ParallelTransition statusChangePopUp = new ParallelTransition();
+    private ParallelTransition statusChangePopUpAnim = new ParallelTransition();
 
     @FXML
     private Button interactButton1;
@@ -66,11 +66,11 @@ public class MainPageController {
 
 
     @FXML public void initialize() {
-        sessionUser = Session.getUserId();
-        sessionPet = petDao.getPet(sessionUser);
-        petService = new PetService(sessionUser);
+        sessionUserId = Session.getUserId();
+        sessionPet = petDao.getPet(sessionUserId);
+        petService = new PetService(sessionUserId);
 
-        frames = petService.getFrames(sessionPet.petType);
+        frames = petService.getFrames(sessionPet.getPetType());
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.millis(300), e -> {
@@ -85,14 +85,16 @@ public class MainPageController {
         loadPet();
         petName.setText(sessionPet.getPetName());
 
+        // Duplicate code from Pet Stats. should be moved to PetService later
         petService.startDecay(() -> {
             Platform.runLater(() -> {
                 try {
-                    Pet deadPet = petDao.getPet(sessionUser);
+                    Pet deadPet = petDao.getPet(sessionUserId);
+                    petService.stop();
                     String reason = "testing";
 
                     // delete from database immediately
-                    petDao.deletePet(sessionUser);
+                    petDao.deletePet(sessionUserId);
 
                     FXMLLoader loader = new FXMLLoader(App.class.getResource("pet_death.fxml"));
                     Parent root = loader.load();
@@ -139,29 +141,54 @@ public class MainPageController {
     }
     //-----------------------------------------
 
-    @FXML protected void interactWithPet(){
+    protected void statusChangePopUp(String text){
 
-        if (statusChangePopUp.getCurrentRate() == 0.0d) {
-        TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(0.5), statusChangeLabel);
-        translateAnimation.setToY(-50);
+        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
+            statusChangeLabel.setText(text);
 
-        statusChangePopUp.getChildren().add(translateAnimation);
+            //Animation Handling
+            TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(0.5), statusChangeLabel);
+            translateAnimation.setToY(-50);
 
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), statusChangeLabel);
-        fadeTransition.setFromValue(1.0);
-        fadeTransition.setToValue(0);
-        fadeTransition.setInterpolator(Interpolator.LINEAR);
+            statusChangePopUpAnim.getChildren().add(translateAnimation);
 
-        statusChangePopUp.getChildren().add(fadeTransition);
+            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), statusChangeLabel);
+            fadeTransition.setFromValue(1.0);
+            fadeTransition.setToValue(0);
+            fadeTransition.setInterpolator(Interpolator.LINEAR);
 
-        statusChangePopUp.play();
+            statusChangePopUpAnim.getChildren().add(fadeTransition);
 
-        statusChangeLabel.setTranslateY(0);
+            statusChangePopUpAnim.play();
+
+            statusChangeLabel.setTranslateY(0);
         }
     }
 
+    // There should be a better way to handle throttling, but this cheat will do for now
+    // Also consider multi threading so decay can still run while still updating stats
     @FXML protected void foodBoost(){
+        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
+            int currentHunger = sessionPet.getHunger();
+            statusChangePopUp("Hunger");
 
+            sessionPet.setHunger(currentHunger + 1);
+
+            petDao.updatePetStats(sessionPet);
+            loadPet();
+        }
+    }
+
+    @FXML protected void energyBoost() {
+        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
+            int currentEnergy = sessionPet.getEnergy();
+            statusChangePopUp("Energy");
+
+            sessionPet.setEnergy(currentEnergy + 1);
+
+            petDao.updatePetStats(sessionPet);
+            loadPet();
+        }
     }
 
 
@@ -180,17 +207,20 @@ public class MainPageController {
 
 
     @FXML protected void onMenuClick () throws IOException{
-        /*
-        Stage stage = (Stage) menuButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("menu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), App.WIDTH, App.HEIGHT);
-        stage.setScene(scene);
-        */
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            Parent root = loader.load();
+            PetStatsController statsController = loader.getController();
+            statsController.setUserId(Session.getUserId());
+            App.getScene().setRoot(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     protected void loadPet(){
-        Pet sessionPet = petDao.getPet(sessionUser);
+        sessionPet = petDao.getPet(sessionUserId);
 
         updateBar(hungerBar, sessionPet.getHunger());
         System.out.println("Hunger is " + sessionPet.getHunger());
