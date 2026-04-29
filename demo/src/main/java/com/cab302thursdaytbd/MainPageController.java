@@ -33,12 +33,6 @@ public class MainPageController {
     private AnchorPane popUp1;
 
     @FXML
-    private AnchorPane popUp2;
-
-    @FXML
-    private AnchorPane popUp3;
-
-    @FXML
     private Label statusChangeLabel;
 
     @FXML
@@ -58,17 +52,9 @@ public class MainPageController {
     // Thinking I should limit goals first. Just have these buttons raise stats first.
     @FXML
     protected void showPopUp1() {
-        hidePopUp(popUp2);
-        hidePopUp(popUp3);
         showPopUp(popUp1);
     }
 
-    @FXML
-    protected void showPopUp2() {
-        hidePopUp(popUp1);
-        hidePopUp(popUp3);
-        showPopUp(popUp2);
-    }
 
     protected void showPopUp(AnchorPane popUp) {
         if (popUp.getScaleX() == 0) {
@@ -80,17 +66,6 @@ public class MainPageController {
             transition.play();
 
         } else if (popUp.getScaleX() == 1){
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
-            transition.setToX(0);
-            transition.setToY(0);
-            transition.setInterpolator(Interpolator.LINEAR);
-
-            transition.play();
-        }
-    }
-
-    protected void hidePopUp(AnchorPane popUp) {
-        if (popUp.getScaleX() == 1) {
             ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
             transition.setToX(0);
             transition.setToY(0);
