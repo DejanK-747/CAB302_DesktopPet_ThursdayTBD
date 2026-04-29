@@ -61,43 +61,4 @@ public class Database {
 
     }
 
-    // TEST USER - delete
-    public static int ensureTestUser() {
-
-        String selectSql = "SELECT user_id FROM users WHERE username = ?";
-        String insertSql = "INSERT INTO users(username, password_hash) VALUES(?, ?)";
-
-        try (Connection conn = connect()) {
-
-            try (PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
-                selectStmt.setString(1, "testuser");
-
-                try (ResultSet rs = selectStmt.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt("user_id");
-                    }
-                }
-            }
-
-            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
-                insertStmt.setString(1, "testuser");
-                insertStmt.setString(2, "dev-password");
-
-                insertStmt.executeUpdate();
-
-                try (ResultSet keys = insertStmt.getGeneratedKeys()) {
-                    if (keys.next()) {
-                        return keys.getInt(1);
-                    }
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return -1;
-    }
-
-
 }

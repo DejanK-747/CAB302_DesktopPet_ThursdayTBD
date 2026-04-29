@@ -29,14 +29,10 @@ public class PetSelectionController {
     private int currentPetIndex = 0;
     private final String[] petType = {"frog", "monkey"};
 
-    private int userId;
 
 
     @FXML
     public void initialize() {
-        //TEST USER - DELETE
-        userId = Database.ensureTestUser();
-        System.out.println("Test user ID" + userId);
 
         frames = new Image[] {
                 new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog1.png").toExternalForm()),
@@ -61,9 +57,6 @@ public class PetSelectionController {
         );
 
         System.out.println("WORKING DIRECTORY = " + System.getProperty("user.dir"));
-
-        userId = Database.ensureTestUser();
-        System.out.println("Test user ID" + userId);
 
     }
 
@@ -120,10 +113,6 @@ public class PetSelectionController {
 
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
 
     @FXML
     private void handleAdopt() {
@@ -138,15 +127,15 @@ public class PetSelectionController {
 
         String selectedPet = petType[currentPetIndex];
 
+        int userId = Session.getUserId();
+        if (userId < 0) {
+            System.out.println("No logged-in user found. Cannot adopt pet.");
+            return;
+        }
+
         petDAO.adoptPet(userId, selectedPet, petName);
 
         System.out.println("Pet: " + selectedPet + ", Name: " + petName);
-
-        // TEST USER - DELETE
-        if (userId <= 0) {
-            System.out.println("No  valid user ID");
-            return;
-        }
     }
 
 
