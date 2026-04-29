@@ -73,7 +73,7 @@
                               </ImageView>
                            </children>
                         </VBox>
-                        <VBox id="petBox" style="-fx-padding: 40; -fx-background-position: left top;">
+                        <VBox id="petBox" style="-fx-padding: 40; -fx-background-position: top-left;">
                            <children>
                               <Pane maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
                                  <children>

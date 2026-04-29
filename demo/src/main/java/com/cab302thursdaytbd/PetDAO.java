@@ -6,10 +6,6 @@ import java.sql.SQLException;
 
 public class PetDAO {
     public void adoptPet(int userId, String petType, String petName) {
-        if (userId <= 0) {
-            throw new IllegalArgumentException("userId must be a real user ID");
-        }
-
         String sql = "INSERT OR REPLACE INTO pets(user_id, pet_type, pet_name) VALUES(?, ?, ?)";
 
         try (Connection conn = Database.connect();
