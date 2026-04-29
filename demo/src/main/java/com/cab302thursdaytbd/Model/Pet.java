@@ -2,10 +2,10 @@ package com.cab302thursdaytbd.Model;
 
 public class Pet {
 
-    public int id;
-    public int userId;
-    public String petName;
-    public String petType;
+    private int id;
+    private int userId;
+    private String petName;
+    private String petType;
     public int hunger;
     public int energy;
     public boolean isDead;
@@ -47,16 +47,14 @@ public class Pet {
         return hunger;
     }
 
-    public void setHunger(int hunger) {
-        this.hunger = hunger;
-    }
+    public void setHunger(int hunger) { this.hunger = Math.min(hunger, 10);}
 
     public int getEnergy() {
         return energy;
     }
 
     public void setEnergy(int energy) {
-        this.energy = energy;
+        this.energy = Math.min(energy, 10);
     }
 
     // --- Death ---
