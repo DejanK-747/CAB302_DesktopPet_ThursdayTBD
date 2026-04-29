@@ -8,6 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 public class PetStatsController {
 
@@ -19,6 +22,7 @@ public class PetStatsController {
 
     // Most common mood
     @FXML private Label moodEmojiLabel;
+    @FXML private Label commonMoodEmojiLabel;
     @FXML private Label commonMoodLabel;
     @FXML private Label commonMoodDescLabel;
 
@@ -34,17 +38,20 @@ public class PetStatsController {
     @FXML private Label affectionPctLabel;
     @FXML private Label boredomPctLabel;
 
+    private PetService petService;
     private PetDAO petDAO = new PetDAO();
     private int userId;
 
-    // Stats tracked locally (0–10 scale, matching hunger/energy in Pet)
+    // Stats tracked locally (0-10 scale, matching hunger/energy in Pet)
     private double affection = 10.0;
-    private double boredom = 0.0;   // boredom grows over time (inverse of engagement)
+    private double boredom = 0.0;
 
     // Mood tracking for "most common mood"
-    private int happyTicks = 0;
-    private int sadTicks   = 0;
-    private int boredTicks = 0;
+    private int happyTicks  = 0;
+    private int sadTicks    = 0;
+    private int boredTicks  = 0;
+    private int hungryTicks = 0;
+    private int tiredTicks  = 0;
 
     private Timeline refreshLoop;
     private Timeline decayLoop;
@@ -52,16 +59,33 @@ public class PetStatsController {
     // Called from another controller AFTER loading this scene
     public void setUserId(int userId) {
         this.userId = userId;
+
+        if (petService == null) {
+            petService = new PetService(userId);
+            petService.startDecay(() -> {
+                Platform.runLater(() -> {
+                    stop();
+                    try {
+                        Pet deadPet = petDAO.getPet(userId);
+                        String reason = determineDeathReason(deadPet);
+
+                        FXMLLoader loader = new FXMLLoader(App.class.getResource("pet_death.fxml"));
+                        Parent root = loader.load();
+                        PetDeathController deathController = loader.getController();
+                        deathController.initDeathScreen(deadPet, reason);
+                        App.getScene().setRoot(root);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            });
+        }
+
         loadPet();
         startAutoRefresh();
         startDecay();
     }
-    // temp initialise
-    @FXML
-    public void initialize() {
-        // Hardcode userId = 1 for testing until main page exists
-        setUserId(1);
-    }
+
     // Loads pet data from DB and updates UI
     private void loadPet() {
         Pet pet = petDAO.getPet(userId);
@@ -78,21 +102,18 @@ public class PetStatsController {
             petView.setImage(new Image(getClass().getResource(imgPath).toExternalForm()));
         } catch (Exception ignored) {}
 
-        // Update stat bars (hunger & energy are 0–10 in DB)
+        // Update stat bars (hunger & energy are 0-10 in DB)
         updateBar(hungerBar, hungerPctLabel, pet.getHunger() / 10.0);
         updateBar(energyBar, energyPctLabel, pet.getEnergy() / 10.0);
         updateBar(affectionBar, affectionPctLabel, affection / 10.0);
-
-        // Boredom bar: value grows, so we display it directly
-        double boredomNorm = Math.min(boredom / 10.0, 1.0);
-        updateBar(boredomBar, boredomPctLabel, boredomNorm);
+        updateBar(boredomBar, boredomPctLabel, boredom / 10.0);
 
         // Compute current mood and update all mood labels
         String mood = computeMood(pet.getHunger(), pet.getEnergy(), affection, boredom);
         moodLabel.setText(mood);
         updateMoodDisplay(mood);
 
-        // Level: simple formula based on pet id or days alive (placeholder)
+        // Level based on pet id (placeholder until levelling system exists)
         levelLabel.setText("Lvl. " + Math.max(1, pet.getId()));
     }
 
@@ -102,12 +123,12 @@ public class PetStatsController {
         pctLabel.setText((int)(clamped * 100) + "%");
     }
 
-    // Decays affection and grows boredom over time independently of the main pet stats
+    // Decays affection and boredom over time independently of hunger/energy
     private void startDecay() {
         decayLoop = new Timeline(
                 new KeyFrame(Duration.seconds(5), e -> {
                     affection = Math.max(0, affection - 0.5);
-                    boredom   = Math.min(10, boredom   + 0.5);
+                    boredom   = Math.max(0, boredom   - 0.5);
 
                     // Track mood ticks for "most common mood"
                     Pet pet = petDAO.getPet(userId);
@@ -122,6 +143,12 @@ public class PetStatsController {
                                 break;
                             case "Bored":
                                 boredTicks++;
+                                break;
+                            case "Hungry":
+                                hungryTicks++;
+                                break;
+                            case "Tired":
+                                tiredTicks++;
                                 break;
                         }
                         updateCommonMood();
@@ -143,14 +170,23 @@ public class PetStatsController {
 
     // Determines mood string from current stats
     private String computeMood(int hunger, int energy, double aff, double bore) {
-        if (hunger <= 3)   return "Hungry";
-        if (energy <= 3)   return "Tired";
-        if (aff <= 3)      return "Sad";
-        if (bore >= 7)     return "Bored";
+        if (hunger <= 3) return "Hungry";
+        if (energy <= 3) return "Tired";
+        if (aff    <= 3) return "Sad";
+        if (bore   <= 3) return "Bored";
         return "Happy";
     }
 
-    // Updates the current mood label and emoji
+    // Determines death reason based on which stat hit zero
+    private String determineDeathReason(Pet pet) {
+        if (pet == null)          return "Unknown";
+        if (pet.getHunger() <= 0) return "Starvation";
+        if (pet.getEnergy() <= 0) return "Exhaustion";
+        if (affection <= 0)       return "Neglect";
+        return "Unknown";
+    }
+
+    // Updates the current mood emoji in the pet card
     private void updateMoodDisplay(String mood) {
         switch (mood) {
             case "Happy":
@@ -171,14 +207,17 @@ public class PetStatsController {
         }
     }
 
-    // Finds which mood appeared most often and updates the section
+    // Finds which mood appeared most often and updates the most common mood section
     private void updateCommonMood() {
         String best = "Happy";
         int max = happyTicks;
-        if (sadTicks   > max) { best = "Sad";   max = sadTicks; }
-        if (boredTicks > max) { best = "Bored";  }
+        if (sadTicks    > max) { best = "Sad";    max = sadTicks; }
+        if (boredTicks  > max) { best = "Bored";  max = boredTicks; }
+        if (hungryTicks > max) { best = "Hungry"; max = hungryTicks; }
+        if (tiredTicks  > max) { best = "Tired";  max = tiredTicks; }
 
         commonMoodLabel.setText(best);
+
         String desc;
         switch (best) {
             case "Sad":
@@ -186,6 +225,12 @@ public class PetStatsController {
                 break;
             case "Bored":
                 desc = "Wants something fun to do";
+                break;
+            case "Hungry":
+                desc = "Needs to be fed!";
+                break;
+            case "Tired":
+                desc = "Needs to rest and play less";
                 break;
             default:
                 desc = "Feeling playful and content";
@@ -201,11 +246,17 @@ public class PetStatsController {
             case "Bored":
                 emoji = "😐";
                 break;
+            case "Hungry":
+                emoji = "🍽️";
+                break;
+            case "Tired":
+                emoji = "😴";
+                break;
             default:
                 emoji = "😊";
                 break;
         }
-        moodEmojiLabel.setText(emoji);
+        commonMoodEmojiLabel.setText(emoji);
     }
 
     // Called by other controllers to boost affection (e.g., after petting)
@@ -215,15 +266,17 @@ public class PetStatsController {
 
     // Called by other controllers to reduce boredom (e.g., after playing)
     public void reduceBoredom(double amount) {
-        boredom = Math.max(0, boredom - amount);
+        boredom = Math.min(10, boredom + amount);
     }
 
-    // Stop timers when leaving page
+    // Stop all timers when leaving page
     public void stop() {
         if (refreshLoop != null) refreshLoop.stop();
         if (decayLoop   != null) decayLoop.stop();
+        if (petService  != null) petService.stop();
     }
-    // change root file to main page file name when done.
+
+    // Change root file to main page file name when done
     @FXML
     private void handleBack() {
         stop();
