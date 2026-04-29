@@ -73,6 +73,8 @@
                               <children>
                                  <Label style="-fx-font-family: 'Leelawadee UI'; -fx-font-size: 13; -fx-text-fill: #7a6f69;" text="Mood: " />
                                  <Label fx:id="moodLabel" style="-fx-font-family: 'Leelawadee UI'; -fx-font-size: 13; -fx-text-fill: #7a6f69;" text="Happy" />
+                                 <Label fx:id="moodEmojiLabel" style="-fx-font-size: 13;" text="😊" />
+
                               </children>
                            </HBox>
                         </children>

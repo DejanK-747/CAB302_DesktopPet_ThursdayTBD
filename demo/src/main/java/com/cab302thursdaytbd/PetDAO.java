@@ -82,4 +82,15 @@ public class PetDAO {
             e.printStackTrace();
         }
     }
+
+    public void deletePet(int userId) {
+        String sql = "DELETE FROM pets WHERE user_id = ?";
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
