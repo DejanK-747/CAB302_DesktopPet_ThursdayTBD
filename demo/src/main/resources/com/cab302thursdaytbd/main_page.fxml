@@ -52,7 +52,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PET NAME" textAlignment="CENTER">
+                  <Text fx:id="petName" strokeType="OUTSIDE" strokeWidth="0.0" text="PET NAME" textAlignment="CENTER">
                      <font>
                         <Font name="Leelawadee UI Bold" size="16.0" />
                      </font>
@@ -62,7 +62,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGE:" textAlignment="CENTER" GridPane.columnIndex="2">
+                  <Text fx:id="levelText" layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGE:" textAlignment="CENTER" GridPane.columnIndex="2">
                      <font>
                         <Font name="Leelawadee UI Bold" size="16.0" />
                      </font>
@@ -100,7 +100,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                              <ProgressBar fx:id="hungerBar" prefHeight="18.0" prefWidth="107.0" progress="0.0">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -117,7 +117,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                              <ProgressBar fx:id="affectionBar" prefHeight="18.0" prefWidth="107.0" progress="0.0">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -134,7 +134,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <ProgressBar prefHeight="18.0" prefWidth="107.0" progress="0.0">
+                              <ProgressBar fx:id="energyBar" prefHeight="18.0" prefWidth="107.0" progress="0.0">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -151,7 +151,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="MOOD" textAlignment="CENTER">
+                              <Text fx:id="moodText" strokeType="OUTSIDE" strokeWidth="0.0" text="MOOD" textAlignment="CENTER">
                                  <font>
                                     <Font name="Leelawadee UI Bold" size="16.0" />
                                  </font>
@@ -195,7 +195,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#showPopUp1">
+                        <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#foodBoost">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

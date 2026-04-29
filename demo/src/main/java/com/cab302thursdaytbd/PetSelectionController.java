@@ -141,11 +141,12 @@ public class PetSelectionController {
         System.out.println("Pet: " + selectedPet + ", Name: " + petName);
 
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            /*FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
             Parent root = loader.load();
             PetStatsController statsController = loader.getController();
             statsController.setUserId(userId);
-            App.getScene().setRoot(root);
+            App.getScene().setRoot(root); */
+            App.setRoot("main_page");
         } catch (Exception e) {
             e.printStackTrace();
         }

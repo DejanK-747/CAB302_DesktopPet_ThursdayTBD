@@ -1,9 +1,10 @@
-package com.cab302thursdaytbd;
+package com.cab302thursdaytbd.Service;
 
 import com.cab302thursdaytbd.Model.Pet;
 import com.cab302thursdaytbd.Model.PetDAO;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 
 public class PetService {
@@ -42,5 +43,26 @@ public class PetService {
 
         decayLoop.setCycleCount(Timeline.INDEFINITE);
         decayLoop.play();
+    }
+
+    public Image[] getFrames(String petType){
+        Image[] frames;
+
+        if (petType.equals("frog")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog2.png").toExternalForm())
+            };
+        } else if (petType.equals("monkey")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
+            };
+        } else {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icones/cross.png").toExternalForm())
+            };
+        }
+        return frames;
     }
 }

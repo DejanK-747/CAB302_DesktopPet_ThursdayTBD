@@ -1,48 +1,88 @@
 package com.cab302thursdaytbd;
 
 
+import com.cab302thursdaytbd.Model.Pet;
+import com.cab302thursdaytbd.Model.PetDAO;
+import com.cab302thursdaytbd.Model.Session;
+import com.cab302thursdaytbd.Service.PetService;
 import javafx.animation.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
 
 public class MainPageController {
 
-    @FXML
-    private Button interactButton1;
+    private PetDAO petDao = new PetDAO();
+    private PetService petService;
 
-    @FXML
-    private Pane pane;
+    private Pet sessionPet;
+    private int sessionUser;
 
-    @FXML
-    private ImageView image1;
 
-    @FXML
-    private ImageView petView;
+    @FXML private ProgressBar hungerBar;
+    @FXML private ProgressBar affectionBar;
+    @FXML private ProgressBar energyBar; //needs to be changed. Visually appears as Cleanliness
 
-    @FXML
-    private AnchorPane popUp1;
+    @FXML private Text moodText;
+    @FXML private Text petName;
+    @FXML private Text levelText;
 
-    @FXML
-    private Label statusChangeLabel;
+    @FXML private ImageView petView;
+    private int currentFrame;
+    private Image[] frames;
 
-    @FXML
-    private Pane speechPane;
 
-    @FXML
-    private Button menuButton;
+    @FXML private Label statusChangeLabel;
+    @FXML private Pane speechPane;
 
     private ParallelTransition statusChangePopUp = new ParallelTransition();
 
+    @FXML
+    private Button interactButton1;
+
+    @FXML private Pane pane;
+
+    @FXML
+    private ImageView foodItem1;
+
+
+
+    @FXML private AnchorPane popUp1;
+
+    @FXML private Button menuButton;
+
+
+
+
+    @FXML public void initialize() {
+        sessionUser = Session.getUserId();
+        sessionPet = petDao.getPet(sessionUser);
+        petService = new PetService(sessionUser);
+
+        frames = petService.getFrames(sessionPet.petType);
+
+        Timeline animation = new Timeline(
+                new KeyFrame(Duration.millis(300), e -> {
+                    currentFrame = (currentFrame + 1) % frames.length;
+                    petView.setImage(frames[currentFrame]);
+                })
+        );
+
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.play();
+
+        loadPet();
+        petName.setText(sessionPet.getPetName());
+    }
 
 
     //----------------------------------
@@ -50,8 +90,7 @@ public class MainPageController {
     // I was thinking of implementing multiple foods options or different ways to clean the pet
     // Obviously, kind of difficult to implement.
     // Thinking I should limit goals first. Just have these buttons raise stats first.
-    @FXML
-    protected void showPopUp1() {
+    @FXML protected void showPopUp1() {
         showPopUp(popUp1);
     }
 
@@ -76,8 +115,7 @@ public class MainPageController {
     }
     //-----------------------------------------
 
-    @FXML
-    protected void interactWithPet(){
+    @FXML protected void interactWithPet(){
 
         if (statusChangePopUp.getCurrentRate() == 0.0d) {
         TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(0.5), statusChangeLabel);
@@ -98,10 +136,13 @@ public class MainPageController {
         }
     }
 
+    @FXML protected void foodBoost(){
+
+    }
+
 
     //
-    @FXML
-    protected void petSpeech( /* String text*/){
+    @FXML protected void petSpeech( /* String text*/){
         System.out.println("I was pressed");
 
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), speechPane);
@@ -114,8 +155,7 @@ public class MainPageController {
     }
 
 
-    @FXML
-    protected void onMenuClick () throws IOException{
+    @FXML protected void onMenuClick () throws IOException{
         /*
         Stage stage = (Stage) menuButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("menu.fxml"));
@@ -123,6 +163,24 @@ public class MainPageController {
         stage.setScene(scene);
         */
 
+    }
+
+    protected void loadPet(){
+        Pet sessionPet = petDao.getPet(sessionUser);
+        setAllBars(sessionPet);
+    }
+
+    protected void setAllBars(Pet sessionPet){
+        int initHunger = sessionPet.getHunger();
+        int initEnergy = sessionPet.getEnergy();
+
+        updateBar(hungerBar, initHunger);
+        updateBar(energyBar, initEnergy);
+    }
+
+    protected void updateBar(ProgressBar bar, double value){
+        double clamped = Math.max(0.0, Math.min(1.0, value));
+        bar.setProgress(clamped);
     }
 
 }
