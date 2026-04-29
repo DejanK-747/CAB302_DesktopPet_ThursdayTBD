@@ -3,12 +3,17 @@ package com.cab302thursdaytbd;
 
 import javafx.animation.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class MainPageController {
 
@@ -28,16 +33,13 @@ public class MainPageController {
     private AnchorPane popUp1;
 
     @FXML
-    private AnchorPane popUp2;
-
-    @FXML
-    private AnchorPane popUp3;
-
-    @FXML
     private Label statusChangeLabel;
 
     @FXML
     private Pane speechPane;
+
+    @FXML
+    private Button menuButton;
 
     private ParallelTransition statusChangePopUp = new ParallelTransition();
 
@@ -49,20 +51,12 @@ public class MainPageController {
     // Obviously, kind of difficult to implement.
     // Thinking I should limit goals first. Just have these buttons raise stats first.
     @FXML
-    public void showPopUp1() {
-        hidePopUp(popUp2);
-        hidePopUp(popUp3);
+    protected void showPopUp1() {
         showPopUp(popUp1);
     }
 
-    @FXML
-    public void showPopUp2() {
-        hidePopUp(popUp1);
-        hidePopUp(popUp3);
-        showPopUp(popUp2);
-    }
 
-    private void showPopUp(AnchorPane popUp) {
+    protected void showPopUp(AnchorPane popUp) {
         if (popUp.getScaleX() == 0) {
             ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
             transition.setToX(1);
@@ -80,21 +74,10 @@ public class MainPageController {
             transition.play();
         }
     }
-
-    private void hidePopUp(AnchorPane popUp) {
-        if (popUp.getScaleX() == 1) {
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
-            transition.setToX(0);
-            transition.setToY(0);
-            transition.setInterpolator(Interpolator.LINEAR);
-
-            transition.play();
-        }
-    }
     //-----------------------------------------
 
     @FXML
-    private void interactWithPet(){
+    protected void interactWithPet(){
 
         if (statusChangePopUp.getCurrentRate() == 0.0d) {
         TranslateTransition translateAnimation = new TranslateTransition(Duration.seconds(0.5), statusChangeLabel);
@@ -118,7 +101,7 @@ public class MainPageController {
 
     //
     @FXML
-    private void petSpeech( /* String text*/){
+    protected void petSpeech( /* String text*/){
         System.out.println("I was pressed");
 
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), speechPane);
@@ -128,6 +111,18 @@ public class MainPageController {
         fadeTransition.setInterpolator(Interpolator.EASE_IN);
         fadeTransition.setAutoReverse(true);
         fadeTransition.play();
+    }
+
+
+    @FXML
+    protected void onMenuClick () throws IOException{
+        /*
+        Stage stage = (Stage) menuButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("menu.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), App.WIDTH, App.HEIGHT);
+        stage.setScene(scene);
+        */
+
     }
 
 }
