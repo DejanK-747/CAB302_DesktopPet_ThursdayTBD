@@ -1,11 +1,10 @@
-package com.cab302thursdaytbd;
+package com.cab302thursdaytbd.Model;
+
+import com.cab302thursdaytbd.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PetDAO {
 

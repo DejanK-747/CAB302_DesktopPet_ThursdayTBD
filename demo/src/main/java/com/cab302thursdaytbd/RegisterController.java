@@ -1,10 +1,9 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.Session;
+import com.cab302thursdaytbd.Model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class RegisterController {
 

@@ -1,4 +1,4 @@
-package com.cab302thursdaytbd;
+package com.cab302thursdaytbd.Model;
 
 public class Session {
 

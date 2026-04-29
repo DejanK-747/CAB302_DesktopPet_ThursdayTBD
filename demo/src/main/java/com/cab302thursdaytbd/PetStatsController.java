@@ -1,5 +1,7 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.Pet;
+import com.cab302thursdaytbd.Model.PetDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;

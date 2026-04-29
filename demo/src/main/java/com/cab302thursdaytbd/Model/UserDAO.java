@@ -1,4 +1,7 @@
-package com.cab302thursdaytbd;
+package com.cab302thursdaytbd.Model;
+
+import com.cab302thursdaytbd.Database;
+import com.cab302thursdaytbd.PasswordUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

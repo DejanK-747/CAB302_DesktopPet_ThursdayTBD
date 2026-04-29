@@ -1,5 +1,7 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.Pet;
+import com.cab302thursdaytbd.Model.PetDAO;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;

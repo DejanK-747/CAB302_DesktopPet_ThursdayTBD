@@ -1,5 +1,7 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.PetDAO;
+import com.cab302thursdaytbd.Model.Session;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -36,7 +38,7 @@ public class PetSelectionController {
     @FXML
     public void initialize() {
         // TEST USER - delete when login system exists
-        userId = Database.ensureTestUser();
+        userId = Session.getUserId();
         System.out.println("Test user ID: " + userId);
 
         frames = new Image[] {
