@@ -2,17 +2,19 @@ package com.cab302thursdaytbd;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
     public static int registerUser(String username, String password) {
         String sql = "INSERT INTO users(username, password) VALUES(?, ?)";
+        String hashedPassword = PasswordUtil.hashPassword(password);
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            pstmt.setString(2, hashedPassword);
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -36,25 +38,31 @@ public class UserDAO {
 
     public static int loginUser(String username, String password) {
 
-        String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
+        String sql = "SELECT id, password FROM users WHERE username = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, username);
-            stmt.setString(2, password);
 
-            var rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("id");
+                String storedHash = rs.getString("password");
+
+                String inputHash = PasswordUtil.hashPassword(password);
+
+                if (storedHash.equals(inputHash)) {
+                    return rs.getInt("id"); // success
+                }
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            return -1; // login failed
 
-        return -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
 
