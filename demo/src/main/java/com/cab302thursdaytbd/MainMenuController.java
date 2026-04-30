@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 public class MainMenuController {
 
     @FXML
-    private void switchToStatistics() throws IOException {
+    private void switchToStats() throws IOException {
         App.setRoot("stats");
     }
 
