@@ -30,6 +30,8 @@ public class PetService {
                     if (pet != null) {
                         pet.hunger -= 1;
                         pet.energy -= 1;
+                        pet.affection -= 1;
+                        pet.boredom += 1;
 
                         petDAO.updatePetStats(pet);
 

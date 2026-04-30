@@ -8,6 +8,8 @@ public class Pet {
     private String petType;
     public int hunger;
     public int energy;
+    public int affection;
+    public int boredom;
     public boolean isDead;
 
     public Pet(int userId, String petType, String petName) {
@@ -16,6 +18,8 @@ public class Pet {
         this.petName = petName;
         this.hunger = 10;
         this.energy = 10;
+        this.affection = 10;
+        this.boredom = 0;
         this.isDead = false;
     }
 
@@ -55,6 +59,19 @@ public class Pet {
 
     public void setEnergy(int energy) {
         this.energy = Math.min(energy, 10);
+    }
+
+    public int getAffection() {
+        return affection;
+    }
+    public void setAffection(int affection) {
+        this.affection = Math.min(affection, 10); }
+
+    public int getBoredom() {
+        return boredom;
+    }
+    public void setBoredom(int boredom) {
+        this.boredom = Math.min(boredom, 10);
     }
 
     // --- Death ---

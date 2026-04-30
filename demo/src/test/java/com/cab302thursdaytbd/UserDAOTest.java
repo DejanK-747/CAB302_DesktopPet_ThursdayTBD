@@ -1,5 +1,6 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.UserDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

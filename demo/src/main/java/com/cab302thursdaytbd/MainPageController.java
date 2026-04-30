@@ -192,6 +192,34 @@ public class MainPageController {
         }
     }
 
+    @FXML protected void affectionBoost() {
+        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
+
+            int currentAffection = sessionPet.getAffection();
+
+            statusChangePopUp("Affection");
+
+            sessionPet.setAffection(currentAffection + 1);
+
+            petDao.updatePetStats(sessionPet);
+            loadPet();
+        }
+    }
+
+    @FXML protected void boredomReduce() {
+        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
+
+            int currentBoredom = sessionPet.getBoredom();
+
+            statusChangePopUp("Boredom");
+
+            sessionPet.setBoredom(currentBoredom - 1);
+
+            petDao.updatePetStats(sessionPet);
+            loadPet();
+        }
+    }
+
 
     //
     @FXML protected void petSpeech( /* String text*/){
@@ -225,7 +253,10 @@ public class MainPageController {
 
         updateBar(hungerBar, sessionPet.getHunger());
         System.out.println("Hunger is " + sessionPet.getHunger());
+        System.out.println("getter affection = " + sessionPet.getAffection());
         updateBar(energyBar, sessionPet.getEnergy());
+        updateBar(affectionBar, sessionPet.getAffection());
+        // need to add boredom bar here
     }
 
     @FXML protected void updateBar(ProgressBar bar, double value){

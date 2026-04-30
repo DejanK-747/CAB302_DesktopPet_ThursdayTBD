@@ -51,6 +51,8 @@ public class Database {
                             + "pet_type TEXT NOT NULL,"
                             + "hunger INTEGER DEFAULT 10 CHECK (hunger BETWEEN 0 AND 10),"
                             + "energy INTEGER DEFAULT 10 CHECK (energy BETWEEN 0 AND 10),"
+                            + "affection INTEGER DEFAULT 10 CHECK (affection BETWEEN 0 AND 10),"
+                            + "boredom INTEGER DEFAULT 10 CHECK (boredom BETWEEN 0 AND 10),"
                             + "is_dead INTEGER DEFAULT 0,"
                             + "last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
                             + "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE"

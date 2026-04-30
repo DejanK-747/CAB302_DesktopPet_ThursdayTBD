@@ -45,9 +45,6 @@ public class PetStatsController {
     private PetDAO petDAO = new PetDAO();
     private int userId;
 
-    // Stats tracked locally (0-10 scale, matching hunger/energy in Pet)
-    private double affection = 10.0;
-    private double boredom = 0.0;
 
     // Mood tracking for "most common mood"
     private int happyTicks  = 0;
@@ -57,7 +54,6 @@ public class PetStatsController {
     private int tiredTicks  = 0;
 
     private Timeline refreshLoop;
-    private Timeline decayLoop;
 
     // Called from another controller AFTER loading this scene
     public void setUserId(int userId) {
@@ -89,7 +85,6 @@ public class PetStatsController {
 
         loadPet();
         startAutoRefresh();
-        startDecay();
     }
 
     // Loads pet data from DB and updates UI
@@ -98,7 +93,13 @@ public class PetStatsController {
         if (pet == null) return;
 
         nameLabel.setText(pet.getPetName());
-
+        //debug for stat values
+        System.out.println(
+                "STATS LOAD -> H=" + pet.getHunger() +
+                        " E=" + pet.getEnergy() +
+                        " A=" + pet.getAffection() +
+                        " B=" + pet.getBoredom()
+        );
         // Set pet image based on type
         String type = pet.getPetType();
         try {
@@ -120,11 +121,11 @@ public class PetStatsController {
         // Update stat bars (hunger & energy are 0-10 in DB)
         updateBar(hungerBar, hungerPctLabel, pet.getHunger() / 10.0);
         updateBar(energyBar, energyPctLabel, pet.getEnergy() / 10.0);
-        updateBar(affectionBar, affectionPctLabel, affection / 10.0);
-        updateBar(boredomBar, boredomPctLabel, boredom / 10.0);
+        updateBar(affectionBar, affectionPctLabel, pet.getAffection() / 10.0);
+        updateBar(boredomBar, boredomPctLabel, pet.getBoredom() / 10.0);
 
         // Compute current mood and update all mood labels
-        String mood = computeMood(pet.getHunger(), pet.getEnergy(), affection, boredom);
+        String mood = computeMood(pet.getHunger(), pet.getEnergy(), pet.getAffection(), pet.getBoredom());
         moodLabel.setText(mood);
         updateMoodDisplay(mood);
 
@@ -136,42 +137,6 @@ public class PetStatsController {
         double clamped = Math.max(0.0, Math.min(1.0, value));
         bar.setProgress(clamped);
         pctLabel.setText((int)(clamped * 100) + "%");
-    }
-
-    // Decays affection and boredom over time independently of hunger/energy
-    private void startDecay() {
-        decayLoop = new Timeline(
-                new KeyFrame(Duration.seconds(5), e -> {
-                    affection = Math.max(0, affection - 0.5);
-                    boredom   = Math.max(0, boredom   - 0.5);
-
-                    // Track mood ticks for "most common mood"
-                    Pet pet = petDAO.getPet(userId);
-                    if (pet != null) {
-                        String mood = computeMood(pet.getHunger(), pet.getEnergy(), affection, boredom);
-                        switch (mood) {
-                            case "Happy":
-                                happyTicks++;
-                                break;
-                            case "Sad":
-                                sadTicks++;
-                                break;
-                            case "Bored":
-                                boredTicks++;
-                                break;
-                            case "Hungry":
-                                hungryTicks++;
-                                break;
-                            case "Tired":
-                                tiredTicks++;
-                                break;
-                        }
-                        updateCommonMood();
-                    }
-                })
-        );
-        decayLoop.setCycleCount(Timeline.INDEFINITE);
-        decayLoop.play();
     }
 
     // Refreshes the UI from the database every 2 seconds
@@ -197,7 +162,6 @@ public class PetStatsController {
         if (pet == null)          return "Unknown";
         if (pet.getHunger() <= 0) return "Starvation";
         if (pet.getEnergy() <= 0) return "Exhaustion";
-        if (affection <= 0)       return "Neglect";
         return "Unknown";
     }
 
@@ -274,20 +238,9 @@ public class PetStatsController {
         commonMoodEmojiLabel.setText(emoji);
     }
 
-    // Called by other controllers to boost affection (e.g., after petting)
-    public void boostAffection(double amount) {
-        affection = Math.min(10, affection + amount);
-    }
-
-    // Called by other controllers to reduce boredom (e.g., after playing)
-    public void reduceBoredom(double amount) {
-        boredom = Math.min(10, boredom + amount);
-    }
-
     // Stop all timers when leaving page
     public void stop() {
         if (refreshLoop != null) refreshLoop.stop();
-        if (decayLoop   != null) decayLoop.stop();
         if (petService  != null) petService.stop();
     }
 
