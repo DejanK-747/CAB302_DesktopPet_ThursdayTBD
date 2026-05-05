@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox spacing="12"
+      alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.cab302thursdaytbd.LoginController"
+      style="-fx-padding: 20;">
+
+    <ImageView fitWidth="100" fitHeight="100" preserveRatio="true">
+        <image>
+            <Image url="@images/Frog%20excited%201.png"/>
+        </image>
+    </ImageView>
+
+    <Label text="Login" style="-fx-font-size: 18px;"/>
+
+    <TextField fx:id="usernameField"
+               promptText="Username"
+               maxWidth="200"/>
+
+    <PasswordField fx:id="passwordField"
+                   promptText="Password"
+                   maxWidth="200"/>
+
+    <Button text="Login"
+            onAction="#handleLogin"
+            maxWidth="200"/>
+    <Button text="Create Account"
+            onAction="#goToRegister"
+            maxWidth="200"/>
+
+    <Label text="Don’t have an account? Create one to get started"
+           style="-fx-font-size: 11px; -fx-text-fill: grey;"
+           wrapText="true"
+           maxWidth="200"/>
+
+    <Label fx:id="statusLabel"
+           textFill="red"/>
+
+</VBox>

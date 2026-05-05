@@ -17,7 +17,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("pet_selection1"), 420, 480);
+        Database.initDatabase();
+        scene = new Scene(loadFXML("login"), 420, 480);
         stage.setScene(scene);
         stage.show();
         stage.setResizable(false);
@@ -30,6 +31,10 @@ public class App extends Application {
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
+    }
+
+    static Scene getScene() {
+        return scene;
     }
 
     public static void main(String[] args) {
