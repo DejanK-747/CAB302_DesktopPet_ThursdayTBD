@@ -6,11 +6,11 @@ public class Pet {
     private int userId;
     private String petName;
     private String petType;
-    public int hunger;
-    public int energy;
-    public int affection;
-    public int boredom;
-    public boolean isDead;
+    private int hunger;
+    private int energy;
+    private int affection;
+    private int boredom;
+    private boolean isDead;
 
     public Pet(int userId, String petType, String petName) {
         this.userId = userId;

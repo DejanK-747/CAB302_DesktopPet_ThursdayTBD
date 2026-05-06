@@ -28,14 +28,19 @@ public class PetService {
                     Pet pet = petDAO.getPet(userId);
 
                     if (pet != null) {
-                        pet.hunger -= 1;
-                        pet.energy -= 1;
-                        pet.affection -= 1;
-                        pet.boredom += 1;
+                        int currentHunger = pet.getHunger();
+                        int currentEnergy = pet.getEnergy();
+                        int currentAffection = pet.getAffection();
+                        int currentBoredom = pet.getBoredom();
+
+                        pet.setHunger(currentHunger - 1);
+                        pet.setEnergy(currentEnergy - 1);
+                        pet.setAffection(currentAffection - 1);
+                        pet.setBoredom(currentBoredom + 1);
 
                         petDAO.updatePetStats(pet);
 
-                        if (pet.hunger <= 0 || pet.energy <= 0) {
+                        if (pet.getHunger() <= 0 || pet.getEnergy() <= 0) {
                             decayLoop.stop(); // stop loop
                             onDeath.run();    // trigger death event
                         }
@@ -62,7 +67,7 @@ public class PetService {
             };
         } else {
             frames = new Image[]{
-                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icones/cross.png").toExternalForm())
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
             };
         }
         return frames;
