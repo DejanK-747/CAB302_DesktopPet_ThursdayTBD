@@ -1,8 +1,8 @@
-package com.cab302thursdaytbd;
+package com.cab302thursdaytbd.Service;
 
 import java.security.MessageDigest;
 
-public class PasswordUtil {
+public class PasswordService {
 
     public static String hashPassword(String password) {
         try {
