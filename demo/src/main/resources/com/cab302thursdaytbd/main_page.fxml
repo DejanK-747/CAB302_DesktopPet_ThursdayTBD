@@ -217,7 +217,7 @@
             </AnchorPane>
          </children>
       </VBox>
-      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0">
+      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0" opacity="0.0">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -240,26 +240,26 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="foodPopUp" layoutX="120.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="172.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
+      <Pane fx:id="foodPopUp" layoutX="106.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="186.0" style="-fx-background-color: aliceblue;">
          <children>
-            <ImageView fx:id="bananaView" fitHeight="26.0" fitWidth="30.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bananaView" fitHeight="40.0" fitWidth="39.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/icons/cross.png" />
+                  <Image url="@images/food/banana.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="grasshopperView" fitHeight="26.0" fitWidth="30.0" layoutX="52.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="grasshopperView" fitHeight="40.0" fitWidth="39.0" layoutX="47.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/icons/cross.png" />
+                  <Image url="@images/food/grasshopper.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="mysteriousLiquidView" fitHeight="26.0" fitWidth="30.0" layoutX="94.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="mysteriousLiquidView" fitHeight="43.0" fitWidth="51.0" layoutX="93.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/icons/cross.png" />
+                  <Image url="@images/food/mysteriousLiquid.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="biscuitView" fitHeight="26.0" fitWidth="30.0" layoutX="132.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="biscuitView" fitHeight="39.0" fitWidth="39.0" layoutX="137.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/icons/cross.png" />
+                  <Image url="@images/food/biscuit.png" />
                </image>
             </ImageView>
          </children>
