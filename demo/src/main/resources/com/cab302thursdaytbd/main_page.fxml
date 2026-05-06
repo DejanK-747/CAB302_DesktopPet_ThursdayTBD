@@ -62,7 +62,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="levelText" layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGE:" textAlignment="CENTER" GridPane.columnIndex="2">
+                  <Text fx:id="levelText" layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mood: " textAlignment="CENTER" GridPane.columnIndex="2">
                      <font>
                         <Font name="Leelawadee UI Bold" size="16.0" />
                      </font>
@@ -151,39 +151,14 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Text fx:id="moodText" strokeType="OUTSIDE" strokeWidth="0.0" text="MOOD" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Leelawadee UI Bold" size="16.0" />
-                                 </font>
+                              <ProgressBar fx:id="boredomBar" prefHeight="18.0" prefWidth="107.0" progress="0.35">
                                  <HBox.margin>
-                                    <Insets left="15.0" />
+                                    <Insets left="10.0" />
                                  </HBox.margin>
-                              </Text>
-                           </children>
-                        </HBox>
+                              </ProgressBar>
+                           </children></HBox>
                      </children>
                   </GridPane>
-                  <VBox alignment="CENTER" layoutX="101.0" layoutY="125.0" prefHeight="100.0" prefWidth="139.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <VBox style="-fx-padding: 40;">
-                                 <children>
-                                    <Pane maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
-                                       <children>
-                                          <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@images/frog1.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </Pane>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
                   <GridPane layoutX="10.0" layoutY="370.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -195,7 +170,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#foodBoost">
+                        <Button fx:id="interactButton1" mnemonicParsing="false" onMouseClicked="#showFoodPopUp">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -204,7 +179,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="interactButton2" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#energyBoost" GridPane.columnIndex="1">
+                        <Button fx:id="interactButton2" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#brushPet" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -222,7 +197,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="interactButton4" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#affectionBoost" GridPane.columnIndex="3">
+                        <Button layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#strokePet" GridPane.columnIndex="3">
                            <graphic>
                               <ImageView fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -233,25 +208,6 @@
                         </Button>
                      </children>
                   </GridPane>
-                  <AnchorPane fx:id="popUp1" disable="true" layoutX="60.0" layoutY="305.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
-                     <children>
-                        <ImageView fx:id="image1" fitHeight="26.0" fitWidth="30.0" layoutX="22.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="image2" fitHeight="26.0" fitWidth="30.0" layoutX="64.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="image3" fitHeight="26.0" fitWidth="30.0" layoutX="107.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/icons/cross.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
                   <Label fx:id="statusChangeLabel" layoutX="275.0" layoutY="160.0" opacity="0.0" style="-fx-background-color: #ffcd29;" text="STAUS CHANGE">
                      <font>
                         <Font name="Leelawadee UI Semilight" size="15.0" />
@@ -261,7 +217,7 @@
             </AnchorPane>
          </children>
       </VBox>
-      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0" opacity="0.0">
+      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -273,6 +229,39 @@
                   <Font name="Leelawadee UI Bold" size="15.0" />
                </font>
             </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="petPane" layoutX="135.0" layoutY="235.0" maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
+         <children>
+            <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/frog1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="foodPopUp" layoutX="120.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="172.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
+         <children>
+            <ImageView fx:id="bananaView" fitHeight="26.0" fitWidth="30.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="grasshopperView" fitHeight="26.0" fitWidth="30.0" layoutX="52.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="mysteriousLiquidView" fitHeight="26.0" fitWidth="30.0" layoutX="94.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="biscuitView" fitHeight="26.0" fitWidth="30.0" layoutX="132.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/cross.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>
