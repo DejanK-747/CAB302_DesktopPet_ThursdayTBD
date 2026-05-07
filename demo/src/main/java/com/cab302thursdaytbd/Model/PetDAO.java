@@ -13,7 +13,7 @@ public class PetDAO {
             throw new IllegalArgumentException("userId must be a real user ID");
         }
 
-        String sql = "INSERT OR REPLACE INTO pets(user_id, pet_type, pet_name, hunger, energy, affection, boredom, is_dead) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT OR REPLACE INTO pets(user_id, pet_type, pet_name, hunger, energy, affection, boredom) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
