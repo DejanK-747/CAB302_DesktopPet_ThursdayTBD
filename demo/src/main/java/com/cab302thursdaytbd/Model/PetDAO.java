@@ -25,7 +25,6 @@ public class PetDAO {
             stmt.setInt(5, 10);      // energy default
             stmt.setInt(6, 10); // affection (or whatever default you want)
             stmt.setInt(7, 0);  // boredom
-            stmt.setInt(8, 0);       // is_dead (false = 0)
 
             stmt.executeUpdate();
 
@@ -56,7 +55,6 @@ public class PetDAO {
                 pet.setEnergy(rs.getInt("energy"));
                 pet.setAffection(rs.getInt("affection"));
                 pet.setBoredom(rs.getInt("boredom"));
-                pet.setDead(rs.getInt("is_dead") == 1);
 
                 return pet;
             }
@@ -69,7 +67,7 @@ public class PetDAO {
     }
 
     public void updatePetStats(Pet pet) {
-        String sql = "UPDATE pets SET hunger = ?, energy = ?, affection = ?, boredom = ?, is_dead = ? WHERE user_id = ?";
+        String sql = "UPDATE pets SET hunger = ?, energy = ?, affection = ?, boredom = ? WHERE user_id = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -78,7 +76,6 @@ public class PetDAO {
             stmt.setInt(2, pet.getEnergy());
             stmt.setInt(3, pet.getAffection());
             stmt.setInt(4, pet.getBoredom());
-            stmt.setInt(5, pet.isDead() ? 1 : 0);
             stmt.setInt(6, pet.getUserId());
 
             stmt.executeUpdate();

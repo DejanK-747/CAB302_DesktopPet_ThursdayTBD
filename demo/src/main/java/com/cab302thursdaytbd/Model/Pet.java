@@ -10,7 +10,6 @@ public class Pet {
     public int energy;
     public int affection;
     public int boredom;
-    public boolean isDead;
 
     public Pet(int userId, String petType, String petName) {
         this.userId = userId;
@@ -20,7 +19,6 @@ public class Pet {
         this.energy = 10;
         this.affection = 10;
         this.boredom = 0;
-        this.isDead = false;
     }
 
     // --- ID ---
@@ -74,12 +72,4 @@ public class Pet {
         this.boredom = Math.min(boredom, 10);
     }
 
-    // --- Death ---
-    public boolean isDead() {
-        return isDead;
-    }
-
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
 }
