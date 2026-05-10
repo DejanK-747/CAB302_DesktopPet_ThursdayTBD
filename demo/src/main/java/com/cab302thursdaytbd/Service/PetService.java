@@ -22,22 +22,33 @@ public class PetService {
         }
     }
 
+    private int tickCount = 0;
+
     public void startDecay(Runnable onDeath) {
         decayLoop = new Timeline(
-                new KeyFrame(Duration.seconds(5), e -> {
+                new KeyFrame(Duration.seconds(5), e -> {    // decay stats Hunger, Affection, Energy (cleanliness)
                     Pet pet = petDAO.getPet(userId);
 
                     if (pet != null) {
-                        pet.hunger -= 1;
-                        pet.energy -= 1;
-                        pet.affection -= 1;
-                        pet.boredom += 1;
+                        tickCount++;
+
+                        if (tickCount % 3 == 0) {
+                            pet.setHunger(pet.getHunger() - 1);
+                        }
+
+                        if (tickCount % 4 == 0) {
+                            pet.setEnergy(pet.getEnergy() - 1);
+                        }
+
+                        if (tickCount % 6 == 0) {
+                            pet.setAffection(pet.getAffection() - 1);
+                        }
 
                         petDAO.updatePetStats(pet);
 
-                        if (pet.hunger <= 0 || pet.energy <= 0) {
-                            decayLoop.stop(); // stop loop
-                            onDeath.run();    // trigger death event
+                        if (pet.getHunger() <= 0 || pet.getEnergy() <= 0) {
+                            decayLoop.stop();
+                            onDeath.run();
                         }
                     }
                 })

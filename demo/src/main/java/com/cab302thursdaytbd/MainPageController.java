@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MainPageController {
 
@@ -64,7 +65,6 @@ public class MainPageController {
 
 
 
-
     @FXML public void initialize() {
         sessionUserId = Session.getUserId();
         sessionPet = petDao.getPet(sessionUserId);
@@ -85,6 +85,10 @@ public class MainPageController {
 
         loadPet();
         petName.setText(sessionPet.getPetName());
+
+        // TO-DO: initialize map to pet sprite image
+
+
 
         // Duplicate code from Pet Stats. should be moved to PetService later
         petService.startDecay(() -> {
@@ -257,6 +261,7 @@ public class MainPageController {
         updateBar(energyBar, sessionPet.getEnergy());
         updateBar(affectionBar, sessionPet.getAffection());
         // need to add boredom bar here
+        moodText.setText(sessionPet.getMoodLabel());
     }
 
     @FXML protected void updateBar(ProgressBar bar, double value){

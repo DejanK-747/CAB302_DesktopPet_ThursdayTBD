@@ -76,7 +76,7 @@ public class PetDAO {
             stmt.setInt(2, pet.getEnergy());
             stmt.setInt(3, pet.getAffection());
             stmt.setInt(4, pet.getBoredom());
-            stmt.setInt(6, pet.getUserId());
+            stmt.setInt(5, pet.getUserId());
 
             stmt.executeUpdate();
 
