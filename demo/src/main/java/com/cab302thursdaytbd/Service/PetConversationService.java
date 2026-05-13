@@ -53,7 +53,7 @@ public class PetConversationService {
         // Replace with your actual Gemini API Key
 
         String prompt = "Hello, how are you?";
-        String AIprompt = "You should reply as if you are a pet that current has a mood of sad with a curiousity level below average" + prompt;
+        String AIprompt = "You should reply as if you are a pet do not reply with actions, that current has a mood of sad with a curiousity level below average" + prompt;
         PetConversationService petService = new PetConversationService();
         String response;
         try {
