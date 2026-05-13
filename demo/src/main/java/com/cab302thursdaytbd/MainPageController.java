@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class MainPageController {
 
@@ -63,6 +62,7 @@ public class MainPageController {
 
     @FXML private Pane petPane;
 
+    private Timeline petAnimation;
     private Timeline refreshLoop;
     private Timeline decayLoop;
 
@@ -87,19 +87,10 @@ public class MainPageController {
         draggableFood(biscuitView, "biscuit");
 
 
-        frames = petService.getFrames(sessionPet.getPetType());
+        frames = petService.getIdleFrames(sessionPet.getPetType());
         petView.setImage(frames[currentFrame]);
 
-        Timeline animation = new Timeline(
-                new KeyFrame(Duration.millis(300), e -> {
-                    currentFrame = (currentFrame + 1) % frames.length;
-                    petView.setImage(frames[currentFrame]);
-                })
-        );
-
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.play();
-
+        playPetAnimation();
         loadPet();
         petName.setText(sessionPet.getPetName());
 
@@ -195,7 +186,29 @@ public class MainPageController {
             String petType = sessionPet.getPetType();
             statusChangePopUp("Hunger");
 
-            sessionPet.setHunger(currentHunger + foodService.getFood(foodType).getHungerChangeForPet(petType));
+            int hungerChange = foodService.getFood(foodType).getHungerChangeForPet(petType);
+
+            sessionPet.setHunger(currentHunger + hungerChange);
+
+            petAnimation.stop();
+
+            if (hungerChange > 0) {
+                frames = petService.getExcitedFrames(petType);
+            } else {
+                frames = petService.getAngryFrames(petType);
+            }
+
+            petAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(300), e -> {
+                        currentFrame = (currentFrame + 1) % frames.length;
+                        petView.setImage(frames[currentFrame]);
+                    })
+            );
+
+            petAnimation.setCycleCount(3);
+            petAnimation.setOnFinished(e -> playPetAnimation());
+            petAnimation.play();
+
 
             petDao.updatePetStats(sessionPet);
             loadPet();
@@ -305,6 +318,51 @@ public class MainPageController {
                 foodBoost(foodType);
             }
         });
+    }
+
+    public void playPetAnimation() {
+
+
+        String petType = sessionPet.getPetType();
+
+        petAnimation = new Timeline(
+                new KeyFrame(Duration.millis(300), e -> {
+
+                    String mood = sessionPet.getMoodLabel();
+
+                    switch (mood){
+                        case "Angry":{
+                            frames = petService.getAngryFrames(petType);
+                            break;
+                        }
+                        case "Sad" : {
+                            frames = petService.getSadFrames(petType);
+                            break;
+                        }
+                        case "Excited" : {
+                            frames = petService.getExcitedFrames(petType);
+                            break;
+                        }
+                        case "Happy" : {
+                            frames = petService.getIdleFrames(petType);
+                            break;
+                        }
+                        case "Sleepy" : {
+                            frames = petService.getSleepyFrames(petType);
+                            break;
+                        }
+                        default : {
+                            frames = petService.getIdleFrames(petType);
+                        }
+                    }
+
+                    currentFrame = (currentFrame + 1) % frames.length;
+                    petView.setImage(frames[currentFrame]);
+                })
+        );
+
+        petAnimation.setCycleCount(Timeline.INDEFINITE);
+        petAnimation.play();
     }
 
 }

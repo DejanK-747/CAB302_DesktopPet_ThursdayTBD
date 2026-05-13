@@ -58,7 +58,7 @@ public class PetService {
         decayLoop.play();
     }
 
-    public Image[] getFrames(String petType){
+    public Image[] getIdleFrames(String petType){
         Image[] frames;
 
         if (petType.equals("frog")) {
@@ -70,6 +70,93 @@ public class PetService {
             frames = new Image[] {
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey1.png").toExternalForm()),
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
+            };
+        } else {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
+            };
+        }
+        return frames;
+    }
+
+    public Image[] getExcitedFrames(String petType){
+        Image[] frames;
+
+        if (petType.equals("frog")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-excited1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-excited2.png").toExternalForm())
+            };
+        } else if (petType.equals("monkey")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
+            };
+        } else {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
+            };
+        }
+        return frames;
+    }
+
+    public Image[] getSadFrames(String petType){
+        Image[] frames;
+
+        if (petType.equals("frog")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-sad1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-sad2.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-sad3.png").toExternalForm())
+            };
+        } else if (petType.equals("monkey")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-sad1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-sad2.png").toExternalForm())
+            };
+        } else {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
+            };
+        }
+        return frames;
+    }
+
+    public Image[] getAngryFrames(String petType){
+        Image[] frames;
+
+        if (petType.equals("frog")) {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-angry1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-angry2.png").toExternalForm())
+            };
+        } else if (petType.equals("monkey")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-angry1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-angry2.png").toExternalForm())
+            };
+        } else {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
+            };
+        }
+        return frames;
+    }
+
+    public Image[] getSleepyFrames(String petType){
+        Image[] frames;
+
+        if (petType.equals("frog")) {
+            frames = new Image[]{
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-sleep1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-sleep2.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog-sleep2.png").toExternalForm())
+            };
+        } else if (petType.equals("monkey")) {
+            frames = new Image[] {
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-sleep1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-sleep2.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/monkey-sleep2.png").toExternalForm())
             };
         } else {
             frames = new Image[]{
