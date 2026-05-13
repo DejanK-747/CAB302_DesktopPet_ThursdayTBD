@@ -32,6 +32,7 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
@@ -46,10 +47,18 @@
 <StackPane style="-fx-background-color: #6e625a;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.PetConversationController">
         <VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="420.0">
             <HBox prefHeight="100.0" prefWidth="200.0">
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conversation" textAlignment="CENTER" wrappingWidth="418.6953125">
+         <Button mnemonicParsing="false" onAction="#handleBackButtonAction" text="&lt;">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Button>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conversation" textAlignment="CENTER" wrappingWidth="320.6953125">
                      <font>
                         <Font size="24.0" />
                      </font>
+            <HBox.margin>
+               <Insets right="54.0" />
+            </HBox.margin>
                   </Text>
             </HBox>
             <ScrollPane prefHeight="355.0" prefWidth="420.0" VBox.vgrow="ALWAYS">
@@ -58,7 +67,7 @@
                         <TextArea fx:id="chatTextArea" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </AnchorPane>
             </ScrollPane>
-            <HBox prefHeight="100.0" prefWidth="389.0">
+            <HBox prefHeight="100.0" prefWidth="478.0">
                   <TextField fx:id="messageField" prefHeight="60.0" prefWidth="377.0" promptText="Type a message" />
                   <Button mnemonicParsing="false" onAction="#handleSendButtonAction" prefHeight="58.0" prefWidth="54.0" text="Send" />
             </HBox>
