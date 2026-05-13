@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class PetConversationController {
@@ -29,7 +30,7 @@ public class PetConversationController {
     }
     @FXML
     private void handleBackButtonAction(ActionEvent event) throws IOException {
-        Parent newRoot = FXMLLoader.load(getClass().getResource("pet_selection1.fxml"));
+        Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("pet_selection1.fxml")));
 
         // 2. Get the current Stage from the button that was clicked
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
