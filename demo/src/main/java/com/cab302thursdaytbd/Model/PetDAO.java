@@ -23,7 +23,7 @@ public class PetDAO {
             stmt.setString(3, petName);
             stmt.setInt(4, 10);      // hunger default
             stmt.setInt(5, 10);      // energy default
-            stmt.setInt(6, 10); // affection (or whatever default you want)
+            stmt.setInt(6, 5); // affection (or whatever default you want)
             stmt.setInt(7, 0);  // boredom
 
             stmt.executeUpdate();

@@ -17,7 +17,7 @@ public class Pet {
         this.petName = petName;
         this.hunger = 10;
         this.energy = 10;
-        this.affection = 10;
+        this.affection = 5;
         this.boredom = 0;
     }
 
