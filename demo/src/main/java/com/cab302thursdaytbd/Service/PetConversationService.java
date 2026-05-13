@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 
 
 public class PetConversationService {
-    private String apiKey=null;
+    private final String apiKey;
     private static final String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent";
     public PetConversationService() {
         this.apiKey = System.getenv("DesktopPetAPIKey");
@@ -49,7 +49,7 @@ public class PetConversationService {
         }
         return respText;
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // Replace with your actual Gemini API Key
 
         String prompt = "Hello, how are you?";

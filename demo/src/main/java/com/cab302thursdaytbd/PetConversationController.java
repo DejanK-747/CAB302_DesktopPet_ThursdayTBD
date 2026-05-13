@@ -22,7 +22,7 @@ public class PetConversationController {
         petService = new PetConversationService();
     }
     @FXML
-    private void handleSendButtonAction(ActionEvent event) {
+    private void handleSendButtonAction() {
         String prompt = this.messageField.getText();
         String AIprompt = "You should reply as if you are a pet do not reply with actions, that current has a mood of sad with a curiosity level below average " + prompt;
         chatTextArea.appendText("*USER*\n" + prompt + "\n\n");
