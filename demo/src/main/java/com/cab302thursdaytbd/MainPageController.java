@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MainPageController {
 
@@ -101,6 +102,10 @@ public class MainPageController {
 
         loadPet();
         petName.setText(sessionPet.getPetName());
+
+        // TO-DO: initialize map to pet sprite image
+
+
 
         // Duplicate code from Pet Stats. should be moved to PetService later
         petService.startDecay(() -> {

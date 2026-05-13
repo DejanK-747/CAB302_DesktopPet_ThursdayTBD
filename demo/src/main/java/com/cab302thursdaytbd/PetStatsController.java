@@ -125,7 +125,7 @@ public class PetStatsController {
         updateBar(boredomBar, boredomPctLabel, pet.getBoredom() / 10.0);
 
         // Compute current mood and update all mood labels
-        String mood = computeMood(pet.getHunger(), pet.getEnergy(), pet.getAffection(), pet.getBoredom());
+        String mood = pet.getMoodLabel();
         moodLabel.setText(mood);
         updateMoodDisplay(mood);
 
@@ -148,15 +148,6 @@ public class PetStatsController {
         refreshLoop.play();
     }
 
-    // Determines mood string from current stats
-    private String computeMood(int hunger, int energy, double aff, double bore) {
-        if (hunger <= 3) return "Hungry";
-        if (energy <= 3) return "Tired";
-        if (aff    <= 3) return "Sad";
-        if (bore   <= 3) return "Bored";
-        return "Happy";
-    }
-
     // Determines death reason based on which stat hit zero
     private String determineDeathReason(Pet pet) {
         if (pet == null)          return "Unknown";
@@ -171,17 +162,17 @@ public class PetStatsController {
             case "Happy":
                 moodEmojiLabel.setText("😊");
                 break;
-            case "Hungry":
-                moodEmojiLabel.setText("🍽️");
+            case "Angry":
+                moodEmojiLabel.setText("😡");
                 break;
-            case "Tired":
+            case "Sleepy":
                 moodEmojiLabel.setText("😴");
+                break;
+            case "Excited":
+                moodEmojiLabel.setText("😆");
                 break;
             case "Sad":
                 moodEmojiLabel.setText("😢");
-                break;
-            case "Bored":
-                moodEmojiLabel.setText("😐");
                 break;
         }
     }

@@ -10,7 +10,6 @@ public class Pet {
     private int energy;
     private int affection;
     private int boredom;
-    private boolean isDead;
 
     public Pet(int userId, String petType, String petName) {
         this.userId = userId;
@@ -20,7 +19,6 @@ public class Pet {
         this.energy = 10;
         this.affection = 10;
         this.boredom = 0;
-        this.isDead = false;
     }
 
     // --- ID ---
@@ -51,35 +49,49 @@ public class Pet {
         return hunger;
     }
 
-    public void setHunger(int hunger) { this.hunger = Math.min(hunger, 10);}
+    public void setHunger(int hunger) { this.hunger = Math.max(0, Math.min(hunger, 10));}
 
     public int getEnergy() {
         return energy;
     }
 
     public void setEnergy(int energy) {
-        this.energy = Math.min(energy, 10);
+        this.energy = Math.max(0, Math.min(energy, 10));
     }
 
     public int getAffection() {
         return affection;
     }
-    public void setAffection(int affection) {
-        this.affection = Math.min(affection, 10); }
+    public void setAffection(int affection) { this.affection = Math.max(0, Math.min(affection, 10)); }
 
     public int getBoredom() {
         return boredom;
     }
     public void setBoredom(int boredom) {
-        this.boredom = Math.min(boredom, 10);
+        this.boredom = Math.max(0, Math.min(boredom, 10));
     }
 
-    // --- Death ---
-    public boolean isDead() {
-        return isDead;
+
+
+    public String getMoodLabel() {
+
+        if (hunger <= 2 || energy <= 2){    // hunger & not clean
+            return "Angry";
+        }
+
+        if (affection <= 3){    // neglected
+            return "Sad";
+        }
+
+        if (energy <= 4){   // not clean    // sleepy before angry
+            return "Sleepy";
+        }
+
+        if (affection >= 8 && energy >= 8 && hunger >= 8){  //all states good --> excited (extra happy)
+            return  "Excited";
+        }
+        return "Happy"; // base state: Happy, with in-between/ middle states
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
+
 }

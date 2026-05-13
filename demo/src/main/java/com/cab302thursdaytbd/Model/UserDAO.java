@@ -1,7 +1,7 @@
 package com.cab302thursdaytbd.Model;
 
 import com.cab302thursdaytbd.Database;
-import com.cab302thursdaytbd.PasswordUtil;
+import com.cab302thursdaytbd.Service.PasswordService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UserDAO {
     public static int registerUser(String username, String password) {
         String sql = "INSERT INTO users(username, password_hash) VALUES(?, ?)";
-        String hashedPassword = PasswordUtil.hashPassword(password);
+        String hashedPassword = PasswordService.hashPassword(password);
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -53,7 +53,7 @@ public class UserDAO {
             if (rs.next()) {
                 String storedHash = rs.getString("password_hash");
 
-                String inputHash = PasswordUtil.hashPassword(password);
+                String inputHash = PasswordService.hashPassword(password);
 
                 if (storedHash.equals(inputHash)) {
                     return rs.getInt("user_id");
