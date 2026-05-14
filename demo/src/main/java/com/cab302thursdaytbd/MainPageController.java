@@ -106,6 +106,7 @@ public class MainPageController {
             Platform.runLater(() -> {
                 try {
                     Pet deadPet = petDao.getPet(sessionUserId);
+                    petAnimation.stop();
                     petService.stop();
                     String reason = petService.determineDeathReason(deadPet);
 
@@ -375,6 +376,11 @@ public class MainPageController {
                         petView.setImage(frames[currentFrame]);
                     })
             );
+
+            if (sessionPet == null){
+                petAnimation.stop();
+                return;
+            }
 
             petAnimation.setCycleCount(Timeline.INDEFINITE);
             petAnimation.play();
