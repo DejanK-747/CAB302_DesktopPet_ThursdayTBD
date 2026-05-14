@@ -1,5 +1,7 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.PetDAO;
+import com.cab302thursdaytbd.Model.Session;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -8,11 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 
 public class PetSelectionController {
 
-    private PetDAO petDAO = new PetDAO();
+    private final PetDAO petDAO = new PetDAO();
 
     @FXML
     private TextField petNameField;
@@ -27,13 +31,16 @@ public class PetSelectionController {
     private Image[] frames;
 
     private int currentPetIndex = 0;
-    private final String[] petType = {"frog", "cat"};
+    private final String[] petType = {"frog", "monkey"};
 
     private int userId;
 
-
     @FXML
     public void initialize() {
+        // TEST USER - delete when login system exists
+        userId = Session.getUserId();
+        System.out.println("Test user ID: " + userId);
+
         frames = new Image[] {
                 new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog1.png").toExternalForm()),
                 new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog2.png").toExternalForm())
@@ -50,12 +57,13 @@ public class PetSelectionController {
         animation.play();
 
         adoptButton.disableProperty().bind(
-          javafx.beans.binding.Bindings.createBooleanBinding(
-                  () -> petNameField.getText().trim().isEmpty(),
-                  petNameField.textProperty()
-          )
+                javafx.beans.binding.Bindings.createBooleanBinding(
+                        () -> petNameField.getText().trim().isEmpty(),
+                        petNameField.textProperty()
+                )
         );
 
+        System.out.println("WORKING DIRECTORY = " + System.getProperty("user.dir"));
     }
 
     @FXML
@@ -68,10 +76,7 @@ public class PetSelectionController {
         switchPet(1);
     }
 
-
-
     private void switchPet(int direction) {
-
         currentPetIndex = (currentPetIndex + direction + petType.length) % petType.length;
         String newPet = petType[currentPetIndex];
 
@@ -79,14 +84,14 @@ public class PetSelectionController {
                 new javafx.animation.TranslateTransition(Duration.millis(300), petView);
         slideOut.setByX(direction * -300);
 
-        slideOut.setOnFinished( e -> {
-                startAnimationFor(newPet);
+        slideOut.setOnFinished(e -> {
+            startAnimationFor(newPet);
 
-                petView.setTranslateX(direction * 300);
-                javafx.animation.TranslateTransition slideIn =
-                        new javafx.animation.TranslateTransition(Duration.millis(300), petView);
-                slideIn.setToX(0);
-                slideIn.play();
+            petView.setTranslateX(direction * 300);
+            javafx.animation.TranslateTransition slideIn =
+                    new javafx.animation.TranslateTransition(Duration.millis(300), petView);
+            slideIn.setToX(0);
+            slideIn.play();
         });
         slideOut.play();
     }
@@ -99,21 +104,20 @@ public class PetSelectionController {
             };
         }
 
-        if (pet.equals("cat")) {
+        if (pet.equals("monkey")) {
             frames = new Image[] {
-                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Cat-happy.png").toExternalForm())
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey1.png").toExternalForm()),
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
             };
         }
+
         currentFrame = 0;
         petView.setImage(frames[0]);
-
-
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
 
     @FXML
     private void handleAdopt() {
@@ -126,14 +130,25 @@ public class PetSelectionController {
             return;
         }
 
+        if (userId <= 0) {
+            System.out.println("No valid user ID");
+            return;
+        }
+
         String selectedPet = petType[currentPetIndex];
-
+        petDAO.deletePet(userId); // added so that users can only have one pet at a time until unique login system is set up
         petDAO.adoptPet(userId, selectedPet, petName);
-
         System.out.println("Pet: " + selectedPet + ", Name: " + petName);
 
+        try {
+            /*FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            Parent root = loader.load();
+            PetStatsController statsController = loader.getController();
+            statsController.setUserId(userId);
+            App.getScene().setRoot(root); */
+            App.setRoot("main_page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-
 }
-

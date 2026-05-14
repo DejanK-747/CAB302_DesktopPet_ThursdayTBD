@@ -12,3 +12,4 @@ out/
 target/
 demo/database/
 *.sqlite
+**/target/

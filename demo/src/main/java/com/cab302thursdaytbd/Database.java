@@ -1,22 +1,81 @@
 package com.cab302thursdaytbd;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.io.File;
+import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Database {
+
+
+    private static final String DB_FOLDER =
+            System.getProperty("user.dir") + File.separator + "database";
+
     private static final String DB_URL =
-            "jdbc:sqlite:" + System.getProperty("user.dir")
-                    + "/src/main/resources/com/cab302thursdaytbd/database/petapp.sqlite";
+            "jdbc:sqlite:" + DB_FOLDER + File.separator + "petapp.sqlite";
+
 
     public static Connection connect() throws SQLException {
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("SQLite driver not found", e);
+        new File(DB_FOLDER).mkdirs();
+
+        Connection conn = DriverManager.getConnection(DB_URL);
+
+        try (Statement stmt = conn.createStatement()) {
+            stmt.execute("PRAGMA foreign_keys = ON");
         }
 
-
-        return DriverManager.getConnection(DB_URL);
+        return conn;
     }
+
+    public static void initDatabase() {
+        System.out.println(DB_FOLDER + File.separator + "petapp.sqlite");
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute("PRAGMA foreign_keys = ON");
+
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS users ("
+                            + "user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            + "username TEXT UNIQUE NOT NULL,"
+                            + "password_hash TEXT NOT NULL,"
+                            + "created_at DATETIME DEFAULT CURRENT_TIMESTAMP"
+                            + ");"
+            );
+
+            stmt.execute(
+                    "CREATE TABLE IF NOT EXISTS pets ("
+                            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            + "user_id INTEGER NOT NULL,"
+                            + "pet_name TEXT NOT NULL,"
+                            + "pet_type TEXT NOT NULL,"
+                            + "hunger INTEGER DEFAULT 10 CHECK (hunger BETWEEN 0 AND 10),"
+                            + "energy INTEGER DEFAULT 10 CHECK (energy BETWEEN 0 AND 10),"
+                            + "affection INTEGER DEFAULT 10 CHECK (affection BETWEEN 0 AND 10),"
+                            + "boredom INTEGER DEFAULT 10 CHECK (boredom BETWEEN 0 AND 10),"
+                            + "last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                            + "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE"
+                            + ");"
+            );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static void clearUsersTable() {
+        String sql = "DELETE FROM users";
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
