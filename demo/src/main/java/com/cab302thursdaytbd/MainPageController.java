@@ -336,44 +336,45 @@ public class MainPageController {
 
         String petType = sessionPet.getPetType();
 
-        petAnimation = new Timeline(
-                new KeyFrame(Duration.millis(300), e -> {
+        if (sessionPet != null) {
+            petAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(300), e -> {
 
-                    String mood = sessionPet.getMoodLabel();
+                        String mood = sessionPet.getMoodLabel();
 
-                    switch (mood){
-                        case "Angry":{
-                            frames = petService.getAngryFrames(petType);
-                            break;
+                        switch (mood) {
+                            case "Angry": {
+                                frames = petService.getAngryFrames(petType);
+                                break;
+                            }
+                            case "Sad": {
+                                frames = petService.getSadFrames(petType);
+                                break;
+                            }
+                            case "Excited": {
+                                frames = petService.getExcitedFrames(petType);
+                                break;
+                            }
+                            case "Happy": {
+                                frames = petService.getIdleFrames(petType);
+                                break;
+                            }
+                            case "Sleepy": {
+                                frames = petService.getSleepyFrames(petType);
+                                break;
+                            }
+                            default: {
+                                frames = petService.getIdleFrames(petType);
+                            }
                         }
-                        case "Sad" : {
-                            frames = petService.getSadFrames(petType);
-                            break;
-                        }
-                        case "Excited" : {
-                            frames = petService.getExcitedFrames(petType);
-                            break;
-                        }
-                        case "Happy" : {
-                            frames = petService.getIdleFrames(petType);
-                            break;
-                        }
-                        case "Sleepy" : {
-                            frames = petService.getSleepyFrames(petType);
-                            break;
-                        }
-                        default : {
-                            frames = petService.getIdleFrames(petType);
-                        }
-                    }
 
-                    currentFrame = (currentFrame + 1) % frames.length;
-                    petView.setImage(frames[currentFrame]);
-                })
-        );
+                        currentFrame = (currentFrame + 1) % frames.length;
+                        petView.setImage(frames[currentFrame]);
+                    })
+            );
 
-        petAnimation.setCycleCount(Timeline.INDEFINITE);
-        petAnimation.play();
+            petAnimation.setCycleCount(Timeline.INDEFINITE);
+            petAnimation.play();
+        }
     }
-
 }

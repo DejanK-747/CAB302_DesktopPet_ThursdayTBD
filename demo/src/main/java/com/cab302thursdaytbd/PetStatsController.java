@@ -50,14 +50,6 @@ public class PetStatsController {
     private int userId; //currently logged in user id
 
 
-    // these are counters that are used to track how many decay ticks the pet had spent in each mood.
-    //this is also used to determine the most common mood for the session
-    private int happyTicks  = 0;
-    private int sadTicks    = 0;
-    private int boredTicks  = 0;
-    private int hungryTicks = 0;
-    private int tiredTicks  = 0;
-
     private Timeline refreshLoop; // this refresh loop reads from the db every two secs and then updates the ui
     //done separate from decay loop so the display stays in sync with the decay changes
 
@@ -142,8 +134,9 @@ public class PetStatsController {
         // Compute current mood and update all mood labels
         String mood = pet.getMoodLabel();
         moodLabel.setText(mood);
-        //update mood emoji in the ui
+        //update mood emoji and description in the ui
         updateMoodDisplay(mood);
+        updateCommonMood(mood);
 
         // level based on pet id (placeholder until levelling system exists)
         levelLabel.setText("Lvl. " + Math.max(1, pet.getId()));
@@ -191,29 +184,23 @@ public class PetStatsController {
     }
 
     // finds which mood appeared most often and updates the most common mood section in ui
-    private void updateCommonMood() {
-        String best = "Happy";
-        int max = happyTicks;
-        if (sadTicks    > max) { best = "Sad";    max = sadTicks; }
-        if (boredTicks  > max) { best = "Bored";  max = boredTicks; }
-        if (hungryTicks > max) { best = "Hungry"; max = hungryTicks; }
-        if (tiredTicks  > max) { best = "Tired";  max = tiredTicks; }
+    private void updateCommonMood(String mood) {
+        commonMoodLabel.setText(mood);
 
-        commonMoodLabel.setText(best);
         // mood description text
         String desc;
-        switch (best) {
+        switch (mood) {
             case "Sad":
                 desc = "Needs more attention and love";
                 break;
-            case "Bored":
+            case "Sleepy":
                 desc = "Wants something fun to do";
                 break;
-            case "Hungry":
-                desc = "Needs to be fed!";
+            case "Angry":
+                desc = "Someone needs their needs met!";
                 break;
-            case "Tired":
-                desc = "Needs to rest and play less";
+            case "Excited":
+                desc = "Having the time of their life!";
                 break;
             default:
                 desc = "Feeling playful and content";
@@ -222,21 +209,24 @@ public class PetStatsController {
         commonMoodDescLabel.setText(desc);
 
         String emoji;
-        switch (best) {
+        switch (mood) {
+            case "Happy":
+                emoji ="😊";
+                break;
+            case "Angry":
+                emoji ="😡";
+                break;
+            case "Sleepy":
+                emoji ="😴";
+                break;
+            case "Excited":
+                emoji ="😆";
+                break;
             case "Sad":
-                emoji = "😢";
+                emoji ="😢";
                 break;
-            case "Bored":
-                emoji = "😐";
-                break;
-            case "Hungry":
-                emoji = "🍽️";
-                break;
-            case "Tired":
-                emoji = "😴";
-                break;
-            default:
-                emoji = "😊";
+            default :
+                emoji ="This shouldn't happen";
                 break;
         }
         commonMoodEmojiLabel.setText(emoji);

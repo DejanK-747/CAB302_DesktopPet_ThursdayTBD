@@ -1,45 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<VBox spacing="12"
-      alignment="CENTER"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.cab302thursdaytbd.LoginController"
-      style="-fx-padding: 20;">
+<VBox alignment="CENTER" spacing="12" style="-fx-padding: 20;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.cab302thursdaytbd.LoginController">
 
-    <ImageView fitWidth="100" fitHeight="100" preserveRatio="true">
+    <ImageView fitHeight="100" fitWidth="100" preserveRatio="true">
         <image>
-            <Image url="@images/Frog%20excited%201.png"/>
+            <Image url="@images/frog1.png" />
         </image>
     </ImageView>
 
-    <Label text="Login" style="-fx-font-size: 18px;"/>
+    <Label style="-fx-font-size: 18px;" text="Login" />
 
-    <TextField fx:id="usernameField"
-               promptText="Username"
-               maxWidth="200"/>
+    <TextField fx:id="usernameField" maxWidth="200" promptText="Username" />
 
-    <PasswordField fx:id="passwordField"
-                   promptText="Password"
-                   maxWidth="200"/>
+    <PasswordField fx:id="passwordField" maxWidth="200" promptText="Password" />
 
-    <Button text="Login"
-            onAction="#handleLogin"
-            maxWidth="200"/>
-    <Button text="Create Account"
-            onAction="#goToRegister"
-            maxWidth="200"/>
+    <Button maxWidth="200" onAction="#handleLogin" text="Login" />
+    <Button maxWidth="200" onAction="#goToRegister" text="Create Account" />
 
-    <Label text="Don’t have an account? Create one to get started"
-           style="-fx-font-size: 11px; -fx-text-fill: grey;"
-           wrapText="true"
-           maxWidth="200"/>
+    <Label maxWidth="200" style="-fx-font-size: 11px; -fx-text-fill: grey;" text="Don’t have an account? Create one to get started" wrapText="true" />
 
-    <Label fx:id="statusLabel"
-           textFill="red"/>
+    <Label fx:id="statusLabel" textFill="red" />
 
 </VBox>
