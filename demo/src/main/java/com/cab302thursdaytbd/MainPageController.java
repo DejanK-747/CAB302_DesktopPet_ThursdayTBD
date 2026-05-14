@@ -107,7 +107,7 @@ public class MainPageController {
                 try {
                     Pet deadPet = petDao.getPet(sessionUserId);
                     petService.stop();
-                    String reason = "testing";
+                    String reason = petService.determineDeathReason(deadPet);
 
                     // delete from database immediately
                     petDao.deletePet(sessionUserId);

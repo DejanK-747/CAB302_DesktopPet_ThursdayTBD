@@ -77,7 +77,7 @@ public class PetStatsController {
                     try {
                         // fetch the pet one last time to get its final state for the death screen
                         Pet deadPet = petDAO.getPet(userId);
-                        String reason = determineDeathReason(deadPet);
+                        String reason = petService.determineDeathReason(deadPet);
 
                         // delete from database immediately when pet dies
                         petDAO.deletePet(userId);
@@ -168,13 +168,6 @@ public class PetStatsController {
         refreshLoop.play();
     }
 
-    // Determines death reason based on which stat hit zero
-    private String determineDeathReason(Pet pet) {
-        if (pet == null)          return "Unknown";
-        if (pet.getHunger() <= 0) return "Starvation";
-        if (pet.getEnergy() <= 0) return "Exhaustion";
-        return "Unknown";
-    }
 
     // updates the current mood emoji shown on the stats ui
     private void updateMoodDisplay(String mood) {

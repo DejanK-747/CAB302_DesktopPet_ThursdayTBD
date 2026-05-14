@@ -81,13 +81,21 @@ public class PetService {
         decayLoop.setCycleCount(Timeline.INDEFINITE); // causes timeline to repeat forever, so the keyframe doesnt only execute once
         decayLoop.play(); // starts the repeating decay loop
     }
-    // this returnes the image frames associated with the pet type. these are used by the animation system to make the
+
+    // Determines death reason based on which stat hit zero
+    public String determineDeathReason(Pet pet) {
+        if (pet == null)          return "Unknown";
+        if (pet.getHunger() <= 0) return "Starvation";
+        if (pet.getEnergy() <= 0) return "Exhaustion";
+        return "Unknown";
+    }
+
+
+    // this returns the image frames associated with the pet type. these are used by the animation system to make the
     // pet sprites look like they are moving on the main page!
-    // the controller repeatedly switches between trhe images in the returned array using the javafx timeline
+    // the controller repeatedly switches between the images in the returned array using the javafx timeline
     // from frog1, to frog , to frog 3 etc, which creates the illusion of animation
     //each pet type is mapped to its own set of image frames.
-
-
     public Image[] getIdleFrames(String petType) {
         Image[] frames;
 
