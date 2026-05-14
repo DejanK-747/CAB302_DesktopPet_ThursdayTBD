@@ -66,6 +66,10 @@ public class PetService {
                             pet.setBoredom(pet.getBoredom() + 1);
                         }
 
+                        if (tickCount % 7 == 0) {
+                            pet.setBoredom(pet.getBoredom() - 1);
+                        }
+
                         petDAO.updatePetStats(pet); // save updated stat values back to the db
                         //this is the death condition. if hunger or energy reach zero, stop timer and trigger death callback
                         if (pet.getHunger() <= 0 || pet.getEnergy() <= 0) {
