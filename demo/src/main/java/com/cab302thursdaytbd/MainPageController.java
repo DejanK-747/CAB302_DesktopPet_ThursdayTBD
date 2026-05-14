@@ -109,14 +109,15 @@ public class MainPageController {
                     petService.stop();
                     String reason = petService.determineDeathReason(deadPet);
 
-                    // delete from database immediately
-                    petDao.deletePet(sessionUserId);
 
                     FXMLLoader loader = new FXMLLoader(App.class.getResource("pet_death.fxml"));
                     Parent root = loader.load();
                     PetDeathController deathController = loader.getController();
                     deathController.initDeathScreen(deadPet, reason);
                     App.getScene().setRoot(root);
+
+                    // delete pet AFTER death screen
+                    petDao.deletePet(sessionUserId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -340,6 +341,8 @@ public class MainPageController {
             petAnimation = new Timeline(
                     new KeyFrame(Duration.millis(300), e -> {
 
+
+                        if (sessionPet == null) return;
                         String mood = sessionPet.getMoodLabel();
 
                         switch (mood) {

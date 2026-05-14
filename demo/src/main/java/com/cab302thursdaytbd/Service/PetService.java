@@ -62,6 +62,9 @@ public class PetService {
                         if (tickCount % 6 == 0) {
                             pet.setAffection(pet.getAffection() - 1);
                         }
+                        if (tickCount % 2 == 0) {
+                            pet.setBoredom(pet.getBoredom() + 1);
+                        }
 
                         petDAO.updatePetStats(pet); // save updated stat values back to the db
                         //this is the death condition. if hunger or energy reach zero, stop timer and trigger death callback
@@ -69,11 +72,6 @@ public class PetService {
                             decayLoop.stop(); // stop loop
                             onDeath.run();    // trigger death event
                         petDAO.updatePetStats(pet);
-
-                        if (pet.getHunger() <= 0 || pet.getEnergy() <= 0) {
-                            decayLoop.stop();
-                            onDeath.run();
-                        }
                     }
                 }})
         );
@@ -111,7 +109,7 @@ public class PetService {
             };
         } else {
             frames = new Image[]{ // fallback error image
-                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icones/cross.png").toExternalForm())
+                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
             };
         }
         return frames;
