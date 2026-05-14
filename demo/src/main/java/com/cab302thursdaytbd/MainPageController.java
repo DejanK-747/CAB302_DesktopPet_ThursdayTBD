@@ -264,10 +264,10 @@ public class MainPageController {
 
     @FXML protected void onMenuClick () throws IOException{
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("main_menu.fxml"));
             Parent root = loader.load();
-            PetStatsController statsController = loader.getController();
-            statsController.setUserId(Session.getUserId());
+            MainMenuController menuController = loader.getController();
+            menuController.setUserId(Session.getUserId());
             App.getScene().setRoot(root);
         } catch (Exception e) {
             e.printStackTrace();

@@ -243,7 +243,7 @@ public class PetStatsController {
     private void handleBack() {
         stop();
         try {
-            App.setRoot("main_page");
+            App.setRoot("main_menu");
         } catch (Exception e) {
             e.printStackTrace();
         }
