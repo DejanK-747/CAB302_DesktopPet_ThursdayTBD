@@ -36,10 +36,10 @@ public class PetServiceTest {
         fakeDAO = new FakePetDAO();
 
         pet = new Pet(1, "TestPet", "cat");
-        pet.hunger = 5;
-        pet.energy = 5;
-        pet.affection = 5;
-        pet.boredom = 5;
+        pet.setHunger(5);
+        pet.setEnergy(5);
+        pet.setAffection(5);
+        pet.setBoredom(5);
 
         fakeDAO.setPet(pet);
 
@@ -61,11 +61,11 @@ public class PetServiceTest {
 
         Pet stored = fakeDAO.getPet(1);
 
-        stored.hunger = stored.hunger - 1;
+        stored.setHunger(stored.getHunger() - 1);
 
         petService.stop(); // ensure no background interference
 
-        assertEquals(4, stored.hunger);
+        assertEquals(4, stored.getHunger());
     }
 
     @Test
@@ -73,11 +73,11 @@ public class PetServiceTest {
 
         Pet stored = fakeDAO.getPet(1);
 
-        stored.energy = stored.energy - 1;
+        stored.setEnergy(stored.getEnergy() - 1);
 
         petService.stop();
 
-        assertEquals(4, stored.energy);
+        assertEquals(4, stored.getEnergy());
     }
 
     @Test
@@ -85,19 +85,19 @@ public class PetServiceTest {
 
         Pet stored = fakeDAO.getPet(1);
 
-        stored.boredom = stored.boredom + 1;
+        stored.setBoredom(stored.getBoredom() + 1);
 
         petService.stop();
 
-        assertEquals(6, stored.boredom);
+        assertEquals(6, stored.getBoredom());
     }
     @Test
     public void testDeathCondition_HungerZero() {
 
         Pet stored = fakeDAO.getPet(1);
-        stored.hunger = 0;
+        stored.setHunger(0);
 
-        boolean isDead = (stored.hunger <= 0 || stored.energy <= 0);
+        boolean isDead = (stored.getHunger() <= 0 || stored.getEnergy() <= 0);
 
         assertTrue(isDead);
     }
@@ -105,10 +105,10 @@ public class PetServiceTest {
     public void testPetSurvives() {
 
         Pet stored = fakeDAO.getPet(1);
-        stored.hunger = 5;
-        stored.energy = 5;
+        stored.setHunger(5);
+        stored.setEnergy(5);
 
-        boolean isDead = (stored.hunger <= 0 || stored.energy <= 0);
+        boolean isDead = (stored.getHunger() <= 0 || stored.getEnergy() <= 0);
 
         assertFalse(isDead);
     }

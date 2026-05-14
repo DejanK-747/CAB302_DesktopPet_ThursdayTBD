@@ -49,13 +49,6 @@ public class PetService {
                     Pet pet = petDAO.getPet(userId);
 
                     if (pet != null) { // continue only if the pet still exists (if it was dead it would not exist in db)
-
-                        //this is where the stat decay is applied.
-                        pet.hunger -= 1;
-                        pet.energy -= 1;
-                        pet.affection -= 1;
-                        pet.boredom += 1;
-                    if (pet != null) {
                         tickCount++;
 
                         if (tickCount % 3 == 0) {
@@ -72,7 +65,7 @@ public class PetService {
 
                         petDAO.updatePetStats(pet); // save updated stat values back to the db
                         //this is the death condition. if hunger or energy reach zero, stop timer and trigger death callback
-                        if (pet.hunger <= 0 || pet.energy <= 0) {
+                        if (pet.getHunger() <= 0 || pet.getEnergy() <= 0) {
                             decayLoop.stop(); // stop loop
                             onDeath.run();    // trigger death event
                         petDAO.updatePetStats(pet);
@@ -82,7 +75,7 @@ public class PetService {
                             onDeath.run();
                         }
                     }
-                })
+                }})
         );
 
         decayLoop.setCycleCount(Timeline.INDEFINITE); // causes timeline to repeat forever, so the keyframe doesnt only execute once
@@ -95,28 +88,26 @@ public class PetService {
     //each pet type is mapped to its own set of image frames.
 
 
-    public Image[] getIdleFrames(String petType){
+    public Image[] getIdleFrames(String petType) {
         Image[] frames;
 
         if (petType.equals("frog")) { // frog animation frames
-            frames = new Image[] {
+            frames = new Image[]{
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog1.png").toExternalForm()),
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/frog2.png").toExternalForm())
             };
         } else if (petType.equals("monkey")) { // monkey animation frames
-            frames = new Image[] {
+            frames = new Image[]{
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey1.png").toExternalForm()),
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/Monkey2.png").toExternalForm())
             };
         } else {
             frames = new Image[]{ // fallback error image
                     new Image(getClass().getResource("/com/cab302thursdaytbd/images/icones/cross.png").toExternalForm())
-            frames = new Image[]{
-                    new Image(getClass().getResource("/com/cab302thursdaytbd/images/icons/cross.png").toExternalForm())
             };
         }
         return frames;
-    }
+    };
 
     public Image[] getExcitedFrames(String petType){
         Image[] frames;

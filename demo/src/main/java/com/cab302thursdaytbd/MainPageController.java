@@ -298,10 +298,11 @@ public class MainPageController {
     @FXML
     protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
         Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("conversation_page.fxml")));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(newRoot);
         stage.show();
         stage.setResizable(false);
+    }
 
 
     public void draggableFood(Node foodImg, String foodType) {
