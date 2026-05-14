@@ -6,9 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class PetDAO {
-
-    public void adoptPet(int userId, String petType, String petName) {
+public class PetDAO implements IPetDAO {
+    @Override public void adoptPet(int userId, String petType, String petName) {
         if (userId <= 0) {
             throw new IllegalArgumentException("userId must be a real user ID");
         }
@@ -33,7 +32,7 @@ public class PetDAO {
         }
     }
 
-    public Pet getPet(int userId) {
+    @Override public Pet getPet(int userId) {
         String sql = "SELECT * FROM pets WHERE user_id = ?";
 
         try (Connection conn = Database.connect();
@@ -66,7 +65,7 @@ public class PetDAO {
         return null;
     }
 
-    public void updatePetStats(Pet pet) {
+    @Override public void updatePetStats(Pet pet) {
         String sql = "UPDATE pets SET hunger = ?, energy = ?, affection = ?, boredom = ? WHERE user_id = ?";
 
         try (Connection conn = Database.connect();
@@ -86,7 +85,7 @@ public class PetDAO {
         }
     }
 
-    public void deletePet(int userId) {
+    @Override public void deletePet(int userId) {
         String sql = "DELETE FROM pets WHERE user_id = ?";
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

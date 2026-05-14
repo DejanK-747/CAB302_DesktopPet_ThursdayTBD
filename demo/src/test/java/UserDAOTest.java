@@ -1,5 +1,4 @@
-package com.cab302thursdaytbd;
-
+import com.cab302thursdaytbd.Database;
 import com.cab302thursdaytbd.Model.UserDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
