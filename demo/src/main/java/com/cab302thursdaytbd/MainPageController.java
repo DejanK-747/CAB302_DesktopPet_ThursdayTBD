@@ -4,28 +4,34 @@ package com.cab302thursdaytbd;
 import com.cab302thursdaytbd.Model.Pet;
 import com.cab302thursdaytbd.Model.PetDAO;
 import com.cab302thursdaytbd.Model.Session;
+import com.cab302thursdaytbd.Service.FoodService;
 import com.cab302thursdaytbd.Service.PetService;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainPageController {
 
     private PetDAO petDao = new PetDAO();
     private PetService petService;
+    private FoodService foodService = new FoodService();
 
     private Pet sessionPet;
     private int sessionUserId;
@@ -33,7 +39,8 @@ public class MainPageController {
 
     @FXML private ProgressBar hungerBar;
     @FXML private ProgressBar affectionBar;
-    @FXML private ProgressBar energyBar; //needs to be changed. Visually appears as Cleanliness
+    @FXML private ProgressBar energyBar;
+    @FXML private ProgressBar boredomBar;
 
     @FXML private Text moodText;
     @FXML private Text petName;
@@ -47,22 +54,29 @@ public class MainPageController {
     @FXML private Label statusChangeLabel;
     @FXML private Pane speechPane;
 
+    @FXML private ImageView bananaView;
+    @FXML private ImageView grasshopperView;
+    @FXML private ImageView mysteriousLiquidView;
+    @FXML private ImageView biscuitView;
+
     private ParallelTransition statusChangePopUpAnim = new ParallelTransition();
 
-    @FXML
-    private Button interactButton1;
+    @FXML private Pane foodPopUp;
 
-    @FXML private Pane pane;
+    @FXML private Pane petPane;
 
-    @FXML
-    private ImageView foodItem1;
-
-    @FXML private AnchorPane popUp1;
-
+    private Timeline petAnimation;
     private Timeline refreshLoop;
     private Timeline decayLoop;
 
 
+
+    //----------Testing
+    private double initialMouseAnchorX;
+    private double initialMouseAnchorY;
+    private double initialNodeAnchorX;
+    private double initialNodeAnchorY;
+    //------------
 
 
     @FXML public void initialize() {
@@ -70,21 +84,22 @@ public class MainPageController {
         sessionPet = petDao.getPet(sessionUserId);
         petService = new PetService(sessionUserId);
 
-        frames = petService.getFrames(sessionPet.getPetType());
+        draggableFood(bananaView, "banana");
+        draggableFood(grasshopperView, "grasshopper");
+        draggableFood(mysteriousLiquidView, "mysteriousLiquid");
+        draggableFood(biscuitView, "biscuit");
+
+
+        frames = petService.getIdleFrames(sessionPet.getPetType());
         petView.setImage(frames[currentFrame]);
 
-        Timeline animation = new Timeline(
-                new KeyFrame(Duration.millis(300), e -> {
-                    currentFrame = (currentFrame + 1) % frames.length;
-                    petView.setImage(frames[currentFrame]);
-                })
-        );
-
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.play();
-
+        playPetAnimation();
         loadPet();
         petName.setText(sessionPet.getPetName());
+
+        // TO-DO: initialize map to pet sprite image
+
+
 
         // Duplicate code from Pet Stats. should be moved to PetService later
         petService.startDecay(() -> {
@@ -92,7 +107,7 @@ public class MainPageController {
                 try {
                     Pet deadPet = petDao.getPet(sessionUserId);
                     petService.stop();
-                    String reason = "testing";
+                    String reason = petService.determineDeathReason(deadPet);
 
                     // delete from database immediately
                     petDao.deletePet(sessionUserId);
@@ -117,12 +132,12 @@ public class MainPageController {
     // I was thinking of implementing multiple foods options or different ways to clean the pet
     // Obviously, kind of difficult to implement.
     // Thinking I should limit goals first. Just have these buttons raise stats first.
-    @FXML protected void showPopUp1() {
-        showPopUp(popUp1);
+    @FXML protected void showFoodPopUp() {
+        showPopUp(foodPopUp);
     }
 
 
-    protected void showPopUp(AnchorPane popUp) {
+    protected void showPopUp(Pane popUp) {
         if (popUp.getScaleX() == 0) {
             ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
             transition.setToX(1);
@@ -168,51 +183,48 @@ public class MainPageController {
 
     // There should be a better way to handle throttling, but this cheat will do for now
     // Also consider multi threading so decay can still run while still updating stats
-    @FXML protected void foodBoost(){
+    public void foodBoost(String foodType){
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentHunger = sessionPet.getHunger();
+            String petType = sessionPet.getPetType();
             statusChangePopUp("Hunger");
 
-            sessionPet.setHunger(currentHunger + 1);
+            int hungerChange = foodService.getFood(foodType).getHungerChangeForPet(petType);
+
+            sessionPet.setHunger(currentHunger + hungerChange);
+
+            petAnimation.stop();
+
+            if (hungerChange > 0) {
+                frames = petService.getExcitedFrames(petType);
+            } else {
+                frames = petService.getAngryFrames(petType);
+            }
+
+            petAnimation = new Timeline(
+                    new KeyFrame(Duration.millis(300), e -> {
+                        currentFrame = (currentFrame + 1) % frames.length;
+                        petView.setImage(frames[currentFrame]);
+                    })
+            );
+
+            petAnimation.setCycleCount(3);
+            petAnimation.setOnFinished(e -> playPetAnimation());
+            petAnimation.play();
+
 
             petDao.updatePetStats(sessionPet);
             loadPet();
         }
     }
 
-    @FXML protected void energyBoost() {
+    @FXML protected void brushPet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentEnergy = sessionPet.getEnergy();
-            statusChangePopUp("Energy");
-
-            sessionPet.setEnergy(currentEnergy + 1);
-
-            petDao.updatePetStats(sessionPet);
-            loadPet();
-        }
-    }
-
-    @FXML protected void affectionBoost() {
-        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
-
-            int currentAffection = sessionPet.getAffection();
-
-            statusChangePopUp("Affection");
-
-            sessionPet.setAffection(currentAffection + 1);
-
-            petDao.updatePetStats(sessionPet);
-            loadPet();
-        }
-    }
-
-    @FXML protected void boredomReduce() {
-        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
-
             int currentBoredom = sessionPet.getBoredom();
+            statusChangePopUp("Status Up");
 
-            statusChangePopUp("Boredom");
-
+            sessionPet.setEnergy(currentEnergy + 2);
             sessionPet.setBoredom(currentBoredom - 1);
 
             petDao.updatePetStats(sessionPet);
@@ -220,11 +232,24 @@ public class MainPageController {
         }
     }
 
+    @FXML protected void strokePet() {
+        if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
+
+            int currentAffection = sessionPet.getAffection();
+            int currentBoredom = sessionPet.getBoredom();
+
+            statusChangePopUp("Status Up");
+
+            sessionPet.setAffection(currentAffection + 2);
+            sessionPet.setBoredom(currentBoredom - 1);
+
+            petDao.updatePetStats(sessionPet);
+            loadPet();
+        }
+    }
 
     //
     @FXML protected void petSpeech( /* String text*/){
-        System.out.println("I was pressed");
-
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), speechPane);
         fadeTransition.setCycleCount(2);
         fadeTransition.setFromValue(0);
@@ -252,16 +277,13 @@ public class MainPageController {
         sessionPet = petDao.getPet(sessionUserId);
 
         updateBar(hungerBar, sessionPet.getHunger());
-        System.out.println("Hunger is " + sessionPet.getHunger());
-        System.out.println("getter affection = " + sessionPet.getAffection());
         updateBar(energyBar, sessionPet.getEnergy());
         updateBar(affectionBar, sessionPet.getAffection());
-        // need to add boredom bar here
+        updateBar(boredomBar, sessionPet.getBoredom());
     }
 
     @FXML protected void updateBar(ProgressBar bar, double value){
         double clamped = Math.max(0.0, Math.min(1.0, value / 10));
-        System.out.println("Value is " + clamped);
         bar.setProgress(clamped);
     }
 
@@ -272,6 +294,86 @@ public class MainPageController {
         );
         refreshLoop.setCycleCount(Timeline.INDEFINITE);
         refreshLoop.play();
+    }
+    @FXML
+    protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
+        Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("conversation_page.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(newRoot);
+        stage.show();
+        stage.setResizable(false);
+    }
+
+
+    public void draggableFood(Node foodImg, String foodType) {
+        foodImg.setOnMousePressed(mouseEvent ->{
+            initialMouseAnchorX = mouseEvent.getX();
+            initialMouseAnchorY = mouseEvent.getY();
+
+            initialNodeAnchorX = foodImg.getLayoutX();
+            initialNodeAnchorY = foodImg.getLayoutY();
+        });
+
+        foodImg.setOnMouseDragged(mouseEvent ->{
+            foodImg.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - foodImg.getParent().getLayoutX());
+            foodImg.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - foodImg.getParent().getLayoutY());
+        });
+
+        foodImg.setOnMouseReleased(mouseEvent ->{
+            foodImg.setLayoutX(initialNodeAnchorX);
+            foodImg.setLayoutY(initialNodeAnchorY);
+
+            Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
+            if (petPaneBounds.contains(mouseLoc)){
+                foodBoost(foodType);
+            }
+        });
+    }
+
+    public void playPetAnimation() {
+
+
+        String petType = sessionPet.getPetType();
+
+        petAnimation = new Timeline(
+                new KeyFrame(Duration.millis(300), e -> {
+
+                    String mood = sessionPet.getMoodLabel();
+
+                    switch (mood){
+                        case "Angry":{
+                            frames = petService.getAngryFrames(petType);
+                            break;
+                        }
+                        case "Sad" : {
+                            frames = petService.getSadFrames(petType);
+                            break;
+                        }
+                        case "Excited" : {
+                            frames = petService.getExcitedFrames(petType);
+                            break;
+                        }
+                        case "Happy" : {
+                            frames = petService.getIdleFrames(petType);
+                            break;
+                        }
+                        case "Sleepy" : {
+                            frames = petService.getSleepyFrames(petType);
+                            break;
+                        }
+                        default : {
+                            frames = petService.getIdleFrames(petType);
+                        }
+                    }
+
+                    currentFrame = (currentFrame + 1) % frames.length;
+                    petView.setImage(frames[currentFrame]);
+                })
+        );
+
+        petAnimation.setCycleCount(Timeline.INDEFINITE);
+        petAnimation.play();
     }
 
 }

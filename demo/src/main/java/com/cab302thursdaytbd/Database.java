@@ -78,4 +78,17 @@ public class Database {
         }
     }
 
+    public static void clearPetsTable() {
+        String sql = "DELETE FROM pets";
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
