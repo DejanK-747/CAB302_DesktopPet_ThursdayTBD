@@ -78,6 +78,7 @@ public class PetDAO {
             stmt.setInt(4, pet.getBoredom());
             stmt.setInt(6, pet.getUserId());
 
+
             stmt.executeUpdate();
 
         } catch (SQLException e) {

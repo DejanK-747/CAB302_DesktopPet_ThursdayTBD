@@ -1,5 +1,8 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.Pet;
+import com.cab302thursdaytbd.Model.PetDAO;
+import com.cab302thursdaytbd.Model.Session;
 import com.cab302thursdaytbd.Service.PetConversationService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +18,7 @@ import java.util.Objects;
 
 
 public class PetConversationController {
-
+    private final PetDAO petDAO = new PetDAO();
     @FXML
     private TextArea chatTextArea;
 
@@ -23,19 +26,16 @@ public class PetConversationController {
     private TextField messageField;
 
     private PetConversationService petService;
-
+    int userId;
     @FXML
     public void initialize() {
+        userId = Session.getUserId();
         petService = new PetConversationService();
     }
     @FXML
     private void handleBackButtonAction(ActionEvent event) throws IOException {
-        Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("pet_selection1.fxml")));
-
-        // 2. Get the current Stage from the button that was clicked
+        Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main_page.fxml")));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        // 3. Set the new root to the existing Scene (smoother transition)
         stage.getScene().setRoot(newRoot);
         stage.show();
         stage.setResizable(false);
@@ -43,16 +43,18 @@ public class PetConversationController {
     }
     @FXML
     private void handleSendButtonAction() {
-        String prompt = this.messageField.getText();
-        String AIprompt = "You should reply as if you are a pet do not reply with actions, that current has a mood of sad with a curiosity level below average " + prompt;
-        chatTextArea.appendText("*USER*\n" + prompt + "\n\n");
+        Pet pet = petDAO.getPet(userId);
+
+        String prompt = messageField.getText();
+        String aiPrompt = "In this the energy level, hunger 10 being fully fed, affection and boredom have a scale from 1 - 10. You should reply as if you are a " + pet.getPetType() + " with the name " + pet.getPetName() + " do not reply with actions, that current has a energy level of " + pet.getEnergy() + " a boredom scale of " + pet.getBoredom() + " a hunger level of " + pet.getHunger() + " and a affection level of " + pet.getAffection() +" prompt";
+        chatTextArea.appendText("*"+Session.getUsername() + "*\n" + prompt + "\n\n");
         String response;
         try {
-            response = petService.askQuestion(AIprompt);
+            response = petService.askQuestion(aiPrompt);
         } catch (Exception e) {
             response = e.getMessage();
         }
-        chatTextArea.appendText("*PET NAME*\n" + response + "\n\n");
+        chatTextArea.appendText("*"+pet.getPetName()+"*\n" + response + "\n\n");
     }
 }
 

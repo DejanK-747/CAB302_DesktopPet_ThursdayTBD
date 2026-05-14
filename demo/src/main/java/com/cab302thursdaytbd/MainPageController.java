@@ -7,8 +7,10 @@ import com.cab302thursdaytbd.Model.Session;
 import com.cab302thursdaytbd.Service.PetService;
 import javafx.animation.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,9 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainPageController {
 
@@ -273,5 +277,13 @@ public class MainPageController {
         refreshLoop.setCycleCount(Timeline.INDEFINITE);
         refreshLoop.play();
     }
+    @FXML
+    protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
+        Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("conversation_page.fxml")));
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(newRoot);
+        stage.show();
+        stage.setResizable(false);
 
+    }
 }
