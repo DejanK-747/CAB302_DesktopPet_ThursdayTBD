@@ -32,8 +32,9 @@ jobs:
       working-directory: demo
       run: mvn -B package --file pom.xml
     - name: Generate Javadoc
+      working-directory: demo
       run: mvn javadoc:javadoc
     - name: Publish Javadoc
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        folder: target/docs/javadoc
+        folder: demo/target/docs/javadoc
