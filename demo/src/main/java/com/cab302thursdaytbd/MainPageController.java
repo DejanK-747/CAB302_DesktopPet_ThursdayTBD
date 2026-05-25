@@ -50,8 +50,8 @@ public class MainPageController {
     private int currentFrame;
     private Image[] frames;
 
-
     @FXML private Label statusChangeLabel;
+    @FXML private Label needsLabel;
     @FXML private Pane speechPane;
 
     @FXML private ImageView bananaView;
@@ -282,6 +282,8 @@ public class MainPageController {
         updateBar(energyBar, sessionPet.getEnergy());
         updateBar(affectionBar, sessionPet.getAffection());
         updateBar(boredomBar, sessionPet.getBoredom());
+
+        updateNeedsLabel();
     }
 
     @FXML protected void updateBar(ProgressBar bar, double value){
@@ -384,6 +386,23 @@ public class MainPageController {
 
             petAnimation.setCycleCount(Timeline.INDEFINITE);
             petAnimation.play();
+        }
+    }
+    private void updateNeedsLabel() {
+        if (sessionPet.needsFood()) {
+            needsLabel.setText("Your pet is hungry!");
+            needsLabel.setVisible(true);
+        } else if (sessionPet.needsAttention()) {
+            needsLabel.setText("Your pet needs attention!");
+            needsLabel.setVisible(true);
+        } else if (sessionPet.needsRest()) {
+            needsLabel.setText("Your pet is tired!");
+            needsLabel.setVisible(true);
+        } else if (sessionPet.needsPlay()) {
+            needsLabel.setText("Your pet is bored!");
+            needsLabel.setVisible(true);
+        } else {
+            needsLabel.setVisible(false);
         }
     }
 }

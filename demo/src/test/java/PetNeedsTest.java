@@ -15,21 +15,23 @@ public class PetNeedsTest {
     @Test
     void petDoesNotNeedFoodWhenHungerIsHigh() {
         Pet pet = new Pet(1, "frog", "Froggy");
-        pet.setHunger(8);
+        // Testing boundary between hunger level 2 and 3
+        pet.setHunger(3);
         assertFalse(pet.needsFood());
     }
 
     @Test
     void petNeedsAttentionWhenAffectionIsLow() {
         Pet pet = new Pet(1, "cat", "Milo");
-        pet.setAffection(2);
+        pet.setAffection(3);
         assertTrue(pet.needsAttention());
     }
 
     @Test
     void petDoesNotNeedAttentionWhenAffectionIsHigh() {
         Pet pet = new Pet(1, "cat", "Milo");
-        pet.setAffection(8);
+        // Testing boundary between affection level 3 and 4
+        pet.setAffection(4);
         assertFalse(pet.needsAttention());
     }
 
@@ -43,21 +45,23 @@ public class PetNeedsTest {
     @Test
     void petDoesNotNeedRestWhenEnergyIsHigh() {
         Pet pet = new Pet(1, "monkey", "George");
-        pet.setEnergy(8);
+        // Testing boundary between energy level 2 and 3
+        pet.setEnergy(3);
         assertFalse(pet.needsRest());
     }
 
     @Test
     void petNeedsPlayWhenBoredomIsHigh() {
         Pet pet = new Pet(1, "frog", "Froggy");
-        pet.setBoredom(8);
+        pet.setBoredom(7);
         assertTrue(pet.needsPlay());
     }
 
     @Test
     void petDoesNotNeedPlayWhenBoredomIsLow() {
         Pet pet = new Pet(1, "frog", "Froggy");
-        pet.setBoredom(2);
+        // Testing boundary between boredom level 6 and 7
+        pet.setBoredom(6);
         assertFalse(pet.needsPlay());
     }
 }
