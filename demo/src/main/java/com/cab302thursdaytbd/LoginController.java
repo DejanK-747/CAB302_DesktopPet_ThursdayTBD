@@ -22,28 +22,36 @@ public class LoginController {
     private PetDAO petDao = new PetDAO();
     private PetSelectionController petSelectionController = new PetSelectionController();
 
+    // Runs when "Login" Button is pressed
     @FXML
     private void handleLogin() throws IOException {
-
+        // Get text entered by the user and remove extra spaces
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
+        // Prevents login if fields are empty
         if (username.isEmpty() || password.isEmpty()) {
             statusLabel.setText("Please fill in all fields");
             return;
         }
 
+        // Login using UserDAO
         int userId = UserDAO.loginUser(username, password);
 
+        // Successful login
         if (userId > 0) {
+            // Stores logged-in user in session
             Session.setUser(userId, username);
             statusLabel.setText("Login successful!");
+            // Goes to next page
             goToApp();
         } else {
+            // Failed login
             statusLabel.setText("Invalid username or password");
         }
     }
 
+    // Opens register.fxml when button is clicked
     @FXML
     private void goToRegister() {
         try {
