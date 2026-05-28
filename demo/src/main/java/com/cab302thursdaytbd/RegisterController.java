@@ -1,5 +1,6 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.IUserDAO;
 import com.cab302thursdaytbd.Model.Session;
 import com.cab302thursdaytbd.Model.UserDAO;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ public class RegisterController {
 
     @FXML
     private Label statusLabel;
-
+    private IUserDAO userDAO = new UserDAO();
     // Handles "BackButton" and takes user to login page
     @FXML
     private void goToLogin() {
@@ -48,7 +49,7 @@ public class RegisterController {
             return;
         }
         // Creates the new user in the database and returns userID
-        int userId = UserDAO.registerUser(username, password);
+        int userId = userDAO.registerUser(username, password);
 
         // Successful registration returns userID > 0
         if (userId > 0) {
