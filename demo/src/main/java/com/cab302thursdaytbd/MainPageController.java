@@ -15,6 +15,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -68,7 +69,13 @@ public class MainPageController {
     private Timeline petAnimation;
     private Timeline refreshLoop;
     private Timeline decayLoop;
+    private Timeline foodFlashTimeline;
+    private Timeline brushFlashTimeline;
+    private Timeline strokeFlashTimeline;
 
+    @FXML private Button foodButton;
+    @FXML private Button brushButton;
+    @FXML private Button strokeButton;
 
 
     //----------Testing
@@ -389,11 +396,27 @@ public class MainPageController {
         }
     }
     private void updateNeedsLabel() {
+
+        if (sessionPet.needsFood()) {
+            foodFlashTimeline = startFlashingButton(foodButton, foodFlashTimeline);
+        } else {
+            foodFlashTimeline = stopFlashingButton(foodButton, foodFlashTimeline);
+        }
+
+        if (sessionPet.needsRest()) {
+            brushFlashTimeline = startFlashingButton(brushButton, brushFlashTimeline);
+        } else {
+            brushFlashTimeline = stopFlashingButton(brushButton, brushFlashTimeline);
+        }
+
+        if (sessionPet.needsPlay()) {
+            strokeFlashTimeline = startFlashingButton(strokeButton, strokeFlashTimeline);
+        } else {
+            strokeFlashTimeline = stopFlashingButton(strokeButton, strokeFlashTimeline);
+        }
+
         if (sessionPet.needsFood()) {
             needsLabel.setText("Your pet is hungry!");
-            needsLabel.setVisible(true);
-        } else if (sessionPet.needsAttention()) {
-            needsLabel.setText("Your pet needs attention!");
             needsLabel.setVisible(true);
         } else if (sessionPet.needsRest()) {
             needsLabel.setText("Your pet is tired!");
@@ -404,5 +427,37 @@ public class MainPageController {
         } else {
             needsLabel.setVisible(false);
         }
+    }
+
+    private Timeline startFlashingButton(Button button, Timeline timeline) {
+        if (timeline != null && timeline.getStatus() == Animation.Status.RUNNING) {
+            return timeline;
+        }
+
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, e ->
+                        button.setStyle("-fx-border-color: red; -fx-border-width: 3; -fx-background-color: yellow;")
+                ),
+                new KeyFrame(Duration.seconds(0.5), e ->
+                        button.setStyle("-fx-border-color: transparent; -fx-border-width: 3; -fx-background-color: transparent;")
+                ),
+                new KeyFrame(Duration.seconds(1), e ->
+                        button.setStyle("-fx-border-color: red; -fx-border-width: 3; -fx-background-color: yellow;")
+                )
+        );
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+        return timeline;
+    }
+
+    private Timeline stopFlashingButton(Button button, Timeline timeline) {
+        if (timeline != null) {
+            timeline.stop();
+        }
+
+        button.setStyle("");
+        return null;
     }
 }
