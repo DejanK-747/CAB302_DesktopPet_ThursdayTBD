@@ -28,6 +28,9 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The controller for the main page
+ */
 public class MainPageController {
 
     private PetDAO petDao = new PetDAO();
@@ -68,7 +71,6 @@ public class MainPageController {
 
     private Timeline petAnimation;
     private Timeline refreshLoop;
-    private Timeline decayLoop;
     private Timeline foodFlashTimeline;
     private Timeline brushFlashTimeline;
     private Timeline strokeFlashTimeline;
@@ -78,14 +80,16 @@ public class MainPageController {
     @FXML private Button strokeButton;
 
 
-    //----------Testing
+    //----------For Draggable Items
     private double initialMouseAnchorX;
     private double initialMouseAnchorY;
     private double initialNodeAnchorX;
     private double initialNodeAnchorY;
     //------------
 
-
+    /**
+     * Used to initialize the user, the pet, certain UI elements and functions, and the pet status decay.
+     */
     @FXML public void initialize() {
         sessionUserId = Session.getUserId();
         sessionPet = petDao.getPet(sessionUserId);
@@ -103,10 +107,6 @@ public class MainPageController {
         playPetAnimation();
         loadPet();
         petName.setText(sessionPet.getPetName());
-
-        // TO-DO: initialize map to pet sprite image
-
-
 
         // Duplicate code from Pet Stats. should be moved to PetService later
         petService.startDecay(() -> {
@@ -146,6 +146,10 @@ public class MainPageController {
     }
 
 
+    /**
+     * A method to show or hide a menu
+     * @param popUp The menu pane to hide or show
+     */
     protected void showPopUp(Pane popUp) {
         if (popUp.getScaleX() == 0) {
             ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
@@ -166,6 +170,10 @@ public class MainPageController {
     }
     //-----------------------------------------
 
+    /**
+     * A method to indicate status change by showing a text pop-up
+     * @param text The text to display in the pop-up text
+     */
     protected void statusChangePopUp(String text){
 
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
@@ -190,8 +198,10 @@ public class MainPageController {
         }
     }
 
-    // There should be a better way to handle throttling, but this cheat will do for now
-    // Also consider multi threading so decay can still run while still updating stats
+    /**
+     * Changes the pet's hunger when given a certain food
+     * @param foodType The food type to give to a pet
+     */
     public void foodBoost(String foodType){
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentHunger = sessionPet.getHunger();
@@ -227,6 +237,9 @@ public class MainPageController {
         }
     }
 
+    /**
+     * Increase the pet's energy and reduce boredom by brushing the pet
+     */
     @FXML protected void brushPet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentEnergy = sessionPet.getEnergy();
@@ -241,6 +254,9 @@ public class MainPageController {
         }
     }
 
+    /**
+     * Increase the pet's affection and decrease the boredom status by stroking the pet
+     */
     @FXML protected void strokePet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
 
@@ -257,17 +273,6 @@ public class MainPageController {
         }
     }
 
-    //
-    @FXML protected void petSpeech( /* String text*/){
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), speechPane);
-        fadeTransition.setCycleCount(2);
-        fadeTransition.setFromValue(0);
-        fadeTransition.setToValue(1);
-        fadeTransition.setInterpolator(Interpolator.EASE_IN);
-        fadeTransition.setAutoReverse(true);
-        fadeTransition.play();
-    }
-
 
     @FXML protected void onMenuClick () throws IOException{
         try {
@@ -282,6 +287,9 @@ public class MainPageController {
 
     }
 
+    /**
+     * Retrieve pet's status from the database and update status bars
+     */
     protected void loadPet(){
         sessionPet = petDao.getPet(sessionUserId);
 
@@ -293,12 +301,19 @@ public class MainPageController {
         updateNeedsLabel();
     }
 
+    /**
+     * Updates the status bar
+     * @param bar The bar to change
+     * @param value The value to set the bar to
+     */
     @FXML protected void updateBar(ProgressBar bar, double value){
         double clamped = Math.max(0.0, Math.min(1.0, value / 10));
         bar.setProgress(clamped);
     }
 
-    // duplicate code from Pet Stats controller
+    /**
+     * Method to start a timeline loop to automatically keep loading the pet and updating the status bar
+     */
     private void startAutoRefresh() {
         refreshLoop = new Timeline(
                 new KeyFrame(Duration.seconds(2), e -> loadPet())
@@ -306,6 +321,8 @@ public class MainPageController {
         refreshLoop.setCycleCount(Timeline.INDEFINITE);
         refreshLoop.play();
     }
+
+
     @FXML
     protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
         Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("conversation_page.fxml")));
@@ -316,6 +333,11 @@ public class MainPageController {
     }
 
 
+    /**
+     * A method to allow food image nodes to be draggable
+     * @param foodImg The node of the food
+     * @param foodType The type of food
+     */
     public void draggableFood(Node foodImg, String foodType) {
         foodImg.setOnMousePressed(mouseEvent ->{
             initialMouseAnchorX = mouseEvent.getX();
@@ -342,7 +364,10 @@ public class MainPageController {
         });
     }
 
-    public void playPetAnimation() {
+    /**
+     * Starts pet animation
+     */
+    protected void playPetAnimation() {
 
 
         String petType = sessionPet.getPetType();
@@ -395,6 +420,10 @@ public class MainPageController {
             petAnimation.play();
         }
     }
+
+    /**
+     * Shows a label when a pet's status gets in critical condition
+     */
     private void updateNeedsLabel() {
 
         if (sessionPet.needsFood()) {
@@ -429,6 +458,12 @@ public class MainPageController {
         }
     }
 
+    /**
+     * Makes the status boosting function flash when certain pet statuses gets too low
+     * @param button
+     * @param timeline
+     * @return
+     */
     private Timeline startFlashingButton(Button button, Timeline timeline) {
         if (timeline != null && timeline.getStatus() == Animation.Status.RUNNING) {
             return timeline;
@@ -439,7 +474,7 @@ public class MainPageController {
                         button.setStyle("-fx-border-color: red; -fx-border-width: 3; -fx-background-color: yellow;")
                 ),
                 new KeyFrame(Duration.seconds(0.5), e ->
-                        button.setStyle("-fx-border-color: transparent; -fx-border-width: 3; -fx-background-color: transparent;")
+                        button.setStyle("-fx-border-color: whitesmoke; -fx-border-width: 3; -fx-background-color: whitesmoke;")
                 ),
                 new KeyFrame(Duration.seconds(1), e ->
                         button.setStyle("-fx-border-color: red; -fx-border-width: 3; -fx-background-color: yellow;")
