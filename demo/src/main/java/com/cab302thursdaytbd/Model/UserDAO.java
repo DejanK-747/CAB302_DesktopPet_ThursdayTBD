@@ -8,9 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
+public class UserDAO implements IUserDAO {
     // Registers a new user in database
-    public static int registerUser(String username, String password) {
+    @Override
+    public int registerUser(String username, String password) {
         // SQL query used to insert a new user
         String sql = "INSERT INTO users(username, password_hash) VALUES(?, ?)";
         // Hash the password before storing it for security
@@ -46,7 +47,8 @@ public class UserDAO {
     }
 
     // Checks if the user's login details are correct
-    public static int loginUser(String username, String password) {
+    @Override
+    public int loginUser(String username, String password) {
 
         // Finds user by username
         String sql = "SELECT user_id, password_hash FROM users WHERE username = ?";
