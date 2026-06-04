@@ -46,9 +46,7 @@ public class MainPageController {
     @FXML private ProgressBar energyBar;
     @FXML private ProgressBar boredomBar;
 
-    @FXML private Text moodText;
     @FXML private Text petName;
-    @FXML private Text levelText;
 
     @FXML private ImageView petView;
     private int currentFrame;
@@ -56,7 +54,6 @@ public class MainPageController {
 
     @FXML private Label statusChangeLabel;
     @FXML private Label needsLabel;
-    @FXML private Pane speechPane;
 
     @FXML private ImageView bananaView;
     @FXML private ImageView grasshopperView;
@@ -382,6 +379,11 @@ public class MainPageController {
             node.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - node.getParent().getLayoutX());
             node.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - node.getParent().getLayoutY());
         });
+
+        node.setOnMouseReleased(mouseEvent -> {
+            node.setLayoutX(initialNodeAnchorX);
+            node.setLayoutY(initialNodeAnchorY);
+        });
     }
 
     public void foodDropFunction(Node foodNode, String foodType){
@@ -402,12 +404,6 @@ public class MainPageController {
     public void brushDragFunction(Node brushNode){
         draggableMaker(brushNode);
 
-        brushNode.setOnMouseReleased(mouseEvent ->{
-            brushNode.setLayoutX(initialNodeAnchorX);
-            brushNode.setLayoutY(initialNodeAnchorY);
-
-        });
-
         brushNode.setOnMouseDragged(mouseEvent ->{
             brushNode.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - brushNode.getParent().getLayoutX());
             brushNode.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - brushNode.getParent().getLayoutY());
@@ -427,12 +423,6 @@ public class MainPageController {
 
     public void pettingDragFunction(Node handNode){
         draggableMaker(handNode);
-
-        handNode.setOnMouseReleased(mouseEvent ->{
-            handNode.setLayoutX(initialNodeAnchorX);
-            handNode.setLayoutY(initialNodeAnchorY);
-
-        });
 
         handNode.setOnMouseDragged(mouseEvent ->{
             handNode.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - handNode.getParent().getLayoutX());

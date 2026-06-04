@@ -62,11 +62,6 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="levelText" layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mood: " textAlignment="CENTER" GridPane.columnIndex="2">
-                     <font>
-                        <Font name="Leelawadee UI Bold" size="16.0" />
-                     </font>
-                  </Text>
                </children>
             </GridPane>
             <AnchorPane prefHeight="418.0" prefWidth="420.0">
@@ -219,20 +214,6 @@
             </AnchorPane>
          </children>
       </VBox>
-      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0" opacity="0.0">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/speech_bubble.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="46.0" layoutY="24.0" text="Text goes here!">
-               <font>
-                  <Font name="Leelawadee UI Bold" size="15.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
       <Pane fx:id="petPane" layoutX="135.0" layoutY="235.0" maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
          <children>
             <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
@@ -275,7 +256,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="pettingPane" layoutX="170.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="75.0" style="-fx-background-color: aliceblue;">
+      <Pane fx:id="pettingPane" layoutX="170.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="75.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
          <children>
             <ImageView fx:id="hand" fitHeight="43.0" fitWidth="54.0" layoutX="16.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
