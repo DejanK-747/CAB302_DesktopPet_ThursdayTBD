@@ -1,9 +1,6 @@
 package com.cab302thursdaytbd;
 
-import com.cab302thursdaytbd.Model.Pet;
-import com.cab302thursdaytbd.Model.PetDAO;
-import com.cab302thursdaytbd.Model.Session;
-import com.cab302thursdaytbd.Model.UserDAO;
+import com.cab302thursdaytbd.Model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -21,6 +18,7 @@ public class LoginController {
 
     private PetDAO petDao = new PetDAO();
     private PetSelectionController petSelectionController = new PetSelectionController();
+    private IUserDAO userDAO = new UserDAO();
 
     // Runs when "Login" Button is pressed
     @FXML
@@ -36,7 +34,7 @@ public class LoginController {
         }
 
         // Login using UserDAO
-        int userId = UserDAO.loginUser(username, password);
+        int userId = userDAO.loginUser(username, password);
 
         // Successful login
         if (userId > 0) {

@@ -2,6 +2,7 @@ import com.cab302thursdaytbd.Database;
 import com.cab302thursdaytbd.Model.Pet;
 import com.cab302thursdaytbd.Model.PetDAO;
 import com.cab302thursdaytbd.Model.UserDAO;
+import com.cab302thursdaytbd.Model.IUserDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 
 public class PetDAOTest {
+    private IUserDAO userDAO;
 
     @BeforeAll
     static void setupDatabase() {
@@ -16,9 +18,10 @@ public class PetDAOTest {
     }
 
     @BeforeEach void populateUsers() {
-        UserDAO.registerUser("test1", "password123");
-        UserDAO.registerUser("test2", "password123");
-        UserDAO.registerUser("test3", "password123");
+        userDAO = new UserDAO();
+        userDAO.registerUser("test1", "password123");
+        userDAO.registerUser("test2", "password123");
+        userDAO.registerUser("test3", "password123");
     }
 
 
@@ -32,7 +35,7 @@ public class PetDAOTest {
     void testAdoptAndGetPet(){
         PetDAO petDAO = new PetDAO();
 
-        int testUserId = UserDAO.loginUser("test1", "password123");
+        int testUserId = userDAO.loginUser("test1", "password123");
 
         petDAO.adoptPet(testUserId, "monkey", "Jim");
 
@@ -48,9 +51,9 @@ public class PetDAOTest {
     void testAdoptAndGetPetMultipleUsers(){
         PetDAO petDAO = new PetDAO();
 
-        int testUserOneId = UserDAO.loginUser("test1", "password123");
-        int testUserTwoId = UserDAO.loginUser("test2", "password123");
-        int testUserThreeId = UserDAO.loginUser("test3", "password123");
+        int testUserOneId = userDAO.loginUser("test1", "password123");
+        int testUserTwoId = userDAO.loginUser("test2", "password123");
+        int testUserThreeId = userDAO.loginUser("test3", "password123");
 
 
         petDAO.adoptPet(testUserOneId, "monkey", "Jim");
@@ -71,7 +74,7 @@ public class PetDAOTest {
     @Test
     void testUpdatePet(){
         PetDAO petDAO = new PetDAO();
-        int testUserId = UserDAO.loginUser("test1", "password123");
+        int testUserId = userDAO.loginUser("test1", "password123");
 
         petDAO.adoptPet(testUserId, "frog", "Bartholomew");
 
@@ -96,7 +99,7 @@ public class PetDAOTest {
     @Test
     void testDeletePet(){
         PetDAO petDAO = new PetDAO();
-        int testUserId = UserDAO.loginUser("test1", "password123");
+        int testUserId = userDAO.loginUser("test1", "password123");
 
         petDAO.adoptPet(testUserId, "frog", "Bartholomew");
 
