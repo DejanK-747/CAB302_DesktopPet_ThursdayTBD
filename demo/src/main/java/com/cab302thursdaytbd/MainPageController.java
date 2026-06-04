@@ -63,9 +63,14 @@ public class MainPageController {
     @FXML private ImageView mysteriousLiquidView;
     @FXML private ImageView biscuitView;
 
+    @FXML private ImageView petBrush;
+    @FXML private ImageView hand;
+
     private ParallelTransition statusChangePopUpAnim = new ParallelTransition();
 
-    @FXML private Pane foodPopUp;
+    @FXML private Pane foodPane;
+    @FXML private Pane brushPane;
+    @FXML private Pane pettingPane;
 
     @FXML private Pane petPane;
 
@@ -85,20 +90,26 @@ public class MainPageController {
     private double initialMouseAnchorY;
     private double initialNodeAnchorX;
     private double initialNodeAnchorY;
+
+    private int brushCounter = 0;
+    private int pettingCounter = 0;
     //------------
 
     /**
      * Used to initialize the user, the pet, certain UI elements and functions, and the pet status decay.
      */
-    @FXML public void initialize() {
+    public void initialize() {
         sessionUserId = Session.getUserId();
         sessionPet = petDao.getPet(sessionUserId);
         petService = new PetService(sessionUserId);
 
-        draggableFood(bananaView, "banana");
-        draggableFood(grasshopperView, "grasshopper");
-        draggableFood(mysteriousLiquidView, "mysteriousLiquid");
-        draggableFood(biscuitView, "biscuit");
+        foodDropFunction(bananaView, "banana");
+        foodDropFunction(grasshopperView, "grasshopper");
+        foodDropFunction(mysteriousLiquidView, "mysteriousLiquid");
+        foodDropFunction(biscuitView, "biscuit");
+
+        brushDragFunction(petBrush);
+        pettingDragFunction(hand);
 
 
         frames = petService.getIdleFrames(sessionPet.getPetType());
@@ -142,7 +153,33 @@ public class MainPageController {
     // Obviously, kind of difficult to implement.
     // Thinking I should limit goals first. Just have these buttons raise stats first.
     @FXML protected void showFoodPopUp() {
-        showPopUp(foodPopUp);
+        if (foodPane.getScaleX() == 1){
+            closePopUp(foodPane);
+        } else {
+            showPopUp(foodPane);
+            closePopUp(brushPane);
+            closePopUp(pettingPane);
+        }
+    }
+
+    @FXML protected void showBrushPopUp(){
+        if (brushPane.getScaleX() == 1){
+            closePopUp(brushPane);
+        } else {
+            showPopUp(brushPane);
+            closePopUp(foodPane);
+            closePopUp(pettingPane);
+        }
+    }
+
+    @FXML protected void showPettingPopUp(){
+        if (pettingPane.getScaleX() == 1){
+            closePopUp(pettingPane);
+        } else {
+            showPopUp(pettingPane);
+            closePopUp(foodPane);
+            closePopUp(brushPane);
+        }
     }
 
 
@@ -151,24 +188,23 @@ public class MainPageController {
      * @param popUp The menu pane to hide or show
      */
     protected void showPopUp(Pane popUp) {
-        if (popUp.getScaleX() == 0) {
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
-            transition.setToX(1);
-            transition.setToY(1);
-            transition.setInterpolator(Interpolator.LINEAR);
+        ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
+        transition.setToX(1);
+        transition.setToY(1);
+        transition.setInterpolator(Interpolator.LINEAR);
 
-            transition.play();
-
-        } else if (popUp.getScaleX() == 1){
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
-            transition.setToX(0);
-            transition.setToY(0);
-            transition.setInterpolator(Interpolator.LINEAR);
-
-            transition.play();
-        }
+        transition.play();
     }
     //-----------------------------------------
+
+    protected void closePopUp(Pane popUp){
+        ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
+        transition.setToX(0);
+        transition.setToY(0);
+        transition.setInterpolator(Interpolator.LINEAR);
+
+        transition.play();
+    }
 
     /**
      * A method to indicate status change by showing a text pop-up
@@ -240,7 +276,7 @@ public class MainPageController {
     /**
      * Increase the pet's energy and reduce boredom by brushing the pet
      */
-    @FXML protected void brushPet() {
+    protected void brushPet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentEnergy = sessionPet.getEnergy();
             int currentBoredom = sessionPet.getBoredom();
@@ -257,7 +293,7 @@ public class MainPageController {
     /**
      * Increase the pet's affection and decrease the boredom status by stroking the pet
      */
-    @FXML protected void strokePet() {
+    protected void strokePet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
 
             int currentAffection = sessionPet.getAffection();
@@ -306,7 +342,7 @@ public class MainPageController {
      * @param bar The bar to change
      * @param value The value to set the bar to
      */
-    @FXML protected void updateBar(ProgressBar bar, double value){
+    protected void updateBar(ProgressBar bar, double value){
         double clamped = Math.max(0.0, Math.min(1.0, value / 10));
         bar.setProgress(clamped);
     }
@@ -333,33 +369,84 @@ public class MainPageController {
     }
 
 
-    /**
-     * A method to allow food image nodes to be draggable
-     * @param foodImg The node of the food
-     * @param foodType The type of food
-     */
-    public void draggableFood(Node foodImg, String foodType) {
-        foodImg.setOnMousePressed(mouseEvent ->{
+    public void draggableMaker(Node node) {
+        node.setOnMousePressed(mouseEvent ->{
             initialMouseAnchorX = mouseEvent.getX();
             initialMouseAnchorY = mouseEvent.getY();
 
-            initialNodeAnchorX = foodImg.getLayoutX();
-            initialNodeAnchorY = foodImg.getLayoutY();
+            initialNodeAnchorX = node.getLayoutX();
+            initialNodeAnchorY = node.getLayoutY();
         });
 
-        foodImg.setOnMouseDragged(mouseEvent ->{
-            foodImg.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - foodImg.getParent().getLayoutX());
-            foodImg.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - foodImg.getParent().getLayoutY());
+        node.setOnMouseDragged(mouseEvent ->{
+            node.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - node.getParent().getLayoutX());
+            node.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - node.getParent().getLayoutY());
         });
+    }
 
-        foodImg.setOnMouseReleased(mouseEvent ->{
-            foodImg.setLayoutX(initialNodeAnchorX);
-            foodImg.setLayoutY(initialNodeAnchorY);
+    public void foodDropFunction(Node foodNode, String foodType){
+        draggableMaker(foodNode);
+
+        foodNode.setOnMouseReleased(mouseEvent ->{
+            foodNode.setLayoutX(initialNodeAnchorX);
+            foodNode.setLayoutY(initialNodeAnchorY);
 
             Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
             Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
             if (petPaneBounds.contains(mouseLoc)){
                 foodBoost(foodType);
+            }
+        });
+    }
+
+    public void brushDragFunction(Node brushNode){
+        draggableMaker(brushNode);
+
+        brushNode.setOnMouseReleased(mouseEvent ->{
+            brushNode.setLayoutX(initialNodeAnchorX);
+            brushNode.setLayoutY(initialNodeAnchorY);
+
+        });
+
+        brushNode.setOnMouseDragged(mouseEvent ->{
+            brushNode.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - brushNode.getParent().getLayoutX());
+            brushNode.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - brushNode.getParent().getLayoutY());
+
+
+            Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
+            if (petPaneBounds.contains(mouseLoc)){
+                brushCounter++;
+                if (brushCounter >= 50){
+                    brushPet();
+                    brushCounter = 0;
+                }
+            }
+        });
+    }
+
+    public void pettingDragFunction(Node handNode){
+        draggableMaker(handNode);
+
+        handNode.setOnMouseReleased(mouseEvent ->{
+            handNode.setLayoutX(initialNodeAnchorX);
+            handNode.setLayoutY(initialNodeAnchorY);
+
+        });
+
+        handNode.setOnMouseDragged(mouseEvent ->{
+            handNode.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - handNode.getParent().getLayoutX());
+            handNode.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - handNode.getParent().getLayoutY());
+
+
+            Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
+            if (petPaneBounds.contains(mouseLoc)){
+                pettingCounter++;
+                if (pettingCounter >= 50){
+                    strokePet();
+                    pettingCounter = 0;
+                }
             }
         });
     }
