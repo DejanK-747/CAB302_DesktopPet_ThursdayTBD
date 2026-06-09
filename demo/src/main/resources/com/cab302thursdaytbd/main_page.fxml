@@ -62,11 +62,6 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Text fx:id="levelText" layoutX="40.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mood: " textAlignment="CENTER" GridPane.columnIndex="2">
-                     <font>
-                        <Font name="Leelawadee UI Bold" size="16.0" />
-                     </font>
-                  </Text>
                </children>
             </GridPane>
             <AnchorPane prefHeight="418.0" prefWidth="420.0">
@@ -179,7 +174,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="brushButton" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#brushPet" GridPane.columnIndex="1">
+                        <Button fx:id="brushButton" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#showBrushPopUp" GridPane.columnIndex="1">
                            <graphic>
                               <ImageView fx:id="energyIcon" fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -197,9 +192,9 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="strokeButton" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#strokePet" GridPane.columnIndex="3">
+                        <Button fx:id="strokeButton" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#showPettingPopUp" GridPane.columnIndex="3">
                            <graphic>
-                              <ImageView  fx:id="attentionIcon" fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="attentionIcon" fitHeight="52.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/icons/hand.png" />
                                  </image>
@@ -213,34 +208,12 @@
                         <Font name="Leelawadee UI Semilight" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="needsLabel"
-                         alignment="CENTER"
-                         layoutX="110.0"
-                         layoutY="90.0"
-                         prefHeight="30.0"
-                         prefWidth="200.0"
-                         style="-fx-background-color: #ff6b6b; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-weight: bold;"
-                         text="Your pet needs something!"
-                         visible="false">
+                  <Label fx:id="needsLabel" alignment="CENTER" layoutX="110.0" layoutY="90.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #ff6b6b; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-weight: bold;" text="Your pet needs something!" visible="false">
                      </Label>
                </children>
             </AnchorPane>
          </children>
       </VBox>
-      <Pane fx:id="speechPane" layoutX="40.0" layoutY="170.0" opacity="0.0">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/speech_bubble.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="46.0" layoutY="24.0" text="Text goes here!">
-               <font>
-                  <Font name="Leelawadee UI Bold" size="15.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
       <Pane fx:id="petPane" layoutX="135.0" layoutY="235.0" maxHeight="133.0" maxWidth="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="133.0" prefWidth="137.0">
          <children>
             <ImageView fx:id="petView" fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
@@ -250,7 +223,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="foodPopUp" layoutX="106.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="186.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
+      <Pane fx:id="foodPane" layoutX="106.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="186.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
          <children>
             <ImageView fx:id="bananaView" fitHeight="40.0" fitWidth="39.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -270,6 +243,24 @@
             <ImageView fx:id="biscuitView" fitHeight="39.0" fitWidth="39.0" layoutX="137.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/food/biscuit.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="brushPane" layoutX="170.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="75.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
+         <children>
+            <ImageView fx:id="petBrush" fitHeight="62.0" fitWidth="68.0" layoutX="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/bursh2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pettingPane" layoutX="170.0" layoutY="365.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="75.0" scaleX="0.0" scaleY="0.0" style="-fx-background-color: aliceblue;">
+         <children>
+            <ImageView fx:id="hand" fitHeight="43.0" fitWidth="54.0" layoutX="16.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/icons/hand.png" />
                </image>
             </ImageView>
          </children>
