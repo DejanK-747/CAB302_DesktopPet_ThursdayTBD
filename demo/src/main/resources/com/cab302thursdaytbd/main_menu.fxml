@@ -26,7 +26,7 @@
                                             <Font name="Leelawadee UI Bold" size="16.0" />
                                         </font>
                               </Text>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 120; -fx-translate-y: 35; -fx-cursor: hand;">
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#killPetButton" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 120; -fx-translate-y: 35; -fx-cursor: hand;">
                                         <image>
                                             <Image url="@images/icons/killButton2.png" />
                                         </image>

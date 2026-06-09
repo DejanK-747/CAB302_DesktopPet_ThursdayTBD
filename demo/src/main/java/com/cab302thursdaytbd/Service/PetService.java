@@ -87,9 +87,18 @@ public class PetService {
     // Determines death reason based on which stat hit zero
     public String determineDeathReason(Pet pet) {
         if (pet == null)          return "Unknown";
+        if ((pet.getHunger() <= 0) & (pet.getEnergy() <= 0)) return "Mysterious Circumstances";
         if (pet.getHunger() <= 0) return "Starvation";
         if (pet.getEnergy() <= 0) return "Exhaustion";
         return "Unknown";
+    }
+
+    public void killPet(int userId){
+        Pet userPet = petDAO.getPet(userId);
+        userPet.setHunger(0);
+        userPet.setEnergy(0);
+
+        petDAO.updatePetStats(userPet);
     }
 
 
