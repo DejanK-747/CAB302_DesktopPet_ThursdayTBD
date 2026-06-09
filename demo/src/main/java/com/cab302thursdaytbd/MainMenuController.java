@@ -2,6 +2,8 @@ package com.cab302thursdaytbd;
 
 import java.io.IOException;
 
+import com.cab302thursdaytbd.Model.Pet;
+import com.cab302thursdaytbd.Model.PetDAO;
 import com.cab302thursdaytbd.Model.Session;
 import com.cab302thursdaytbd.Service.PetService;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ public class MainMenuController {
 
     private int userId;
     private PetService petService = new PetService(userId);
+    private PetDAO petDAO = new PetDAO();
 
     public void setUserId(int userId) {
         this.userId = userId;
@@ -56,8 +59,23 @@ public class MainMenuController {
     }
 
     @FXML
-    private void killPetButton(){
-        petService.killPet(userId);
+    private void killPetButton() throws IOException{
+        try {
+            petService.killPet(userId);
+
+            Pet deadPet = petDAO.getPet(userId);
+
+            String reason = petService.determineDeathReason(deadPet);
+
+
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("pet_death.fxml"));
+            Parent root = loader.load();
+            PetDeathController deathController = loader.getController();
+            deathController.initDeathScreen(deadPet, reason);
+            App.getScene().setRoot(root);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
