@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
 
-<StackPane style="-fx-background-color: #6e625a;" xmlns="http://javafx.com/javafx/17.0.12"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.cab302thursdaytbd.PetStatsController">
+<StackPane style="-fx-background-color: #6e625a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.PetStatsController">
    <children>
 
       <VBox prefHeight="480.0" prefWidth="420.0" spacing="0">
 
          <!-- TOP BAR: back arrow + title -->
-         <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="420.0"
-               style="-fx-padding: 0 20 0 16;">
+         <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="420.0" style="-fx-padding: 0 20 0 16;">
             <children>
-               <Label onMouseClicked="#handleBack" style="-fx-font-size: 22; -fx-text-fill: #f0ebe6; -fx-cursor: hand;" text="‹" />
+               <Label onMouseClicked="#handleBack" prefHeight="32.0" prefWidth="29.0" style="-fx-font-size: 22; -fx-text-fill: #f0ebe6; -fx-cursor: hand;" text="&lt;">
+                  <font>
+                     <Font size="64.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <padding>
+                     <Insets left="5.0" />
+                  </padding></Label>
                <Region HBox.hgrow="ALWAYS" />
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stats" textAlignment="CENTER">
                   <font>
@@ -43,15 +49,12 @@
          <!-- PET CARD -->
          <VBox style="-fx-padding: 0 20 0 20;">
             <children>
-               <HBox alignment="CENTER_LEFT" spacing="14"
-                     style="-fx-background-color: #f0ebe6; -fx-background-radius: 14; -fx-padding: 14 16;">
+               <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-background-color: #f0ebe6; -fx-background-radius: 14; -fx-padding: 14 16;">
                   <children>
                      <!-- Pet image thumbnail -->
-                     <StackPane style="-fx-background-color: #ddd7d2; -fx-background-radius: 10;"
-                                minWidth="70" minHeight="70" maxWidth="70" maxHeight="70">
+                     <StackPane maxHeight="70" maxWidth="70" minHeight="70" minWidth="70" style="-fx-background-color: #ddd7d2; -fx-background-radius: 10;">
                         <children>
-                           <ImageView fx:id="petView" fitHeight="60.0" fitWidth="60.0"
-                                      pickOnBounds="true" preserveRatio="true">
+                           <ImageView fx:id="petView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                  <Image url="@images/frog1.png" />
                               </image>
@@ -88,7 +91,7 @@
          <Region prefHeight="14" />
 
          <!-- MOST COMMON MOOD SECTION -->
-         <VBox style="-fx-padding: 0 20 0 20;" spacing="8">
+         <VBox spacing="8" style="-fx-padding: 0 20 0 20;">
             <children>
                <Label style="-fx-font-family: 'Leelawadee UI Bold'; -fx-font-size: 13; -fx-text-fill: #f0ebe6;" text="Most common mood">
                   <effect>
@@ -98,12 +101,10 @@
                   </effect>
                </Label>
 
-               <HBox alignment="CENTER_LEFT" spacing="12"
-                     style="-fx-background-color: #f0ebe6; -fx-background-radius: 12; -fx-padding: 12 16;">
+               <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #f0ebe6; -fx-background-radius: 12; -fx-padding: 12 16;">
                   <children>
                      <!-- Mood emoji circle -->
-                     <StackPane style="-fx-background-color: #e4ddd8; -fx-background-radius: 50;"
-                                minWidth="38" minHeight="38" maxWidth="38" maxHeight="38">
+                     <StackPane maxHeight="38" maxWidth="38" minHeight="38" minWidth="38" style="-fx-background-color: #e4ddd8; -fx-background-radius: 50;">
                         <children>
                            <Label fx:id="commonMoodEmojiLabel" style="-fx-font-size: 18;" text="😊" />
                         </children>
@@ -124,7 +125,7 @@
          <Region prefHeight="14" />
 
          <!-- STATISTICS SECTION -->
-         <VBox style="-fx-padding: 0 20 0 20;" spacing="10">
+         <VBox spacing="10" style="-fx-padding: 0 20 0 20;">
             <children>
                <Label style="-fx-font-family: 'Leelawadee UI Bold'; -fx-font-size: 13; -fx-text-fill: #f0ebe6;" text="Statistics">
                   <effect>
@@ -144,9 +145,7 @@
                            <Label fx:id="hungerPctLabel" style="-fx-font-family: 'Leelawadee UI'; -fx-font-size: 12; -fx-text-fill: #c9bfb8;" text="0%" />
                         </children>
                      </HBox>
-                     <ProgressBar fx:id="hungerBar" prefWidth="380" prefHeight="10"
-                                  style="-fx-accent: #c8a882; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;"
-                                  progress="0.72" />
+                     <ProgressBar fx:id="hungerBar" prefHeight="10" prefWidth="380" progress="0.72" style="-fx-accent: #c8a882; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;" />
                   </children>
                </VBox>
 
@@ -160,9 +159,7 @@
                            <Label fx:id="energyPctLabel" style="-fx-font-family: 'Leelawadee UI'; -fx-font-size: 12; -fx-text-fill: #c9bfb8;" text="0%" />
                         </children>
                      </HBox>
-                     <ProgressBar fx:id="energyBar" prefWidth="380" prefHeight="10"
-                                  style="-fx-accent: #6b9e7a; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;"
-                                  progress="0.55" />
+                     <ProgressBar fx:id="energyBar" prefHeight="10" prefWidth="380" progress="0.55" style="-fx-accent: #6b9e7a; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;" />
                   </children>
                </VBox>
 
@@ -176,9 +173,7 @@
                            <Label fx:id="affectionPctLabel" style="-fx-font-family: 'Leelawadee UI'; -fx-font-size: 12; -fx-text-fill: #c9bfb8;" text="0%" />
                         </children>
                      </HBox>
-                     <ProgressBar fx:id="affectionBar" prefWidth="380" prefHeight="10"
-                                  style="-fx-accent: #c87a9e; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;"
-                                  progress="0.88" />
+                     <ProgressBar fx:id="affectionBar" prefHeight="10" prefWidth="380" progress="0.88" style="-fx-accent: #c87a9e; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;" />
                   </children>
                </VBox>
 
@@ -192,9 +187,7 @@
                            <Label fx:id="boredomPctLabel" style="-fx-font-family: 'Leelawadee UI'; -fx-font-size: 12; -fx-text-fill: #c9bfb8;" text="0%" />
                         </children>
                      </HBox>
-                     <ProgressBar fx:id="boredomBar" prefWidth="380" prefHeight="10"
-                                  style="-fx-accent: #8a7a5a; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;"
-                                  progress="0.30" />
+                     <ProgressBar fx:id="boredomBar" prefHeight="10" prefWidth="380" progress="0.30" style="-fx-accent: #8a7a5a; -fx-background-color: #4a3f39; -fx-background-radius: 6; -fx-control-inner-background: #4a3f39; -fx-border-radius: 6;" />
                   </children>
                </VBox>
 
