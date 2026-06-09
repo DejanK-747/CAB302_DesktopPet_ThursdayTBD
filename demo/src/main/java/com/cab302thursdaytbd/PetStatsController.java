@@ -99,13 +99,6 @@ public class PetStatsController {
         if (pet == null) return;
 
         nameLabel.setText(pet.getPetName());
-        //debug for stat values
-        System.out.println(
-                "STATS LOAD -> H=" + pet.getHunger() +
-                        " E=" + pet.getEnergy() +
-                        " A=" + pet.getAffection() +
-                        " B=" + pet.getBoredom()
-        );
         // set the pet image based on type chosen in pet select and stored in db
         String type = pet.getPetType();
         try {
@@ -172,6 +165,7 @@ public class PetStatsController {
                 moodEmojiLabel.setText("😡");
                 break;
             case "Sleepy":
+            case "Bored":
                 moodEmojiLabel.setText("😴");
                 break;
             case "Excited":
@@ -194,6 +188,7 @@ public class PetStatsController {
                 desc = "Needs more attention and love";
                 break;
             case "Sleepy":
+            case "Bored":
                 desc = "Wants something fun to do";
                 break;
             case "Angry":
@@ -243,6 +238,7 @@ public class PetStatsController {
     private void handleBack() {
         stop();
         try {
+            petService.stop();
             App.setRoot("main_menu");
         } catch (Exception e) {
             e.printStackTrace();

@@ -10,8 +10,6 @@ public class FoodService {
     private final Food mysteriousLiquid = new Food("Mysterious Liquid", petTypes, new int[] { -2, -2});
     private final Food biscuit = new Food("Biscuit", petTypes, new int[] {1, 1});
 
-    public FoodService(){}
-
     public Food getFood(String foodName){
         Food foodToReturn;
 

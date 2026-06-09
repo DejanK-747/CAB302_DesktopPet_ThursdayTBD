@@ -31,7 +31,11 @@ public class MainMenuController {
     @FXML
     private void switchToStats() {
         try {
-            App.setRoot("stats");
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            Parent root = loader.load();
+            PetStatsController statsController = loader.getController();
+            statsController.setUserId(Session.getUserId());
+            App.getScene().setRoot(root);
         } catch (Exception e) {
             e.printStackTrace();
         }

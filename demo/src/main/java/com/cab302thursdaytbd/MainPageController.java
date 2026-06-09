@@ -309,6 +309,7 @@ public class MainPageController {
 
     @FXML protected void onMenuClick () throws IOException{
         try {
+            petService.stop();
             FXMLLoader loader = new FXMLLoader(App.class.getResource("main_menu.fxml"));
             Parent root = loader.load();
             MainMenuController menuController = loader.getController();
@@ -358,6 +359,7 @@ public class MainPageController {
 
     @FXML
     protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
+        petService.stop();
         Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("conversation_page.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(newRoot);
@@ -474,7 +476,8 @@ public class MainPageController {
                                 frames = petService.getIdleFrames(petType);
                                 break;
                             }
-                            case "Sleepy": {
+                            case "Sleepy":
+                            case "Bored": {
                                 frames = petService.getSleepyFrames(petType);
                                 break;
                             }
