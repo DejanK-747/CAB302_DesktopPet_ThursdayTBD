@@ -14,7 +14,19 @@ import javafx.util.Duration;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-
+/**
+ * Controller for the pet statistics screen.
+ *
+ * <p>This controller is responsible for displaying the pet's current
+ * statistics, mood, and profile information. It retrieves pet data
+ * from the database through {@link PetDAO} and keeps the interface
+ * synchronised with stat changes using a timed refresh loop.</p>
+ *
+ * <p>The controller also manages the pet decay system through
+ * {@link PetService}. If a pet dies due to hunger or exhaustion,
+ * the controller transitions to the pet death screen and passes
+ * the pet's final information to the death controller.</p>
+ */
 public class PetStatsController {
 
     //below are fxml bindings, these fields are all linked to elements in pet_stats.fxml
@@ -55,6 +67,20 @@ public class PetStatsController {
 
     // this is the entry point. called by main page controller after loading this scene, this is how data is passed after the scene has loaded
     // sets the user id then starts the decay via pet service, and loads the pet data from the db. also starts the auto-refresh loop
+    /**
+     * Initialises the controller for the currently logged-in user.
+     *
+     * <p>This method acts as the entry point after the scene is loaded.
+     * It stores the user ID, starts the pet stat decay system,
+     * loads the pet's current data from the database, and begins
+     * automatically refreshing the interface.</p>
+     *
+     * <p>If the pet dies, the decay callback stops active timers,
+     * retrieves the pet's final state, determines the cause of death,
+     * and transitions to the death screen.</p>
+     *
+     * @param userId the ID of the currently logged-in user
+     */
     public void setUserId(int userId) {
         this.userId = userId;
         //this wil make it so that only one petservice instance is created (safeguard)
@@ -94,6 +120,14 @@ public class PetStatsController {
     // reads the pets current state from the db and updates all ui elements
     // this is called once on load and then every two seconds by the refresh loop
     // if the pet has been deleted, getpet will return null and the method will exit early
+    /**
+     * Loads the current pet data from the database and updates the UI.
+     *
+     * <p>This method refreshes labels, progress bars, pet images,
+     * mood indicators, and level information based on the pet's
+     * latest stored state. If the pet no longer exists in the
+     * database, the method exits safely.</p>
+     */
     private void loadPet() {
         Pet pet = petDAO.getPet(userId);
         if (pet == null) return;
@@ -136,6 +170,17 @@ public class PetStatsController {
     }
     // this method is a helper. it clamps values to the valid range (0.0-1.0), and updates the progress bar to display
     //the matching percentage text
+    /**
+     * Updates a progress bar and percentage label.
+     *
+     * <p>The value is clamped between 0.0 and 1.0 to ensure
+     * valid progress bar input before updating the displayed
+     * percentage text.</p>
+     *
+     * @param bar the progress bar to update
+     * @param pctLabel the label displaying the percentage value
+     * @param value the progress value between 0.0 and 1.0
+     */
     private void updateBar(ProgressBar bar, Label pctLabel, double value) {
         double clamped = Math.max(0.0, Math.min(1.0, value));
         bar.setProgress(clamped);
@@ -146,6 +191,13 @@ public class PetStatsController {
     // timeline is used as a repeating timer, a keyframe defines an action that should occur after a specified duration
     // for this, every two seconds the load pet() method is called to refresh the ui with the latest pet data from the database
     //this will repeat endlessly until refreshloop.stop() is called.
+    /**
+     * Starts the automatic UI refresh loop.
+     *
+     * <p>A JavaFX {@link Timeline} is used to periodically reload
+     * pet data from the database every two seconds to keep the
+     * interface synchronised with stat changes.</p>
+     */
     private void startAutoRefresh() {
         refreshLoop = new Timeline(
                 new KeyFrame(Duration.seconds(2), e -> loadPet())
@@ -156,6 +208,11 @@ public class PetStatsController {
 
 
     // updates the current mood emoji shown on the stats ui
+    /**
+     * Updates the displayed mood emoji based on the pet's mood.
+     *
+     * @param mood the pet's current mood label
+     */
     private void updateMoodDisplay(String mood) {
         switch (mood) {
             case "Happy":
@@ -178,6 +235,14 @@ public class PetStatsController {
     }
 
     // finds which mood appeared most often and updates the most common mood section in ui
+    /**
+     * Updates the most common mood section of the interface.
+     *
+     * <p>This includes the mood label, descriptive text,
+     * and matching emoji associated with the pet's current mood.</p>
+     *
+     * @param mood the pet's current mood label
+     */
     private void updateCommonMood(String mood) {
         commonMoodLabel.setText(mood);
 
@@ -228,12 +293,26 @@ public class PetStatsController {
     }
 
     // stops all timers when leaving page or scene
+    /**
+     * Stops all active timers and background processes.
+     *
+     * <p>This method is called when leaving the scene to prevent
+     * refresh loops or pet decay timers from continuing to run
+     * unnecessarily in the background.</p>
+     */
     public void stop() {
         if (refreshLoop != null) refreshLoop.stop();
         if (petService  != null) petService.stop();
     }
 
     // this is the function that handles when the back button on the ui is pressed. will return to the main page.
+    /**
+     * Handles navigation back to the main menu screen.
+     *
+     * <p>All active timers are stopped before returning to
+     * the main menu to avoid background processes persisting
+     * after scene changes.</p>
+     */
     @FXML
     private void handleBack() {
         stop();
