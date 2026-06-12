@@ -11,7 +11,16 @@ import javafx.scene.image.ImageView;
 // it displays the dfinal pet information, cause of death, pets farewell message, and shows the pets image
 // it also allows the user to adopt  a new pet or quit the application
 
-
+/**
+ * Controller for the pet death screen.
+ *
+ * <p>This controller displays the pet's final information
+ * after death, including the pet's name, level, farewell
+ * message, cause of death, and pet image.</p>
+ *
+ * <p>Users can either quit the application or return to
+ * the pet adoption screen to adopt a new pet.</p>
+ */
 public class PetDeathController {
     // fxml bindings linked to elements inside of pet_death.fxml
     @FXML private ImageView tombstoneView;
@@ -31,6 +40,16 @@ public class PetDeathController {
     };
 
     // death screen initialisation. called when the pet dies. it receives the final Pet object, and the reason for death
+    /**
+     * Initialises the pet death screen.
+     *
+     * <p>This method populates the UI with the pet's final
+     * information, including the pet name, level, cause of death,
+     * random farewell quote, and pet image.</p>
+     *
+     * @param pet the pet that has died
+     * @param reason the determined cause of death
+     */
     public void initDeathScreen(Pet pet, String reason) {
         if (pet != null) {
             this.userId = pet.getUserId(); // store user id
@@ -67,12 +86,22 @@ public class PetDeathController {
             } catch (Exception ignored) {} // prevents program from crashing if the img cant be loaded
         }
     }
-
+    /**
+     * Closes the application.
+     *
+     * <p>This method is triggered when the user selects
+     * the quit option from the death screen.</p>
+     */
     @FXML
     private void handleQuit() {
         Platform.exit();
     }// this just exits the program
-
+    /**
+     * Navigates the user to the pet adoption screen.
+     *
+     * <p>This allows the user to adopt a new pet after
+     * their previous pet has died.</p>
+     */
     @FXML
     private void handleAdoptNew() { // returns user to pet selection screen to adopt a new pet.
 
