@@ -12,7 +12,7 @@ public class PasswordService {
     /**
      * Hashes a password using the SHA-256 cryptographic hashing algorithm.
      * The resulting hash is returned as a hexadecimal string that can
-     * be safely stored in the database and used for authentication.
+     * be stored in the database and used for authentication.
      * @param password The plain-text password to hash.
      * @return The SHA-256 hash represented as a hexadecimal string.
      * @throws RuntimeException If the hashing algorithm is unavailable.
