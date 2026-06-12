@@ -15,14 +15,14 @@ import java.net.http.HttpResponse;
  */
 public class PetConversationService {
     /**
-     * Shows what model AI we are using and shows the use of an enviornment variable instead.
-     * This is safer and we don't have to upload the APIKey to GitHub
+     * Shows what model AI we are using and shows the use of an environment variable instead.
+     * This is safer, and we don't have to upload the APIKey to GitHub
      */
     private final String apiKey;
     private static final String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent";
 
     /**
-     * Contructs a PetConversationService and gets the apiKey
+     * Constructs a PetConversationService and gets the apiKey
      */
     public PetConversationService() {
         this.apiKey = System.getenv("DesktopPetAPIKey");
