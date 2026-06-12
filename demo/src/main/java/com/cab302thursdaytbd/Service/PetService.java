@@ -61,13 +61,13 @@ public class PetService {
 
                         if (tickCount % 6 == 0) {
                             pet.setAffection(pet.getAffection() - 1);
-                        }
-                        if (tickCount % 2 == 0) {
-                            pet.setBoredom(pet.getBoredom() + 1);
+                            if (pet.getBoredom() >= 5){
+                                pet.setAffection(pet.getAffection() - 1);
+                            }
                         }
 
-                        if (tickCount % 7 == 0) {
-                            pet.setBoredom(pet.getBoredom() - 1);
+                        if (tickCount % 2 == 0) {
+                            pet.setBoredom(pet.getBoredom() + 1);
                         }
 
                         petDAO.updatePetStats(pet); // save updated stat values back to the db
@@ -87,9 +87,18 @@ public class PetService {
     // Determines death reason based on which stat hit zero
     public String determineDeathReason(Pet pet) {
         if (pet == null)          return "Unknown";
+        if ((pet.getHunger() <= 0) & (pet.getEnergy() <= 0)) return "Mysterious Circumstances";
         if (pet.getHunger() <= 0) return "Starvation";
         if (pet.getEnergy() <= 0) return "Exhaustion";
         return "Unknown";
+    }
+
+    public void killPet(int userId){
+        Pet userPet = petDAO.getPet(userId);
+        userPet.setHunger(0);
+        userPet.setEnergy(0);
+
+        petDAO.updatePetStats(userPet);
     }
 
 

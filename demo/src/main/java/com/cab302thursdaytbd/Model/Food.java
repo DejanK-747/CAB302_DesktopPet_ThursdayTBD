@@ -18,6 +18,4 @@ public class Food {
     public String getName() {return name;}
 
     public int getHungerChangeForPet(String petType) { return hungerChange.get(petType);}
-    public void addHungerChangeForPet( String petType, int hungerBoost) { this.hungerChange.put(petType, hungerBoost);}
-
 }

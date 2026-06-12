@@ -101,6 +101,10 @@ public class Pet {
             return "Sleepy";
         }
 
+        if (boredom >= 7){
+            return "Bored";
+        }
+
         if (affection >= 8 && energy >= 8 && hunger >= 8){  //all states good --> excited (extra happy)
             return  "Excited";
         }
