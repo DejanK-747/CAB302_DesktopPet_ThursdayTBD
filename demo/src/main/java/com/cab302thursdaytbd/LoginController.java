@@ -6,6 +6,13 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 
+/**
+ * Controller for the login page.
+ * Handles user login, navigation to the registration page,
+ * and redirects authenticated users to either pet selection
+ * or the main application page depending on whether they
+ * already have an adopted pet.
+ */
 public class LoginController {
     @FXML
     private TextField usernameField;
@@ -17,39 +24,39 @@ public class LoginController {
     private Label statusLabel;
 
     private PetDAO petDao = new PetDAO();
-    private PetSelectionController petSelectionController = new PetSelectionController();
     private IUserDAO userDAO = new UserDAO();
 
-    // Runs when "Login" Button is pressed
+    /**
+     * Handles the login button action.
+     * Validates that the username and password fields are not empty,
+     * authenticates the user, stores the user in the Session Class,
+     * and navigates to the appropriate page if login is successful.
+     * @throws IOException If the application cannot load the next FXML page.
+     */
     @FXML
     private void handleLogin() throws IOException {
-        // Get text entered by the user and remove extra spaces
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        // Prevents login if fields are empty
         if (username.isEmpty() || password.isEmpty()) {
             statusLabel.setText("Please fill in all fields");
             return;
         }
 
-        // Login using UserDAO
         int userId = userDAO.loginUser(username, password);
 
-        // Successful login
         if (userId > 0) {
-            // Stores logged-in user in session
             Session.setUser(userId, username);
             statusLabel.setText("Login successful!");
-            // Goes to next page
             goToApp();
         } else {
-            // Failed login
             statusLabel.setText("Invalid username or password");
         }
     }
 
-    // Opens register.fxml when button is clicked
+    /**
+     * Navigates from the login page to the registration page.
+     */
     @FXML
     private void goToRegister() {
         try {
@@ -59,6 +66,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navigates the authenticated user to the correct application page.
+     * If the logged-in user does not already have a pet, the pet
+     * selection page is shown. Otherwise, the user is taken directly to the main page.
+     * @throws IOException If the application cannot load the required FXML page.
+     */
     @FXML private void goToApp() throws IOException {
         try {
             int sessionUser = Session.getUserId();

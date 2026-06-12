@@ -564,6 +564,12 @@ public class MainPageController {
         return timeline;
     }
 
+    /**
+     * Stops the flashing animation
+     * @param button The button whose visual style should be reset.
+     * @param timeline The animation controlling the flashing effect.
+     * @return null, indicating that no active flashing animation remains.
+     */
     private Timeline stopFlashingButton(Button button, Timeline timeline) {
         if (timeline != null) {
             timeline.stop();

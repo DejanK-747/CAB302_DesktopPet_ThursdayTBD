@@ -6,6 +6,11 @@ import com.cab302thursdaytbd.Model.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+/**
+ * Controller for the user registration page.
+ * Handles account creation, input validation,
+ * and navigation back to the login page.
+ */
 public class RegisterController {
 
     @FXML
@@ -20,7 +25,9 @@ public class RegisterController {
     @FXML
     private Label statusLabel;
     private IUserDAO userDAO = new UserDAO();
-    // Handles "BackButton" and takes user to login page
+    /**
+     * Navigates the user back to the login page.
+     */
     @FXML
     private void goToLogin() {
         try {
@@ -30,33 +37,33 @@ public class RegisterController {
         }
     }
 
-    // Runs when "Create Account" is pressed
+    /**
+     * Handles the account registration process.
+     * Validates user input, ensures that the password
+     * confirmation matches, creates a new user account
+     * through the UserDAO, and stores the newly created
+     * user in the current session.
+     */
     @FXML
     private void handleRegister() {
-        // Text from user and removes extra spaces
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
         String confirmPassword = confirmPasswordField.getText().trim();
 
-        // Prevents registration if any fields are empty
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             statusLabel.setText("Fields cannot be empty");
             return;
         }
-        // Check if the password and confirmation password match
         if (!password.equals(confirmPassword)) {
             statusLabel.setText("Passwords do not match");
             return;
         }
-        // Creates the new user in the database and returns userID
         int userId = userDAO.registerUser(username, password);
 
-        // Successful registration returns userID > 0
         if (userId > 0) {
             Session.setUser(userId, username);
             statusLabel.setText("Registered successfully!");
         } else {
-            // Registration failed
             statusLabel.setText("Registration failed");
         }
     }
