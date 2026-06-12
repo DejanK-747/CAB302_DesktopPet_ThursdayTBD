@@ -61,13 +61,13 @@ public class PetService {
 
                         if (tickCount % 6 == 0) {
                             pet.setAffection(pet.getAffection() - 1);
-                        }
-                        if (tickCount % 2 == 0) {
-                            pet.setBoredom(pet.getBoredom() + 1);
+                            if (pet.getBoredom() >= 5){
+                                pet.setAffection(pet.getAffection() - 1);
+                            }
                         }
 
-                        if (tickCount % 7 == 0) {
-                            pet.setBoredom(pet.getBoredom() - 1);
+                        if (tickCount % 2 == 0) {
+                            pet.setBoredom(pet.getBoredom() + 1);
                         }
 
                         petDAO.updatePetStats(pet); // save updated stat values back to the db
