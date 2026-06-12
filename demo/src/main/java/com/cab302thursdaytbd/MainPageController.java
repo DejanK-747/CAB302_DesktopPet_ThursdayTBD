@@ -116,8 +116,9 @@ public class MainPageController {
         loadPet();
         petName.setText(sessionPet.getPetName());
 
-        // Duplicate code from Pet Stats. should be moved to PetService later
+        // Starts decay
         petService.startDecay(() -> {
+            // Run if the pet is considered 'dead'
             Platform.runLater(() -> {
                 try {
                     Pet deadPet = petDao.getPet(sessionUserId);
@@ -144,11 +145,7 @@ public class MainPageController {
     }
 
 
-    //----------------------------------
-    // Functions if there are more things that can be done with interactions
-    // I was thinking of implementing multiple foods options or different ways to clean the pet
-    // Obviously, kind of difficult to implement.
-    // Thinking I should limit goals first. Just have these buttons raise stats first.
+
     @FXML protected void showFoodPopUp() {
         if (foodPane.getScaleX() == 1){
             closePopUp(foodPane);
@@ -181,8 +178,8 @@ public class MainPageController {
 
 
     /**
-     * A method to show or hide a menu
-     * @param popUp The menu pane to hide or show
+     * A method to show a menu
+     * @param popUp The menu pane to show
      */
     protected void showPopUp(Pane popUp) {
         ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
@@ -194,6 +191,10 @@ public class MainPageController {
     }
     //-----------------------------------------
 
+    /**
+     * A method to hide a menu pop-up
+     * @param popUp The menu pane to hide
+     */
     protected void closePopUp(Pane popUp){
         ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
         transition.setToX(0);
@@ -307,6 +308,10 @@ public class MainPageController {
     }
 
 
+    /**
+     * Change scene to the 'Main Menu'
+     * @throws IOException
+     */
     @FXML protected void onMenuClick () throws IOException{
         try {
             petService.stop();
@@ -356,7 +361,11 @@ public class MainPageController {
         refreshLoop.play();
     }
 
-
+    /**
+     * Change scene to the 'conversation' page
+     * @param event
+     * @throws IOException
+     */
     @FXML
     protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
         petService.stop();
@@ -368,6 +377,10 @@ public class MainPageController {
     }
 
 
+    /**
+     * Method to make certain nodes draggable
+     * @param node
+     */
     public void draggableMaker(Node node) {
         node.setOnMousePressed(mouseEvent ->{
             initialMouseAnchorX = mouseEvent.getX();
@@ -388,6 +401,11 @@ public class MainPageController {
         });
     }
 
+    /**
+     * Change the pet's hunger status if food is detected to be dropped on the pet
+     * @param foodNode
+     * @param foodType
+     */
     public void foodDropFunction(Node foodNode, String foodType){
         draggableMaker(foodNode);
 
@@ -403,6 +421,10 @@ public class MainPageController {
         });
     }
 
+    /**
+     * Method to increase a counter when the pet is being brushed, which will run the brushPet() function after threshold is reached
+     * @param brushNode
+     */
     public void brushDragFunction(Node brushNode){
         draggableMaker(brushNode);
 
@@ -423,6 +445,10 @@ public class MainPageController {
         });
     }
 
+    /**
+     * Method to increase a counter when the pet is being petted, which will run the strokePet() function after threshold is reached
+     * @param handNode
+     */
     public void pettingDragFunction(Node handNode){
         draggableMaker(handNode);
 
@@ -444,7 +470,7 @@ public class MainPageController {
     }
 
     /**
-     * Starts pet animation
+     * Starts pet animation, which will change automatically based on pet mood
      */
     protected void playPetAnimation() {
 
