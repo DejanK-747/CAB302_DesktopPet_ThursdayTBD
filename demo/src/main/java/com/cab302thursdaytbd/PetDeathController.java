@@ -1,5 +1,7 @@
 package com.cab302thursdaytbd;
 
+import com.cab302thursdaytbd.Model.IPetDAO;
+import com.cab302thursdaytbd.Model.PetDAO;
 import com.cab302thursdaytbd.Model.Pet;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -66,6 +68,10 @@ public class PetDeathController {
 
             // displays the death reason
             reasonLabel.setText("Reason: " + reason);
+
+            // delete pet
+            IPetDAO petDao = new PetDAO();
+            petDao.deletePet(userId);
 
             // loads the correct image based on the pets type stored in the db
             try {

@@ -124,6 +124,7 @@ public class MainPageController {
                     Pet deadPet = petDao.getPet(sessionUserId);
                     petAnimation.stop();
                     petService.stop();
+                    refreshLoop.stop();
                     String reason = petService.determineDeathReason(deadPet);
 
 
@@ -132,9 +133,6 @@ public class MainPageController {
                     PetDeathController deathController = loader.getController();
                     deathController.initDeathScreen(deadPet, reason);
                     App.getScene().setRoot(root);
-
-                    // delete pet AFTER death screen
-                    petDao.deletePet(sessionUserId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
