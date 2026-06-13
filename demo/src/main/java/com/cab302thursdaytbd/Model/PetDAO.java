@@ -7,6 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class PetDAO implements IPetDAO {
+
+    /**
+     * Adopts a pet for the given user by inserting or replacing their pet record in the database.
+     * Sets default stat values: hunger = 10, energy = 10, affection = 5, boredom = 0.
+     *
+     * @param userId  the ID of the user adopting the pet; must be a positive integer
+     * @param petType the type/species of the pet (e.g. "frog", "monkey")
+     * @param petName the name chosen for the pet
+     * @throws IllegalArgumentException if {@code userId} is less than or equal to zero
+     */
     @Override public void adoptPet(int userId, String petType, String petName) {
         if (userId <= 0) {
             throw new IllegalArgumentException("userId must be a real user ID");

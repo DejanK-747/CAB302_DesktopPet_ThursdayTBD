@@ -13,7 +13,11 @@ import javafx.util.Duration;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-
+ /**
+ * Controller for the pet selection screen.
+ * Allows the user to browse available pet types, enter a name, and adopt a pet.
+ * Handles sprite animation and slide transitions between pet options.
+ */
 public class PetSelectionController {
 
     private final PetDAO petDAO = new PetDAO();
@@ -35,6 +39,11 @@ public class PetSelectionController {
 
     private int userId;
 
+     /**
+     * Initialises the controller after the FXML fields are injected.
+     * Loads the current user ID from the session, sets up the default frog sprite animation,
+     * and binds the adopt button's disabled state to whether the name field is empty.
+     */
     @FXML
     public void initialize() {
         // TEST USER - delete when login system exists
@@ -66,16 +75,28 @@ public class PetSelectionController {
         System.out.println("WORKING DIRECTORY = " + System.getProperty("user.dir"));
     }
 
+     /**
+     * Handles a click on the left arrow, cycling to the previous pet type.
+     */
     @FXML
     private void onLeftArrowClick() {
         switchPet(-1);
     }
 
+     /**
+     * Handles a click on the right arrow, cycling to the next pet type.
+     */
     @FXML
     private void onRightArrowClick() {
         switchPet(1);
     }
 
+      /**
+      * Switches the currently displayed pet by the given direction and plays a slide transition.
+      * Loads the sprite frames for the new pet and animates the view sliding out then back in.
+      *
+      * @param direction -1 to move left (previous pet), +1 to move right (next pet)
+      */
     private void switchPet(int direction) {
         currentPetIndex = (currentPetIndex + direction + petType.length) % petType.length;
         String newPet = petType[currentPetIndex];
@@ -96,6 +117,12 @@ public class PetSelectionController {
         slideOut.play();
     }
 
+      /**
+      * Loads and starts the sprite animation for the specified pet type.
+      * Updates the {@code frames} array and resets the animation to the first frame.
+      *
+      * @param pet the pet type identifier (e.g. {@code "frog"} or {@code "monkey"})
+      */
     private void startAnimationFor(String pet) {
         if (pet.equals("frog")) {
             frames = new Image[] {
@@ -115,10 +142,20 @@ public class PetSelectionController {
         petView.setImage(frames[0]);
     }
 
+      /**
+      * Sets the user ID for this controller, overriding the session value if needed.
+      *
+      * @param userId the ID of the logged-in user
+      */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+      /**
+      * Handles the adopt button click. Validates the pet name and user ID, deletes any existing
+      * pet for the user, saves the new pet to the database, then navigates to the main page.
+      * Logs a warning and returns early if the name is empty or the user ID is invalid.
+      */
     @FXML
     private void handleAdopt() {
         System.out.println("ADOPT BUTTON CLICKED");
