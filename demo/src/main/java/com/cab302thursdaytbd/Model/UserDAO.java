@@ -8,24 +8,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDAO {
-    public static int registerUser(String username, String password) {
+/**
+ * DAO that provides database operations related to user accounts.
+ * This class is responsible for registering new users and
+ * authenticating existing users against the database.
+ */
+public class UserDAO implements IUserDAO {
+    /**
+     * Registers a new user in the database.
+     * The supplied password is hashed using SHA-256 before
+     * being stored. If registration is successful, the
+     * generated user ID is returned.
+     * @param username The username for the new account.
+     * @param password The user's plain-text password.
+     * @return The generated user ID if registration succeeds, otherwise -1.
+     */
+    @Override
+    public int registerUser(String username, String password) {
         String sql = "INSERT INTO users(username, password_hash) VALUES(?, ?)";
         String hashedPassword = PasswordService.hashPassword(password);
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
             pstmt.setString(1, username);
             pstmt.setString(2, hashedPassword);
-
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
                 return -1;
             }
 
-            // get generated user ID
             var rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
@@ -39,7 +51,16 @@ public class UserDAO {
         }
     }
 
-    public static int loginUser(String username, String password) {
+    /**
+     * Authenticates a user using their username and password.
+     * The stored password hash is retrieved from the database
+     * and compared with the hash of the supplied password.
+     * @param username The username entered by the user.
+     * @param password The password entered by the user.
+     * @return The user's ID if authentication succeeds, otherwise -1.
+     */
+    @Override
+    public int loginUser(String username, String password) {
 
         String sql = "SELECT user_id, password_hash FROM users WHERE username = ?";
 
@@ -52,9 +73,7 @@ public class UserDAO {
 
             if (rs.next()) {
                 String storedHash = rs.getString("password_hash");
-
                 String inputHash = PasswordService.hashPassword(password);
-
                 if (storedHash.equals(inputHash)) {
                     return rs.getInt("user_id");
                 }

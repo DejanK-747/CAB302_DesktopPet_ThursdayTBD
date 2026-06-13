@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="420.0" style="-fx-background-color: #6e625a;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cab302thursdaytbd.AboutController">
+    <children>
+        <HBox maxHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" translateY="-190.0">
+            <children>
+                <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="100.0">
+                    <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#switchToMainMenu" pickOnBounds="true" preserveRatio="true" rotate="180.0" style="-fx-cursor: hand;" translateX="40.0" translateY="35.0">
+                            <image>
+                                <Image url="@images/selectionArrow.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+                <VBox prefHeight="89.0" prefWidth="250.0">
+                    <children>
+                        <Text fill="#f0f9ff" strokeType="OUTSIDE" strokeWidth="0.0" text="ABOUT THE APP" translateX="38.0" translateY="40.0">
+                            <font>
+                                <Font name="Leelawadee UI Bold" size="18.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" prefHeight="400.0" prefWidth="420.0" style="-fx-background: transparent; -fx-background-color: transparent;" translateY="40.0" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox prefWidth="350.0" spacing="12.0" style="-fx-padding: 12 18 12 18;">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: ghostwhite; -fx-background-radius: 15;">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="About PetPal" wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI Bold" size="15.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PetPal is a virtual pet companion app that lets users adopt, care for, and interact with a digital pet. Users can monitor their pet's hunger, energy, affection, and boredom, then improve these stats through activities such as feeding, brushing, and stroking." wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The app combines entertainment with core software engineering features, including account login, local database storage, object-oriented design, animated pet behaviour, and AI-powered pet conversations. It is intended for users who enjoy casual simulation games and virtual companion experiences." wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                            </children>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                        <VBox style="-fx-background-color: ghostwhite; -fx-background-radius: 15;">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Privacy Statement" wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI Bold" size="15.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PetPal only stores information needed for the app to function, including usernames, hashed passwords, pet details, and pet statistics. Passwords are not stored in plain text and are hashed before being saved." wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User and pet data is stored locally in an SQLite database. The conversation feature may send the user's message and current pet context, such as pet name, type, and stats, to an external AI service to generate a response. Users should avoid entering sensitive personal information into the chat feature." wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This application was developed for educational purposes and does not intentionally collect analytics, tracking data, or unnecessary personal information." wrappingWidth="325.0">
+                                    <font>
+                                        <Font name="Leelawadee UI" size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</StackPane>

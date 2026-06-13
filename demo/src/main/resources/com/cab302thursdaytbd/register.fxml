@@ -25,5 +25,19 @@
         <Label fx:id="statusLabel" />
 
         </VBox>
-    <Button maxWidth="70" onAction="#goToLogin" style="-fx-padding: 5; -fx-font-size: 9px;" text="Back to Login" StackPane.alignment="TOP_LEFT" />
+    <Button onAction="#goToLogin"
+            StackPane.alignment="TOP_LEFT"
+            style="-fx-background-color: transparent; -fx-padding: 5;">
+
+        <graphic>
+            <ImageView fitWidth="40"
+                       fitHeight="40"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@images/BackButton.png"/>
+                </image>
+            </ImageView>
+        </graphic>
+
+    </Button>
 </StackPane>

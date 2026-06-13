@@ -42,27 +42,39 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
          <Button mnemonicParsing="false" onAction="#handleBackButtonAction" text="&lt;">
             <font>
-               <Font size="24.0" />
+               <Font name="Leelawadee UI Bold" size="24.0" />
             </font>
+            <HBox.margin>
+               <Insets left="20.0" top="10.0" />
+            </HBox.margin>
          </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conversation" textAlignment="CENTER" wrappingWidth="320.6953125">
+                  <Text fill="#fff0f0" strokeType="OUTSIDE" strokeWidth="0.0" text="Conversation" textAlignment="CENTER" wrappingWidth="220.69531559944153">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="Leelawadee UI Bold" size="24.0" />
                      </font>
             <HBox.margin>
-               <Insets right="54.0" />
+               <Insets left="45.0" right="54.0" top="20.0" />
             </HBox.margin>
                   </Text>
             </HBox>
             <ScrollPane prefHeight="355.0" prefWidth="420.0" VBox.vgrow="ALWAYS">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="343.0" prefWidth="418.0">
                         <VBox prefHeight="0.0" prefWidth="420.0" />
-                        <TextArea fx:id="chatTextArea" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextArea fx:id="chatTextArea" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Leelawadee UI" size="12.0" />
+               </font></TextArea>
                   </AnchorPane>
             </ScrollPane>
             <HBox prefHeight="100.0" prefWidth="478.0">
-                  <TextField fx:id="messageField" prefHeight="60.0" prefWidth="377.0" promptText="Type a message" />
-                  <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendButtonAction" prefHeight="58.0" prefWidth="54.0" text="Send" />
+                  <TextField fx:id="messageField" prefHeight="60.0" prefWidth="377.0" promptText="Type a message">
+            <font>
+               <Font name="Leelawadee UI" size="12.0" />
+            </font></TextField>
+                  <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendButtonAction" prefHeight="58.0" prefWidth="54.0" text="Send">
+            <font>
+               <Font name="Leelawadee UI" size="12.0" />
+            </font></Button>
             </HBox>
         </VBox>
 </StackPane>

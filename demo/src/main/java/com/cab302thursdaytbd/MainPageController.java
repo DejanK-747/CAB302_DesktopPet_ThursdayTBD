@@ -15,6 +15,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -27,6 +28,9 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The controller for the main page
+ */
 public class MainPageController {
 
     private PetDAO petDao = new PetDAO();
@@ -42,52 +46,67 @@ public class MainPageController {
     @FXML private ProgressBar energyBar;
     @FXML private ProgressBar boredomBar;
 
-    @FXML private Text moodText;
     @FXML private Text petName;
-    @FXML private Text levelText;
 
     @FXML private ImageView petView;
     private int currentFrame;
     private Image[] frames;
 
-
     @FXML private Label statusChangeLabel;
-    @FXML private Pane speechPane;
+    @FXML private Label needsLabel;
 
     @FXML private ImageView bananaView;
     @FXML private ImageView grasshopperView;
     @FXML private ImageView mysteriousLiquidView;
     @FXML private ImageView biscuitView;
 
+    @FXML private ImageView petBrush;
+    @FXML private ImageView hand;
+
     private ParallelTransition statusChangePopUpAnim = new ParallelTransition();
 
-    @FXML private Pane foodPopUp;
+    @FXML private Pane foodPane;
+    @FXML private Pane brushPane;
+    @FXML private Pane pettingPane;
 
     @FXML private Pane petPane;
 
     private Timeline petAnimation;
     private Timeline refreshLoop;
-    private Timeline decayLoop;
+    private Timeline foodFlashTimeline;
+    private Timeline brushFlashTimeline;
+    private Timeline strokeFlashTimeline;
+
+    @FXML private Button foodButton;
+    @FXML private Button brushButton;
+    @FXML private Button strokeButton;
 
 
-
-    //----------Testing
+    //----------For Draggable Items
     private double initialMouseAnchorX;
     private double initialMouseAnchorY;
     private double initialNodeAnchorX;
     private double initialNodeAnchorY;
+
+    private int brushCounter = 0;
+    private int pettingCounter = 0;
     //------------
 
-
-    @FXML public void initialize() {
+    /**
+     * Used to initialize the user, the pet, certain UI elements and functions, and the pet status decay.
+     */
+    public void initialize() {
         sessionUserId = Session.getUserId();
         sessionPet = petDao.getPet(sessionUserId);
         petService = new PetService(sessionUserId);
 
-        draggableFood(bananaView, "banana");
-        draggableFood(grasshopperView, "grasshopper");
-        draggableFood(mysteriousLiquidView, "mysteriousLiquid");
-        draggableFood(biscuitView, "biscuit");
+        foodDropFunction(bananaView, "banana");
+        foodDropFunction(grasshopperView, "grasshopper");
+        foodDropFunction(mysteriousLiquidView, "mysteriousLiquid");
+        foodDropFunction(biscuitView, "biscuit");
+
+        brushDragFunction(petBrush);
+        pettingDragFunction(hand);
 
 
         frames = petService.getIdleFrames(sessionPet.getPetType());
@@ -97,12 +116,9 @@ public class MainPageController {
         loadPet();
         petName.setText(sessionPet.getPetName());
 
-        // TO-DO: initialize map to pet sprite image
-
-
-
-        // Duplicate code from Pet Stats. should be moved to PetService later
+        // Starts decay
         petService.startDecay(() -> {
+            // Run if the pet is considered 'dead'
             Platform.runLater(() -> {
                 try {
                     Pet deadPet = petDao.getPet(sessionUserId);
@@ -129,36 +145,69 @@ public class MainPageController {
     }
 
 
-    //----------------------------------
-    // Functions if there are more things that can be done with interactions
-    // I was thinking of implementing multiple foods options or different ways to clean the pet
-    // Obviously, kind of difficult to implement.
-    // Thinking I should limit goals first. Just have these buttons raise stats first.
+
     @FXML protected void showFoodPopUp() {
-        showPopUp(foodPopUp);
+        if (foodPane.getScaleX() == 1){
+            closePopUp(foodPane);
+        } else {
+            showPopUp(foodPane);
+            closePopUp(brushPane);
+            closePopUp(pettingPane);
+        }
+    }
+
+    @FXML protected void showBrushPopUp(){
+        if (brushPane.getScaleX() == 1){
+            closePopUp(brushPane);
+        } else {
+            showPopUp(brushPane);
+            closePopUp(foodPane);
+            closePopUp(pettingPane);
+        }
+    }
+
+    @FXML protected void showPettingPopUp(){
+        if (pettingPane.getScaleX() == 1){
+            closePopUp(pettingPane);
+        } else {
+            showPopUp(pettingPane);
+            closePopUp(foodPane);
+            closePopUp(brushPane);
+        }
     }
 
 
+    /**
+     * A method to show a menu
+     * @param popUp The menu pane to show
+     */
     protected void showPopUp(Pane popUp) {
-        if (popUp.getScaleX() == 0) {
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
-            transition.setToX(1);
-            transition.setToY(1);
-            transition.setInterpolator(Interpolator.LINEAR);
+        ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
+        transition.setToX(1);
+        transition.setToY(1);
+        transition.setInterpolator(Interpolator.LINEAR);
 
-            transition.play();
-
-        } else if (popUp.getScaleX() == 1){
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
-            transition.setToX(0);
-            transition.setToY(0);
-            transition.setInterpolator(Interpolator.LINEAR);
-
-            transition.play();
-        }
+        transition.play();
     }
     //-----------------------------------------
 
+    /**
+     * A method to hide a menu pop-up
+     * @param popUp The menu pane to hide
+     */
+    protected void closePopUp(Pane popUp){
+        ScaleTransition transition = new ScaleTransition(Duration.seconds(0.25), popUp);
+        transition.setToX(0);
+        transition.setToY(0);
+        transition.setInterpolator(Interpolator.LINEAR);
+
+        transition.play();
+    }
+
+    /**
+     * A method to indicate status change by showing a text pop-up
+     * @param text The text to display in the pop-up text
+     */
     protected void statusChangePopUp(String text){
 
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
@@ -183,8 +232,10 @@ public class MainPageController {
         }
     }
 
-    // There should be a better way to handle throttling, but this cheat will do for now
-    // Also consider multi threading so decay can still run while still updating stats
+    /**
+     * Changes the pet's hunger when given a certain food
+     * @param foodType The food type to give to a pet
+     */
     public void foodBoost(String foodType){
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentHunger = sessionPet.getHunger();
@@ -220,7 +271,10 @@ public class MainPageController {
         }
     }
 
-    @FXML protected void brushPet() {
+    /**
+     * Increase the pet's energy and reduce boredom by brushing the pet
+     */
+    protected void brushPet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
             int currentEnergy = sessionPet.getEnergy();
             int currentBoredom = sessionPet.getBoredom();
@@ -234,7 +288,10 @@ public class MainPageController {
         }
     }
 
-    @FXML protected void strokePet() {
+    /**
+     * Increase the pet's affection and decrease the boredom status by stroking the pet
+     */
+    protected void strokePet() {
         if (statusChangePopUpAnim.getCurrentRate() == 0.0d) {
 
             int currentAffection = sessionPet.getAffection();
@@ -250,24 +307,18 @@ public class MainPageController {
         }
     }
 
-    //
-    @FXML protected void petSpeech( /* String text*/){
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), speechPane);
-        fadeTransition.setCycleCount(2);
-        fadeTransition.setFromValue(0);
-        fadeTransition.setToValue(1);
-        fadeTransition.setInterpolator(Interpolator.EASE_IN);
-        fadeTransition.setAutoReverse(true);
-        fadeTransition.play();
-    }
 
-
+    /**
+     * Change scene to the 'Main Menu'
+     * @throws IOException
+     */
     @FXML protected void onMenuClick () throws IOException{
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("stats.fxml"));
+            petService.stop();
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("main_menu.fxml"));
             Parent root = loader.load();
-            PetStatsController statsController = loader.getController();
-            statsController.setUserId(Session.getUserId());
+            MainMenuController menuController = loader.getController();
+            menuController.setUserId(Session.getUserId());
             App.getScene().setRoot(root);
         } catch (Exception e) {
             e.printStackTrace();
@@ -275,6 +326,9 @@ public class MainPageController {
 
     }
 
+    /**
+     * Retrieve pet's status from the database and update status bars
+     */
     protected void loadPet(){
         sessionPet = petDao.getPet(sessionUserId);
 
@@ -282,14 +336,23 @@ public class MainPageController {
         updateBar(energyBar, sessionPet.getEnergy());
         updateBar(affectionBar, sessionPet.getAffection());
         updateBar(boredomBar, sessionPet.getBoredom());
+
+        updateNeedsLabel();
     }
 
-    @FXML protected void updateBar(ProgressBar bar, double value){
+    /**
+     * Updates the status bar
+     * @param bar The bar to change
+     * @param value The value to set the bar to
+     */
+    protected void updateBar(ProgressBar bar, double value){
         double clamped = Math.max(0.0, Math.min(1.0, value / 10));
         bar.setProgress(clamped);
     }
 
-    // duplicate code from Pet Stats controller
+    /**
+     * Method to start a timeline loop to automatically keep loading the pet and updating the status bar
+     */
     private void startAutoRefresh() {
         refreshLoop = new Timeline(
                 new KeyFrame(Duration.seconds(2), e -> loadPet())
@@ -297,8 +360,15 @@ public class MainPageController {
         refreshLoop.setCycleCount(Timeline.INDEFINITE);
         refreshLoop.play();
     }
+
+    /**
+     * Change scene to the 'conversation' page
+     * @param event
+     * @throws IOException
+     */
     @FXML
     protected void handleGoChatButtonAction(ActionEvent event) throws IOException {
+        petService.stop();
         Parent newRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("conversation_page.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(newRoot);
@@ -307,23 +377,41 @@ public class MainPageController {
     }
 
 
-    public void draggableFood(Node foodImg, String foodType) {
-        foodImg.setOnMousePressed(mouseEvent ->{
+    /**
+     * Method to make certain nodes draggable
+     * @param node
+     */
+    public void draggableMaker(Node node) {
+        node.setOnMousePressed(mouseEvent ->{
             initialMouseAnchorX = mouseEvent.getX();
             initialMouseAnchorY = mouseEvent.getY();
 
-            initialNodeAnchorX = foodImg.getLayoutX();
-            initialNodeAnchorY = foodImg.getLayoutY();
+            initialNodeAnchorX = node.getLayoutX();
+            initialNodeAnchorY = node.getLayoutY();
         });
 
-        foodImg.setOnMouseDragged(mouseEvent ->{
-            foodImg.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - foodImg.getParent().getLayoutX());
-            foodImg.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - foodImg.getParent().getLayoutY());
+        node.setOnMouseDragged(mouseEvent ->{
+            node.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - node.getParent().getLayoutX());
+            node.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - node.getParent().getLayoutY());
         });
 
-        foodImg.setOnMouseReleased(mouseEvent ->{
-            foodImg.setLayoutX(initialNodeAnchorX);
-            foodImg.setLayoutY(initialNodeAnchorY);
+        node.setOnMouseReleased(mouseEvent -> {
+            node.setLayoutX(initialNodeAnchorX);
+            node.setLayoutY(initialNodeAnchorY);
+        });
+    }
+
+    /**
+     * Change the pet's hunger status if food is detected to be dropped on the pet
+     * @param foodNode
+     * @param foodType
+     */
+    public void foodDropFunction(Node foodNode, String foodType){
+        draggableMaker(foodNode);
+
+        foodNode.setOnMouseReleased(mouseEvent ->{
+            foodNode.setLayoutX(initialNodeAnchorX);
+            foodNode.setLayoutY(initialNodeAnchorY);
 
             Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
             Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
@@ -333,7 +421,58 @@ public class MainPageController {
         });
     }
 
-    public void playPetAnimation() {
+    /**
+     * Method to increase a counter when the pet is being brushed, which will run the brushPet() function after threshold is reached
+     * @param brushNode
+     */
+    public void brushDragFunction(Node brushNode){
+        draggableMaker(brushNode);
+
+        brushNode.setOnMouseDragged(mouseEvent ->{
+            brushNode.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - brushNode.getParent().getLayoutX());
+            brushNode.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - brushNode.getParent().getLayoutY());
+
+
+            Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
+            if (petPaneBounds.contains(mouseLoc)){
+                brushCounter++;
+                if (brushCounter >= 50){
+                    brushPet();
+                    brushCounter = 0;
+                }
+            }
+        });
+    }
+
+    /**
+     * Method to increase a counter when the pet is being petted, which will run the strokePet() function after threshold is reached
+     * @param handNode
+     */
+    public void pettingDragFunction(Node handNode){
+        draggableMaker(handNode);
+
+        handNode.setOnMouseDragged(mouseEvent ->{
+            handNode.setLayoutX(mouseEvent.getSceneX() - initialMouseAnchorX - handNode.getParent().getLayoutX());
+            handNode.setLayoutY(mouseEvent.getSceneY() - initialMouseAnchorY - handNode.getParent().getLayoutY());
+
+
+            Point2D mouseLoc = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            Rectangle2D petPaneBounds = new Rectangle2D(petPane.getLayoutX(), petPane.getLayoutY(), petPane.getWidth(), petPane.getHeight());
+            if (petPaneBounds.contains(mouseLoc)){
+                pettingCounter++;
+                if (pettingCounter >= 50){
+                    strokePet();
+                    pettingCounter = 0;
+                }
+            }
+        });
+    }
+
+    /**
+     * Starts pet animation, which will change automatically based on pet mood
+     */
+    protected void playPetAnimation() {
 
 
         String petType = sessionPet.getPetType();
@@ -363,7 +502,8 @@ public class MainPageController {
                                 frames = petService.getIdleFrames(petType);
                                 break;
                             }
-                            case "Sleepy": {
+                            case "Sleepy":
+                            case "Bored": {
                                 frames = petService.getSleepyFrames(petType);
                                 break;
                             }
@@ -385,5 +525,86 @@ public class MainPageController {
             petAnimation.setCycleCount(Timeline.INDEFINITE);
             petAnimation.play();
         }
+    }
+
+    /**
+     * Shows a label when a pet's status gets in critical condition
+     */
+    private void updateNeedsLabel() {
+
+        if (sessionPet.needsFood()) {
+            foodFlashTimeline = startFlashingButton(foodButton, foodFlashTimeline);
+        } else {
+            foodFlashTimeline = stopFlashingButton(foodButton, foodFlashTimeline);
+        }
+
+        if (sessionPet.needsRest()) {
+            brushFlashTimeline = startFlashingButton(brushButton, brushFlashTimeline);
+        } else {
+            brushFlashTimeline = stopFlashingButton(brushButton, brushFlashTimeline);
+        }
+
+        if (sessionPet.needsPlay()) {
+            strokeFlashTimeline = startFlashingButton(strokeButton, strokeFlashTimeline);
+        } else {
+            strokeFlashTimeline = stopFlashingButton(strokeButton, strokeFlashTimeline);
+        }
+
+        if (sessionPet.needsFood()) {
+            needsLabel.setText("Your pet is hungry!");
+            needsLabel.setVisible(true);
+        } else if (sessionPet.needsRest()) {
+            needsLabel.setText("Your pet is tired!");
+            needsLabel.setVisible(true);
+        } else if (sessionPet.needsPlay()) {
+            needsLabel.setText("Your pet is bored!");
+            needsLabel.setVisible(true);
+        } else {
+            needsLabel.setVisible(false);
+        }
+    }
+
+    /**
+     * Makes the status boosting function flash when certain pet statuses gets too low
+     * @param button
+     * @param timeline
+     * @return
+     */
+    private Timeline startFlashingButton(Button button, Timeline timeline) {
+        if (timeline != null && timeline.getStatus() == Animation.Status.RUNNING) {
+            return timeline;
+        }
+
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, e ->
+                        button.setStyle("-fx-border-color: red; -fx-border-width: 3; -fx-background-color: yellow;")
+                ),
+                new KeyFrame(Duration.seconds(0.5), e ->
+                        button.setStyle("-fx-border-color: whitesmoke; -fx-border-width: 3; -fx-background-color: whitesmoke;")
+                ),
+                new KeyFrame(Duration.seconds(1), e ->
+                        button.setStyle("-fx-border-color: red; -fx-border-width: 3; -fx-background-color: yellow;")
+                )
+        );
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+        return timeline;
+    }
+
+    /**
+     * Stops the flashing animation
+     * @param button The button whose visual style should be reset.
+     * @param timeline The animation controlling the flashing effect.
+     * @return null, indicating that no active flashing animation remains.
+     */
+    private Timeline stopFlashingButton(Button button, Timeline timeline) {
+        if (timeline != null) {
+            timeline.stop();
+        }
+
+        button.setStyle("");
+        return null;
     }
 }

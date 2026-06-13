@@ -1,11 +1,13 @@
 import com.cab302thursdaytbd.Database;
 import com.cab302thursdaytbd.Model.UserDAO;
+import com.cab302thursdaytbd.Model.IUserDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 
 public class UserDAOTest {
+    private IUserDAO userDAO;
     String username = "test_" + System.currentTimeMillis();
 
     @BeforeAll
@@ -16,13 +18,14 @@ public class UserDAOTest {
     @BeforeEach
     void setup() {
         Database.clearUsersTable();
+        userDAO = new UserDAO();
     }
 
     @Test
     void testRegisterUser() {
         String username = "test_" + System.currentTimeMillis();
 
-        int userId = UserDAO.registerUser(username, "password123");
+        int userId = userDAO.registerUser(username, "password123");
 
         assertTrue(userId > 0);
     }
@@ -32,9 +35,9 @@ public class UserDAOTest {
         String username = "test_" + System.currentTimeMillis();
         String password = "password123";
 
-        UserDAO.registerUser(username, password);
+        userDAO.registerUser(username, password);
 
-        int userId = UserDAO.loginUser(username, password);
+        int userId = userDAO.loginUser(username, password);
 
         assertTrue(userId > 0);
     }
@@ -43,9 +46,9 @@ public class UserDAOTest {
     void testLoginFailWrongPassword() {
         String username = "test_" + System.currentTimeMillis();
 
-        UserDAO.registerUser(username, "correctpass");
+        userDAO.registerUser(username, "correctpass");
 
-        int userId = UserDAO.loginUser(username, "wrongpass");
+        int userId = userDAO.loginUser(username, "wrongpass");
 
         assertEquals(-1, userId);
     }

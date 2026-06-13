@@ -71,7 +71,21 @@ public class Pet {
         this.boredom = Math.max(0, Math.min(boredom, 10));
     }
 
+    public boolean needsFood() {
+        return hunger <= 2;
+    }
 
+    public boolean needsAttention() {
+        return affection <= 3;
+    }
+
+    public boolean needsRest() {
+        return energy <= 2;
+    }
+
+    public boolean needsPlay() {
+        return boredom >= 7;
+    }
 
     public String getMoodLabel() {
 
@@ -87,10 +101,16 @@ public class Pet {
             return "Sleepy";
         }
 
+        if (boredom >= 7){
+            return "Bored";
+        }
+
         if (affection >= 8 && energy >= 8 && hunger >= 8){  //all states good --> excited (extra happy)
             return  "Excited";
         }
         return "Happy"; // base state: Happy, with in-between/ middle states
+
+
     }
 
 

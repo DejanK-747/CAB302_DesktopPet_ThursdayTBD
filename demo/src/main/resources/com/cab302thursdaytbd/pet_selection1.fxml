@@ -46,7 +46,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="99.0" prefWidth="420.0" style="-fx-padding: 30;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 10;" text="CHOOSE YOUR PET" textAlignment="CENTER">
+                  <Text fill="#fff0f0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-translate-y: 10;" text="CHOOSE YOUR PET" textAlignment="CENTER">
                      <font>
                         <Font name="Leelawadee UI Bold" size="16.0" />
                      </font>
@@ -101,7 +101,7 @@
             </VBox>
             <VBox alignment="CENTER" spacing="5.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name your pet:">
+                  <Text fill="#f0f9ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Name your pet:">
                      <font>
                         <Font name="Inter Semi Bold Italic" size="15.0" />
                      </font>
