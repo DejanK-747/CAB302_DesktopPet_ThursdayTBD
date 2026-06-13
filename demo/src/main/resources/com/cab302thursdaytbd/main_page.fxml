@@ -251,7 +251,7 @@
          <children>
             <ImageView fx:id="petBrush" fitHeight="62.0" fitWidth="68.0" layoutX="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/icons/bursh2.png" />
+                  <Image url="@images/icons/brush2.png" />
                </image>
             </ImageView>
          </children>
