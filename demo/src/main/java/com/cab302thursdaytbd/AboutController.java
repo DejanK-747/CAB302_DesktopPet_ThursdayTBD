@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+/// Allows navigation back to main menu.
 public class AboutController {
     @FXML
     private void switchToMainMenu() {

@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 
 public class MainMenuController {
 
+    /// Sets User ID
     private int userId;
     private PetService petService = new PetService(userId);
     private PetDAO petDAO = new PetDAO();
@@ -22,6 +23,7 @@ public class MainMenuController {
         this.userId = userId;
     }
 
+    /// Allows navigation to main page
     @FXML
     private void switchToMain() {
         try {
@@ -31,6 +33,7 @@ public class MainMenuController {
         }
     }
 
+    /// Allows navigation to stats page while using the User ID
     @FXML
     private void switchToStats() {
         try {
@@ -44,6 +47,7 @@ public class MainMenuController {
         }
     }
 
+    /// Allows Navigation to about page
     @FXML
     private void switchToAbout() {
         try {
@@ -53,11 +57,13 @@ public class MainMenuController {
         }
     }
 
+    /// Takes user back to login page allowing them to change account
     @FXML
     private void switchToLogin() throws IOException {
         App.setRoot("login");
     }
 
+    /// Kills the pet associated with the User ID
     @FXML
     private void killPetButton() throws IOException{
         try {
