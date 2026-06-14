@@ -60,6 +60,7 @@ public class MainMenuController {
     /// Takes user back to login page allowing them to change account
     @FXML
     private void switchToLogin() throws IOException {
+        Session.clear();
         App.setRoot("login");
     }
 
